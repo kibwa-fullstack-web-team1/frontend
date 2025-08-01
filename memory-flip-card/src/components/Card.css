@@ -5,76 +5,73 @@
   width: 100%;
   height: 168px;
   cursor: pointer;
-  border: 3px solid transparent;
-  border-radius: 8px;
-  transition: border-color 0.2s ease-in-out, transform 0.2s;
+  perspective: 1000px; /* Add perspective for 3D effect */
 }
 
-/* 틀렸을 때 경고 테두리 (빨간색) */
-.card.wrong-match {
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+/* When the 'flipped' class is added, rotate the card */
+.card-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+.card .front,
+.card .back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden; /* Safari */
+  backface-visibility: hidden;
+  display: block;
+  border-radius: 8px;
+  object-fit: contain; /* Use contain to prevent image stretching */
+  box-sizing: border-box;
+  border: 3px solid #4a4a4a; /* Default border */
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* Front of the card (faces away initially) */
+.card .front {
+  transform: rotateY(180deg);
+  border-color: transparent; /* Initially no border color */
+}
+
+/* When flipped (but not yet matched), show a blue border */
+.card-inner.flipped .front {
+  border-color: royalblue;
+  box-shadow: 0 0 10px rgba(65, 105, 225, 0.5);
+}
+
+/* Border for wrong matches */
+.card.wrong-match .card-inner.flipped .front {
   border-color: crimson !important;
   box-shadow: 0 0 15px rgba(220, 20, 60, 0.7);
 }
 
-.card div {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+/* Style for matched cards */
+.card.matched .card-inner {
+  transform: rotateY(180deg) scale(1.05); /* Stay flipped and scale up */
 }
 
-/* 카드 앞면 및 뒷면 이미지 */
-.card .front,
-.card .back {
-  width: 100%;
-  height: 100%;
-  display: block;
-  border-radius: 8px;
-  object-fit: contain;
-  position: absolute;
-  box-sizing: border-box;
+.card.matched .front {
+  border-color: #28a745; /* Green border for success */
+  box-shadow: 0 0 20px 5px rgba(40, 167, 69, 0.5);
 }
 
-/* 기본 상태: 뒷면만 보임 */
-.card .front {
-  display: none;
-}
-.card .back {
-  display: block;
-}
-
-/* 뒤집힌 상태: 앞면만 보임 */
-.card .flipped .front {
-  display: block;
-}
-
-.card .flipped .back {
-  display: none;
-}
-
-/* 매칭 성공 시 멋지게 오픈되는 효과 */
-.card.matched {
-  transform: scale(1.05);
-  box-shadow: 0 0 20px 5px rgba(0, 255, 0, 0.5);
-}
-
-/* 반응형 디자인 */
+/* Responsive Design */
 @media (max-width: 768px) {
-  .card-grid {
-    grid-template-columns: repeat(3, 110px);
-    gap: 12px;
-  }
   .card {
     height: 154px;
   }
 }
 
 @media (max-width: 480px) {
-  .card-grid {
-    grid-template-columns: repeat(2, 100px);
-    gap: 10px;
-  }
   .card {
     height: 140px;
   }
