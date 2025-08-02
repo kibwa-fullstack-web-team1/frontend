@@ -1,11 +1,13 @@
 // src/pages/GamePage/GamePage.jsx
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useGame } from '../../hooks/useGame';
 import Card from '../../components/Card';
 import ResultPopup from '../../components/ResultPopup';
 import './GamePage.css';
 
 function GamePage() {
+  const navigate = useNavigate();
   const userId = "user3"; // 이 부분은 추후 인증 시스템에서 가져올 수 있습니다.
   const {
     cards,
@@ -27,8 +29,18 @@ function GamePage() {
     resetGame,
   } = useGame(userId);
 
+  const handleGoHome = () => {
+    navigate('/');
+  };
+
   return (
     <div className="App">
+      <div className="game-header">
+        <button className="home-button" onClick={handleGoHome}>
+          ← 홈으로
+        </button>
+      </div>
+      
       <h1>추억 카드 짝 맞추기</h1>
 
       {/* 난이도 선택 */}

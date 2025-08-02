@@ -10,6 +10,31 @@
   position: relative; /* 팝업 오버레이의 기준점 */
 }
 
+.game-header {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 10;
+}
+
+.home-button {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #ddd;
+  padding: 8px 16px;
+  border-radius: 20px;
+  color: #333;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.home-button:hover {
+  background: #f8f9fa;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
 h1 {
   font-size: 2.5em;
   color: #4a4a4a;
@@ -87,12 +112,18 @@ p {
   color: crimson;
 }
 
-
 /* 반응형 디자인 */
 @media (max-width: 768px) {
   .card-grid {
     grid-template-columns: repeat(3, 110px);
     gap: 12px;
+  }
+  
+  .game-header {
+    position: relative;
+    top: auto;
+    left: auto;
+    margin-bottom: 20px;
   }
 }
 
