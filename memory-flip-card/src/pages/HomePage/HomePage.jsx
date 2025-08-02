@@ -1,0 +1,164 @@
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import './HomePage.css';
+
+function HomePage() {
+  const navigate = useNavigate();
+
+  const handleEnterGarden = () => {
+    navigate('/login');
+  };
+
+  const handleUploadPhotos = () => {
+    navigate('/upload');
+  };
+
+  const handleLinkClick = (e, path) => {
+    e.preventDefault();
+    if (path) {
+      navigate(path);
+    }
+  };
+
+  return (
+    <div className="home-page">
+      {/* Header */}
+      <header className="header">
+        <div className="logo">
+          <div className="logo-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M1.14 0.38L14.85 15.62" stroke="#171412" strokeWidth="1.5"/>
+            </svg>
+          </div>
+          <h1 className="logo-text">Garden of Memory</h1>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="main-content">
+        {/* Hero Section */}
+        <section className="hero-section">
+          <div className="hero-text">
+            <h2 className="hero-title">
+              기억의 정원에 오신 것을 환영합니다
+            </h2>
+            <div className="hero-description">
+              <p className="description-text">
+                소중한 추억들이 꽃처럼 피어나는 특별한 공간입니다.
+              </p>
+              <p className="description-text">
+                당신만의 기억을 심고 가꾸어 보세요.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Button */}
+        <section className="cta-section">
+          <button className="cta-button" onClick={handleEnterGarden}>
+            <span>정원에 입장하기</span>
+            <div className="arrow-icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M7.5 5L12.5 10L7.5 15" stroke="#171412" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+          </button>
+        </section>
+
+        {/* Services Section */}
+        <section className="services-section">
+          <h3 className="section-title">서비스</h3>
+          
+          <div className="services-grid">
+            {/* 추억 저장 */}
+            <div className="service-card">
+              <div className="service-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M4 2H20V22H4V2Z" stroke="#171412" strokeWidth="2"/>
+                  <path d="M8 6H16" stroke="#171412" strokeWidth="2"/>
+                  <path d="M8 10H16" stroke="#171412" strokeWidth="2"/>
+                  <path d="M8 14H12" stroke="#171412" strokeWidth="2"/>
+                </svg>
+              </div>
+              <h4 className="service-title">추억 저장</h4>
+              <p className="service-description">
+                소중한 순간들을 안전하게 보관하세요
+              </p>
+            </div>
+
+            {/* 기억 공유 */}
+            <div className="service-card">
+              <div className="service-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" stroke="#171412" strokeWidth="2"/>
+                </svg>
+              </div>
+              <h4 className="service-title">기억 공유</h4>
+              <p className="service-description">
+                가족과 친구들과 함께 나누세요
+              </p>
+            </div>
+
+            {/* 특별한 순간 */}
+            <div className="service-card">
+              <div className="service-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 2L15.09 8.26L22 9L15.09 9.74L12 16L8.91 9.74L2 9L8.91 8.26L12 2Z" stroke="#171412" strokeWidth="2"/>
+                </svg>
+              </div>
+              <h4 className="service-title">특별한 순간</h4>
+              <p className="service-description">
+                인생의 소중한 이정표를 기록하세요
+              </p>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      {/* Footer */}
+      <footer className="footer">
+        <div className="footer-content">
+          {/* 서비스 메뉴 */}
+          <div className="footer-section">
+            <h4 className="footer-title">서비스</h4>
+            <ul className="footer-menu">
+              <li><a href="#" onClick={(e) => handleLinkClick(e, '/game')}>추억 카드 뒤집기</a></li>
+              <li><a href="#" onClick={(e) => handleLinkClick(e)}>이야기 순서 맞추기</a></li>
+              <li><a href="#" onClick={(e) => handleLinkClick(e)}>오늘의 질문</a></li>
+              <li><a href="#" onClick={(e) => handleLinkClick(e)}>나만의 정원 가꾸기</a></li>
+            </ul>
+          </div>
+
+          {/* 고객지원 메뉴 */}
+          <div className="footer-section">
+            <h4 className="footer-title">고객지원</h4>
+            <ul className="footer-menu">
+              <li><a href="#" onClick={(e) => handleLinkClick(e)}>도움말</a></li>
+              <li><a href="#" onClick={(e) => handleLinkClick(e)}>문의하기</a></li>
+              <li><a href="#" onClick={(e) => handleLinkClick(e)}>개인정보처리방침</a></li>
+            </ul>
+          </div>
+
+          {/* 연결하기 */}
+          <div className="footer-section">
+            <h4 className="footer-title">연결하기</h4>
+            <div className="social-links">
+              <a href="#" className="social-link" onClick={(e) => handleLinkClick(e)}>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M0 1.5L16 13.5" stroke="#171412" strokeWidth="1.5"/>
+                </svg>
+              </a>
+              <a href="#" className="social-link" onClick={(e) => handleLinkClick(e)}>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M1.03 2.67L14.98 13.33" stroke="#171412" strokeWidth="1.5"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+export default HomePage; 
