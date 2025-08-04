@@ -1,12 +1,12 @@
-// src/pages/GamePage/GamePage.jsx
+// src/pages/CardGamePage/CardGamePage.jsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGame } from '../../hooks/useGame';
 import Card from '../../components/Card';
 import ResultPopup from '../../components/ResultPopup';
-import './GamePage.css';
+import './CardGamePage.css';
 
-function GamePage() {
+function CardGamePage() {
   const navigate = useNavigate();
   const userId = "user3"; // 이 부분은 추후 인증 시스템에서 가져올 수 있습니다.
   const {
@@ -64,14 +64,14 @@ function GamePage() {
       {/* 새 게임 시작 버튼 */}
       {!gameStarted && difficulty && !showResultPopup && cards.length === 0 && (
         <button className="start-button" onClick={shuffleCards}>
-          카드게임 시작
+          새 게임 시작
         </button>
       )}
 
       {/* 게임 완료 후 처음으로 돌아가기 버튼 */}
       {showResultPopup && (
         <button className="start-button" onClick={resetGame}>
-          카드게임 처음으로
+          처음으로
         </button>
       )}
 
@@ -104,4 +104,4 @@ function GamePage() {
   );
 }
 
-export default GamePage;
+export default CardGamePage;

@@ -1,0 +1,515 @@
+/* 이야기 등록 페이지 전체 컨테이너 */
+.story-registration-page {
+  min-height: 100vh;
+  background-color: #F5F2F0;
+  font-family: 'Lexend', sans-serif;
+}
+
+/* 헤더 스타일 */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 24px;
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #E5E8EB;
+  box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.08);
+  height: 90px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.logo-container {
+  width: 40px;
+  height: 40px;
+  background-color: #171412;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.logo-container:hover {
+  background-color: #333333;
+}
+
+.logo-icon {
+  color: #FFFFFF;
+  font-size: 20px;
+}
+
+.header-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.main-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #171412;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.subtitle {
+  font-size: 14px;
+  font-weight: 400;
+  color: #171412;
+  margin: 0;
+  opacity: 0.6;
+  line-height: 1.5;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.profile-avatar {
+  width: 40px;
+  height: 40px;
+  background-color: #171412;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.user-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #171412;
+  line-height: 1.5;
+}
+
+.user-role {
+  font-size: 12px;
+  font-weight: 400;
+  color: #171412;
+  opacity: 0.6;
+  line-height: 1.5;
+}
+
+.logout-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: transparent;
+  border: 1px solid #E5E8EB;
+  border-radius: 8px;
+  color: #171412;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: #F8F6F4;
+  border-color: #171412;
+}
+
+/* 메인 콘텐츠 레이아웃 */
+.dashboard-content {
+  display: flex;
+  height: calc(100vh - 90px);
+}
+
+/* 사이드바 스타일 */
+.sidebar {
+  width: 320px;
+  background-color: #FFFFFF;
+  border-right: 1px solid #E5E8EB;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #171412;
+  margin: 0 0 24px 0;
+  line-height: 1.5;
+}
+
+/* 이야기 등록 폼 */
+.story-registration {
+  margin-bottom: 24px;
+}
+
+.registration-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #171412;
+  line-height: 1.5;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  padding: 12px 16px;
+  border: 1px solid #E5E8EB;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: 'Lexend', sans-serif;
+  background-color: #FFFFFF;
+  color: #171412;
+  transition: border-color 0.3s ease;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: #171412;
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: #999999;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.submit-button {
+  padding: 12px 24px;
+  background-color: #171412;
+  border: none;
+  border-radius: 8px;
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #333333;
+}
+
+/* 메인 콘텐츠 */
+.main-content {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.registered-stories {
+  margin-bottom: 24px;
+}
+
+.stories-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.story-card {
+  padding: 20px;
+  background-color: #F8F6F4;
+  border: 1px solid #E5E8EB;
+  border-radius: 12px;
+}
+
+.story-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.story-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #171412;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.status-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.story-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.story-date {
+  font-size: 12px;
+  font-weight: 400;
+  color: #171412;
+  opacity: 0.6;
+  line-height: 1.5;
+}
+
+.story-category {
+  padding: 4px 8px;
+  background-color: #171412;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 500;
+  color: #FFFFFF;
+  line-height: 1.5;
+}
+
+.story-content {
+  font-size: 14px;
+  font-weight: 400;
+  color: #171412;
+  margin: 0 0 16px 0;
+  line-height: 1.5;
+}
+
+.story-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.action-button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border: 1px solid #E5E8EB;
+  border-radius: 6px;
+  background-color: #F8F6F4;
+  color: #171412;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.action-button:hover {
+  background-color: #FFFFFF;
+  border-color: #171412;
+}
+
+.action-button.preview {
+  border-color: #E5E8EB;
+}
+
+.action-button.edit {
+  border-color: #E5E8EB;
+}
+
+.action-button.publish {
+  background-color: #22C55E;
+  border-color: #22C55E;
+  color: #FFFFFF;
+}
+
+.action-button.publish:hover {
+  background-color: #16A34A;
+  border-color: #16A34A;
+}
+
+.action-button.private {
+  background-color: #F59E0B;
+  border-color: #F59E0B;
+  color: #FFFFFF;
+}
+
+.action-button.private:hover {
+  background-color: #D97706;
+  border-color: #D97706;
+}
+
+.action-button.delete {
+  background-color: #EF4444;
+  border-color: #EF4444;
+  color: #FFFFFF;
+}
+
+.action-button.delete:hover {
+  background-color: #DC2626;
+  border-color: #DC2626;
+}
+
+/* 오른쪽 사이드바 */
+.preview-sidebar {
+  width: 320px;
+  background-color: #FFFFFF;
+  border-left: 1px solid #E5E8EB;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.preview-section {
+  margin-bottom: 24px;
+}
+
+.preview-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #171412;
+  margin: 0 0 24px 0;
+  line-height: 1.5;
+}
+
+.preview-container {
+  border: 2px solid #E5E8EB;
+  border-radius: 12px;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.preview-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.placeholder-icon {
+  color: #171412;
+  opacity: 0.4;
+}
+
+.placeholder-text {
+  font-size: 14px;
+  font-weight: 400;
+  color: #171412;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.story-preview {
+  width: 100%;
+  text-align: left;
+}
+
+.preview-story-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #171412;
+  margin: 0 0 12px 0;
+  line-height: 1.5;
+}
+
+.preview-story-content {
+  font-size: 14px;
+  font-weight: 400;
+  color: #171412;
+  margin: 0 0 16px 0;
+  line-height: 1.6;
+}
+
+.preview-story-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: #171412;
+  opacity: 0.6;
+}
+
+.preview-category {
+  font-weight: 500;
+}
+
+.preview-date {
+  font-weight: 400;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 1200px) {
+  .dashboard-content {
+    flex-direction: column;
+  }
+  
+  .sidebar,
+  .preview-sidebar {
+    width: 100%;
+    border-right: none;
+    border-left: none;
+    border-bottom: 1px solid #E5E8EB;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-header {
+    padding: 16px;
+    height: auto;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .header-left {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .header-right {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .main-content {
+    padding: 16px;
+  }
+  
+  .sidebar,
+  .preview-sidebar {
+    padding: 16px;
+  }
+  
+  .story-actions {
+    flex-direction: column;
+  }
+  
+  .action-button {
+    justify-content: center;
+  }
+} 
