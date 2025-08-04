@@ -49,20 +49,24 @@
   color: #666666;
 }
 
-.sign-in-btn {
-  background: #F5F2F0;
-  border: none;
-  border-radius: 20px;
+.logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: 1px solid #E5E8EB;
+  border-radius: 8px;
   padding: 8px 16px;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 500;
   color: #171412;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.3s ease;
 }
 
-.sign-in-btn:hover {
-  background: #E8E4E0;
+.logout-btn:hover {
+  background: #F8F6F4;
+  border-color: #171412;
 }
 
 /* Main Content */

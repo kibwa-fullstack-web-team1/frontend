@@ -1,5 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FiLogOut } from 'react-icons/fi';
+import { logoutUser } from '../../services/api';
 import './GameSelectPage.css';
 
 function GameSelectPage() {
@@ -93,6 +95,11 @@ function GameSelectPage() {
     navigate('/');
   };
 
+  const handleLogout = () => {
+    logoutUser();
+    navigate('/');
+  };
+
   return (
     <div className="game-select-page">
       {/* Header */}
@@ -109,7 +116,10 @@ function GameSelectPage() {
           <a href="#" className="nav-link">Games</a>
           <a href="#" className="nav-link">About Us</a>
           <a href="#" className="nav-link">Contact</a>
-          <button className="sign-in-btn">Sign In</button>
+          <button className="logout-btn" onClick={handleLogout}>
+            <FiLogOut size={16} />
+            <span>로그아웃</span>
+          </button>
         </nav>
       </header>
 

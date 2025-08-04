@@ -9,8 +9,8 @@ function HomePage() {
     navigate('/login');
   };
 
-  const handleUploadPhotos = () => {
-    navigate('/upload');
+  const handleCaregiverDashboard = () => {
+    navigate('/card-game-dashboard');
   };
 
   const handleLinkClick = (e, path) => {
@@ -109,6 +109,22 @@ function HomePage() {
               <h4 className="service-title">특별한 순간</h4>
               <p className="service-description">
                 인생의 소중한 이정표를 기록하세요
+              </p>
+            </div>
+
+            {/* 보호자 대시보드 */}
+            <div className="service-card" onClick={handleCaregiverDashboard}>
+              <div className="service-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M3 3H21V21H3V3Z" stroke="#171412" strokeWidth="2"/>
+                  <path d="M9 9H15" stroke="#171412" strokeWidth="2"/>
+                  <path d="M9 13H15" stroke="#171412" strokeWidth="2"/>
+                  <path d="M9 17H12" stroke="#171412" strokeWidth="2"/>
+                </svg>
+              </div>
+              <h4 className="service-title">보호자 대시보드</h4>
+              <p className="service-description">
+                게임 결과와 사진 관리를 한눈에
               </p>
             </div>
           </div>

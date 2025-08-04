@@ -12,6 +12,10 @@ const API_TIMEOUT = import.meta.env.VITE_API_TIMEOUT || 10000;
  * @param {string} email - 사용자 이메일
  * @param {string} password - 사용자 비밀번호
  * @returns {Promise<{token: string, user: object}>} - 로그인 성공 시 토큰과 사용자 정보
+ * 
+ * TODO: 실제 백엔드 API 엔드포인트와 연결
+ * 현재 설정된 엔드포인트: ${AUTH_API_BASE_URL}/auth/login
+ * 예상 응답 형식: { access_token: string, user: { id, email, nickname, role } }
  */
 export const loginUser = async (email, password) => {
   try {
@@ -63,6 +67,11 @@ export const loginUser = async (email, password) => {
  * @param {string} phone - 사용자 전화번호
  * @param {string} role - 사용자 역할 (elderly/caregiver)
  * @returns {Promise<{user: object}>} - 회원가입 성공 시 사용자 정보
+ * 
+ * TODO: 실제 백엔드 API 엔드포인트와 연결
+ * 현재 설정된 엔드포인트: ${AUTH_API_BASE_URL}/auth/signup
+ * 예상 요청 형식: { email, password, nickname, phone, role }
+ * 예상 응답 형식: { success: boolean, message: string, user: object }
  */
 export const signupUser = async (email, password, nickname, phone, role) => {
   try {
@@ -97,6 +106,10 @@ export const signupUser = async (email, password, nickname, phone, role) => {
 
 /**
  * 로그아웃 처리
+ * 
+ * TODO: 실제 백엔드 API와 연결 시 로그아웃 엔드포인트 호출
+ * 현재는 로컬 스토리지만 정리
+ * 예상 엔드포인트: ${AUTH_API_BASE_URL}/auth/logout
  */
 export const logoutUser = () => {
   localStorage.removeItem('authToken');
@@ -114,6 +127,10 @@ export const isLoggedIn = () => {
 /**
  * 현재 사용자 정보 가져오기
  * @returns {object|null} 사용자 정보
+ * 
+ * TODO: 실제 백엔드 API와 연결 시 사용자 정보 검증
+ * 현재는 로컬 스토리지에서만 가져옴
+ * 예상 엔드포인트: ${AUTH_API_BASE_URL}/auth/me
  */
 export const getCurrentUser = () => {
   const userInfo = localStorage.getItem('userInfo');
@@ -164,4 +181,67 @@ export const saveGameResult = async (resultData) => {
   } catch (err) {
     console.error("게임 결과 저장 실패:", err);
   }
+};
+
+/**
+ * 보호자 대시보드용 API 함수들
+ * TODO: 실제 백엔드 API와 연결 시 구현
+ */
+
+/**
+ * 보호자용 게임 결과 목록을 가져옵니다.
+ * @param {string} userId - 보호자 사용자 ID
+ * @returns {Promise<Array>} 게임 결과 목록
+ * 
+ * 예상 엔드포인트: ${AUTH_API_BASE_URL}/caregiver/game-results?user_id=${userId}
+ * 예상 응답 형식: [{ id, title, date, score, time, difficulty, status }]
+ */
+export const fetchCaregiverGameResults = async (userId) => {
+  // TODO: 실제 API 호출 구현
+  console.log('보호자 게임 결과 조회:', userId);
+  return [];
+};
+
+/**
+ * 가족 사진 목록을 가져옵니다.
+ * @param {string} userId - 사용자 ID
+ * @returns {Promise<Array>} 가족 사진 목록
+ * 
+ * 예상 엔드포인트: ${AUTH_API_BASE_URL}/family-photos?user_id=${userId}
+ * 예상 응답 형식: [{ id, name, date, image_url }]
+ */
+export const fetchFamilyPhotos = async (userId) => {
+  // TODO: 실제 API 호출 구현
+  console.log('가족 사진 조회:', userId);
+  return [];
+};
+
+/**
+ * 파일을 서버에 업로드합니다.
+ * @param {File} file - 업로드할 파일
+ * @param {string} userId - 사용자 ID
+ * @returns {Promise<object>} 업로드 결과
+ * 
+ * 예상 엔드포인트: ${AUTH_API_BASE_URL}/upload/photo
+ * 예상 요청 형식: FormData with file and user_id
+ * 예상 응답 형식: { success: boolean, file_url: string, file_id: string }
+ */
+export const uploadFileToServer = async (file, userId) => {
+  // TODO: 실제 API 호출 구현
+  console.log('파일 업로드:', { fileName: file.name, userId });
+  return { success: true, file_url: '/temp/' + file.name, file_id: 'temp_' + Date.now() };
+};
+
+/**
+ * 이번 주 통계를 가져옵니다.
+ * @param {string} userId - 사용자 ID
+ * @returns {Promise<object>} 통계 데이터
+ * 
+ * 예상 엔드포인트: ${AUTH_API_BASE_URL}/caregiver/weekly-stats?user_id=${userId}
+ * 예상 응답 형식: { games_completed: number, average_score: number }
+ */
+export const fetchWeeklyStats = async (userId) => {
+  // TODO: 실제 API 호출 구현
+  console.log('이번 주 통계 조회:', userId);
+  return { games_completed: 12, average_score: 78 };
 };
