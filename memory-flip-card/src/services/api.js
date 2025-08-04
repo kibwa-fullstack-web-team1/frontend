@@ -1,10 +1,10 @@
 // src/services/api.js
 
 // 게임 관련 API (기존 서버)
-const GAME_API_BASE_URL = "http://13.251.163.144:8020";
+const GAME_API_BASE_URL = "http://localhost:8020";
 
 // 로그인 관련 API (FastAPI 서버)
-const AUTH_API_BASE_URL = import.meta.env.VITE_AUTH_API_BASE_URL || "http://13.251.163.144:8011";
+const AUTH_API_BASE_URL = import.meta.env.VITE_AUTH_API_BASE_URL || "http://localhost:8000";
 const API_TIMEOUT = import.meta.env.VITE_API_TIMEOUT || 10000;
 
 /**
@@ -39,7 +39,7 @@ export const loginUser = async (email, password) => {
     }
 
     const data = await response.json();
-    
+
     // FastAPI 응답 형식에 맞게 처리
     // 일반적으로 FastAPI는 access_token, user 정보를 반환
     if (data.access_token) {
