@@ -1,4 +1,4 @@
-// src/hooks/useGame.js
+// src/hooks/useCardGame.js
 import { useState, useEffect, useRef } from 'react';
 import { fetchCardImages, saveGameResult } from '../services/api';
 
@@ -8,7 +8,7 @@ const difficultyToCount = {
   hard: 16,
 };
 
-export const useGame = (userId) => {
+export const useCardGame = (userId) => {
   const [cardImages, setCardImages] = useState([]);
   const [cards, setCards] = useState([]);
   const [turns, setTurns] = useState(0);
@@ -55,20 +55,32 @@ export const useGame = (userId) => {
 
   // 3. 게임 완료 조건 확인
   useEffect(() => {
-    if (cards.length > 0 && cards.every(card => card.matched)) {
-      clearInterval(timerRef.current);
-      setTimeout(() => setShowResultPopup(true), 500);
-      setGameStarted(false);
-      
-      saveGameResult({
-        user_id: userId,
-        score: cards.length / 2,
-        attempts: turns,
-        matches: cards.length / 2,
-        duration_seconds: elapsedTime,
-        difficulty: difficulty,
-      });
-    }
+    const checkGameCompletion = async () => {
+      if (cards.length > 0 && cards.every(card => card.matched)) {
+        clearInterval(timerRef.current);
+        setTimeout(() => setShowResultPopup(true), 500);
+        setGameStarted(false);
+        
+        try {
+          const result = await saveGameResult({
+            user_id: userId,
+            score: cards.length / 2,
+            attempts: turns,
+            matches: cards.length / 2,
+            duration_seconds: elapsedTime,
+            difficulty: difficulty,
+          });
+          
+          if (result.success) {
+            console.log('게임 결과 저장 성공:', result.message);
+          }
+        } catch (error) {
+          console.error('게임 결과 저장 실패:', error);
+        }
+      }
+    };
+
+    checkGameCompletion();
   }, [cards, userId, turns, elapsedTime, difficulty]);
 
   // 턴 초기화
