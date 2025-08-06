@@ -1,0 +1,182 @@
+/* ElderlyHeader.css - 어르신용 헤더 스타일 */
+
+.elderly-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 90px;
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #E5E8EB;
+  box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.08);
+  z-index: 100;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  padding: 0 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* 뒤로가기 버튼 */
+.back-button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: none;
+  border: none;
+  color: #171412;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+  min-width: 140px;
+}
+
+.back-button:hover {
+  background-color: #F8F6F4;
+}
+
+.logo-icon {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #E5E8EB;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FFFFFF;
+  flex-shrink: 0;
+}
+
+.logo-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* 헤더 텍스트 */
+.header-text {
+  flex: 1;
+  text-align: center;
+  margin: 0 20px;
+}
+
+.header-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #171412;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.header-subtitle {
+  font-size: 14px;
+  font-weight: 400;
+  color: #171412;
+  margin: 4px 0 0 0;
+  opacity: 0.6;
+  line-height: 1.5;
+}
+
+/* 우측 사용자 정보 */
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  background-color: #171412;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.user-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #171412;
+  line-height: 1.5;
+}
+
+.user-role {
+  font-size: 12px;
+  font-weight: 400;
+  color: #171412;
+  opacity: 0.6;
+  line-height: 1.5;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .header-content {
+    padding: 0 16px;
+  }
+  
+  .header-title {
+    font-size: 20px;
+  }
+  
+  .back-button {
+    min-width: 60px;
+    font-size: 14px;
+    padding: 6px 12px;
+  }
+  
+  .back-button span {
+    display: none;
+  }
+  
+  .logo-icon {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .user-details {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-content {
+    padding: 0 12px;
+  }
+  
+  .header-title {
+    font-size: 18px;
+  }
+  
+  .header-text {
+    margin: 0 10px;
+  }
+  
+  .user-avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+} 

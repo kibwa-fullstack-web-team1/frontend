@@ -1,76 +1,61 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FiUpload, FiPlus, FiArrowLeft, FiLogOut } from 'react-icons/fi';
-import { logoutUser } from '../../services/api';
+import { FiUpload, FiPlus, FiArrowLeft, FiLogOut, FiEdit } from 'react-icons/fi';
+import { logoutUser, uploadFamilyPhoto, fetchFamilyPhotos, getCurrentUser, fetchCaregiverGameResults } from '../../services/api';
 import './CardGameDashboard.css';
 
 const CardGameDashboard = () => {
   const navigate = useNavigate();
   const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [uploading, setUploading] = useState(false);
+  const [familyPhotos, setFamilyPhotos] = useState([]);
+  const [loadingPhotos, setLoadingPhotos] = useState(false);
+  const [gameResults, setGameResults] = useState([]);
+  const [loadingResults, setLoadingResults] = useState(false);
+  const [totalResults, setTotalResults] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [resultsPerPage] = useState(10);
+  // 임시로 user2 사용 (실제로는 로그인한 사용자 정보 사용)
+  const userId = 'user2';
 
-  // TODO: 실제 백엔드 API에서 받아올 게임 결과 데이터
-  // 현재는 임시 데이터 (실제로는 API 호출로 가져옴)
-  const gameResults = [
-    {
-      id: 1,
-      title: '추억의 퍼즐',
-      date: '2024-01-15',
-      score: 85,
-      time: '12분 30초',
-      difficulty: '쉬움',
-      status: 'completed'
-    },
-    {
-      id: 2,
-      title: '시간 여행자',
-      date: '2024-01-14',
-      score: 72,
-      time: '25분 15초',
-      difficulty: '보통',
-      status: 'completed'
-    },
-    {
-      id: 3,
-      title: '기억의 미로',
-      date: '2024-01-13',
-      score: null,
-      time: '중단됨',
-      difficulty: '어려움',
-      status: 'incomplete'
-    },
-    {
-      id: 4,
-      title: '감정의 정원',
-      date: '2024-01-12',
-      score: 95,
-      time: '18분 45초',
-      difficulty: '쉬움',
-      status: 'completed'
-    }
-  ];
+  // 게임 결과 불러오기
+  useEffect(() => {
+    const loadGameResults = async () => {
+      setLoadingResults(true);
+      try {
+        const offset = (currentPage - 1) * resultsPerPage;
+        const data = await fetchCaregiverGameResults(userId, resultsPerPage, offset);
+        setGameResults(data.results);
+        setTotalResults(data.count);
+      } catch (error) {
+        console.error('게임 결과 로딩 실패:', error);
+      } finally {
+        setLoadingResults(false);
+      }
+    };
 
-  // TODO: 실제 백엔드 API에서 받아올 가족 사진 데이터
-  // 현재는 임시 데이터 (실제로는 API 호출로 가져옴)
-  const familyPhotos = [
-    {
-      id: 1,
-      name: '가족여행.jpg',
-      date: '2024-01-15',
-      image: '/images/family-trip.jpg'
-    },
-    {
-      id: 2,
-      name: '생일파티.jpg',
-      date: '2024-01-10',
-      image: '/images/birthday-party.jpg'
-    },
-    {
-      id: 3,
-      name: '할머니와함께.jpg',
-      date: '2024-01-05',
-      image: '/images/with-grandma.jpg'
+    loadGameResults();
+  }, [userId, currentPage, resultsPerPage]);
+
+  // 가족 사진 불러오기 함수
+  const loadFamilyPhotos = async () => {
+    setLoadingPhotos(true);
+    try {
+      const photos = await fetchFamilyPhotos(userId);
+      setFamilyPhotos(photos);
+    } catch (error) {
+      console.error('가족 사진 로딩 실패:', error);
+      // 에러 발생 시 빈 배열로 설정
+      setFamilyPhotos([]);
+    } finally {
+      setLoadingPhotos(false);
     }
-  ];
+  };
+
+  // 가족 사진 불러오기
+  useEffect(() => {
+    loadFamilyPhotos();
+  }, [userId]);
 
   // TODO: 실제 백엔드 API에서 받아올 최근 업로드 데이터
   // 현재는 임시 데이터 (실제로는 API 호출로 가져옴)
@@ -95,44 +80,97 @@ const CardGameDashboard = () => {
     }
   ];
 
-  // TODO: 실제 백엔드 API와 연결 시 파일 업로드 처리
-  // 현재는 임시로 로컬 상태에만 저장 (실제로는 서버에 업로드)
-  const handleFileUpload = (event) => {
+  // 실제 백엔드 API와 연결된 파일 업로드 처리
+  const handleFileUpload = async (event) => {
     const files = Array.from(event.target.files);
-    const newFiles = files.map(file => ({
-      id: Date.now() + Math.random(),
-      name: file.name,
-      date: new Date().toISOString().split('T')[0],
-      file: file
-    }));
-    setUploadedFiles(prev => [...newFiles, ...prev]);
     
-    // TODO: 실제 파일 업로드 API 호출
-    // files.forEach(file => {
-    //   uploadFileToServer(file);
-    // });
+    if (files.length === 0) return;
+    
+    setUploading(true);
+    
+    try {
+      for (const file of files) {
+        const result = await uploadFamilyPhoto(file, userId);
+        
+        if (result.success) {
+          // 업로드 성공 시 로컬 상태에 추가
+          const newFile = {
+            id: result.photo_id,
+            name: file.name,
+            date: new Date().toISOString().split('T')[0],
+            image: result.file_url
+          };
+          setUploadedFiles(prev => [newFile, ...prev]);
+          
+          // 중복 파일 메시지 표시
+          if (result.message.includes('이미 업로드된 파일')) {
+            console.log(result.message);
+            // 사용자에게 중복 파일 알림 (선택사항)
+            // alert(result.message);
+          } else {
+            console.log('파일 업로드 성공:', result.message);
+          }
+        }
+      }
+      
+      // 업로드 완료 후 갤러리 새로고침
+      await loadFamilyPhotos();
+      
+    } catch (error) {
+      console.error('파일 업로드 실패:', error);
+      alert('파일 업로드에 실패했습니다: ' + error.message);
+    } finally {
+      setUploading(false);
+    }
   };
 
   const handleDragOver = (event) => {
     event.preventDefault();
   };
 
-  // TODO: 실제 백엔드 API와 연결 시 드래그 앤 드롭 파일 업로드 처리
-  const handleDrop = (event) => {
+  // 실제 백엔드 API와 연결된 드래그 앤 드롭 파일 업로드 처리
+  const handleDrop = async (event) => {
     event.preventDefault();
     const files = Array.from(event.dataTransfer.files);
-    const newFiles = files.map(file => ({
-      id: Date.now() + Math.random(),
-      name: file.name,
-      date: new Date().toISOString().split('T')[0],
-      file: file
-    }));
-    setUploadedFiles(prev => [...newFiles, ...prev]);
     
-    // TODO: 실제 파일 업로드 API 호출
-    // files.forEach(file => {
-    //   uploadFileToServer(file);
-    // });
+    if (files.length === 0) return;
+    
+    setUploading(true);
+    
+    try {
+      for (const file of files) {
+        const result = await uploadFamilyPhoto(file, userId);
+        
+        if (result.success) {
+          // 업로드 성공 시 로컬 상태에 추가
+          const newFile = {
+            id: result.photo_id,
+            name: file.name,
+            date: new Date().toISOString().split('T')[0],
+            image: result.file_url
+          };
+          setUploadedFiles(prev => [newFile, ...prev]);
+          
+          // 중복 파일 메시지 표시
+          if (result.message.includes('이미 업로드된 파일')) {
+            console.log(result.message);
+            // 사용자에게 중복 파일 알림 (선택사항)
+            // alert(result.message);
+          } else {
+            console.log('파일 업로드 성공:', result.message);
+          }
+        }
+      }
+      
+      // 업로드 완료 후 갤러리 새로고침
+      await loadFamilyPhotos();
+      
+    } catch (error) {
+      console.error('파일 업로드 실패:', error);
+      alert('파일 업로드에 실패했습니다: ' + error.message);
+    } finally {
+      setUploading(false);
+    }
   };
 
   const getDifficultyColor = (difficulty) => {
@@ -170,6 +208,10 @@ const CardGameDashboard = () => {
 
   const handleStoryRegistration = () => {
     navigate('/story-game-dashboard');
+  };
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
   };
 
   return (
@@ -222,9 +264,18 @@ const CardGameDashboard = () => {
                 style={{ display: 'none' }}
               />
               <label htmlFor="file-upload" className="upload-label">
-                <FiUpload className="upload-icon" />
-                <p className="upload-text">사진을 드래그하거나 클릭하여 업로드</p>
-                <p className="upload-hint">JPG, PNG 파일만 지원</p>
+                {uploading ? (
+                  <>
+                    <div className="upload-spinner"></div>
+                    <p className="upload-text">업로드 중...</p>
+                  </>
+                ) : (
+                  <>
+                    <FiUpload className="upload-icon" />
+                    <p className="upload-text">사진을 드래그하거나 클릭하여 업로드</p>
+                    <p className="upload-hint">JPG, PNG 파일만 지원</p>
+                  </>
+                )}
               </label>
             </div>
           </section>
@@ -263,21 +314,35 @@ const CardGameDashboard = () => {
           <section className="gallery-section">
             <h2 className="section-title">가족 사진 갤러리</h2>
             <div className="photo-grid">
-              {familyPhotos.map((photo) => (
-                <div key={photo.id} className="photo-item">
-                  <div className="photo-container">
-                    <img src={photo.image} alt={photo.name} />
+              {loadingPhotos ? (
+                <div className="loading-photos">
+                  <div className="loading-spinner"></div>
+                  <p>사진을 불러오는 중...</p>
+                </div>
+              ) : familyPhotos.length === 0 ? (
+                <div className="no-photos">
+                  <p>아직 업로드된 사진이 없습니다.</p>
+                  <p>왼쪽 사이드바에서 사진을 업로드해보세요.</p>
+                </div>
+              ) : (
+                <>
+                  {familyPhotos.map((photo) => (
+                    <div key={photo.id} className="photo-item">
+                      <div className="photo-container">
+                        <img src={photo.image} alt={photo.name} />
+                      </div>
+                      <p className="photo-name">{photo.name}</p>
+                      <p className="photo-date">{photo.date}</p>
+                    </div>
+                  ))}
+                  <div className="photo-item add-photo">
+                    <div className="photo-container">
+                      <FiPlus className="add-icon" />
+                    </div>
+                    <p className="add-text">사진 추가</p>
                   </div>
-                  <p className="photo-name">{photo.name}</p>
-                  <p className="photo-date">{photo.date}</p>
-                </div>
-              ))}
-              <div className="photo-item add-photo">
-                <div className="photo-container">
-                  <FiPlus className="add-icon" />
-                </div>
-                <p className="add-text">사진 추가</p>
-              </div>
+                </>
+              )}
             </div>
           </section>
         </main>
@@ -288,7 +353,17 @@ const CardGameDashboard = () => {
           <section className="game-results">
             <h2 className="section-title">게임 결과</h2>
             <div className="results-list">
-              {gameResults.map((result) => (
+              {loadingResults ? (
+                <div className="loading-results">
+                  <div className="loading-spinner"></div>
+                  <p>게임 결과를 불러오는 중...</p>
+                </div>
+              ) : gameResults.length === 0 ? (
+                <div className="no-results">
+                  <p>아직 게임 결과가 없습니다.</p>
+                </div>
+              ) : (
+                gameResults.map((result) => (
                 <div key={result.id} className="result-item">
                   <div className="result-header">
                     <h3 className="result-title">{result.title}</h3>
@@ -321,8 +396,32 @@ const CardGameDashboard = () => {
                     </div>
                   </div>
                 </div>
-              ))}
+              ))
+              )}
             </div>
+            
+            {/* 페이지네이션 */}
+            {!loadingResults && gameResults.length > 0 && (
+              <div className="pagination">
+                <button 
+                  className="pagination-button"
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                >
+                  이전
+                </button>
+                <span className="pagination-info">
+                  {currentPage} / {Math.ceil(totalResults / resultsPerPage)}
+                </span>
+                <button 
+                  className="pagination-button"
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={gameResults.length < resultsPerPage}
+                >
+                  다음
+                </button>
+              </div>
+            )}
           </section>
 
           {/* 이번 주 통계 */}
