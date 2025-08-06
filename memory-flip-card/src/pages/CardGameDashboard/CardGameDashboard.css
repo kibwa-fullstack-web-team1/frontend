@@ -213,6 +213,90 @@
   line-height: 1.5;
 }
 
+/* 업로드 스피너 */
+.upload-spinner {
+  width: 24px;
+  height: 24px;
+  border: 2px solid rgba(23, 20, 18, 0.3);
+  border-top: 2px solid #171412;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 12px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 게임 결과 로딩 및 빈 상태 */
+.loading-results,
+.no-results {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.loading-results .loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(23, 20, 18, 0.3);
+  border-top: 3px solid #171412;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+.loading-results p,
+.no-results p {
+  font-size: 14px;
+  color: #171412;
+  opacity: 0.7;
+  margin: 0;
+}
+
+/* 페이지네이션 */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #E5E8EB;
+}
+
+.pagination-button {
+  background: #F5F2F0;
+  border: 1px solid #E5E8EB;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #171412;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pagination-button:hover:not(:disabled) {
+  background: #E8E4E0;
+  border-color: #171412;
+}
+
+.pagination-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination-info {
+  font-size: 14px;
+  font-weight: 500;
+  color: #171412;
+}
+
 /* 최근 업로드 */
 .recent-uploads {
   margin-bottom: 24px;
