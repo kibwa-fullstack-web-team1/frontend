@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiLogOut } from 'react-icons/fi';
 import { logoutUser } from '../../services/api';
+import ElderlyHeader from '../../components/ElderlyHeader';
 import './GameSelectPage.css';
 
 function GameSelectPage() {
@@ -102,26 +103,9 @@ function GameSelectPage() {
 
   return (
     <div className="game-select-page">
-      {/* Header */}
-      <header className="header">
-        <div className="logo">
-          <div className="logo-icon">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M1.14 0.38L14.85 15.62" stroke="#171412" strokeWidth="1.5"/>
-            </svg>
-          </div>
-          <h1 className="logo-text">Garden of Memory</h1>
-        </div>
-        <nav className="nav">
-          <a href="#" className="nav-link">Games</a>
-          <a href="#" className="nav-link">About Us</a>
-          <a href="#" className="nav-link">Contact</a>
-          <button className="logout-btn" onClick={handleLogout}>
-            <FiLogOut size={16} />
-            <span>로그아웃</span>
-          </button>
-        </nav>
-      </header>
+      <ElderlyHeader 
+        onBackClick={handleBackToHome}
+      />
 
       {/* Main Content */}
       <main className="main-content">

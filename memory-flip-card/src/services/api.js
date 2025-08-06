@@ -1,7 +1,7 @@
 // src/services/api.js
 
-// 게임 관련 API (기존 서버)
-const GAME_API_BASE_URL = "http://13.251.163.144:8020";
+// 카드 게임 관련 API (기존 서버)
+const CARD_GAME_BASE_URL = "http://13.251.163.144:8020";
 
 // 로그인 관련 API (FastAPI 서버)
 const AUTH_API_BASE_URL = import.meta.env.VITE_AUTH_API_BASE_URL || "http://13.251.163.144:8011";
@@ -152,34 +152,64 @@ export const getAuthToken = () => {
  */
 export const fetchCardImages = async (userId) => {
   try {
-    const response = await fetch(`${GAME_API_BASE_URL}/list/cards?user_id=${userId}`);
+    const response = await fetch(`/api/list/family-photos?user_id=${userId}`);
     if (!response.ok) {
       throw new Error('카드 이미지 요청 실패');
     }
-    const imageUrls = await response.json();
-    // API 응답을 앱에서 사용할 형식으로 변환
-    return imageUrls.map(url => ({ src: url, matched: false }));
+    const data = await response.json();
+    
+    // 백엔드 응답 형식에 맞게 처리
+    // { "user_id": "string", "photos": [{ "id": 0, "file_url": "https://example.com/" }] }
+    if (data && Array.isArray(data.photos)) {
+      return data.photos.map(photo => ({ src: photo.file_url, matched: false }));
+    } else {
+      console.warn('예상과 다른 응답 형식:', data);
+      return [];
+    }
   } catch (error) {
     console.error("카드 이미지 로딩 중 오류 발생:", error);
-    // 오류 발생 시 빈 배열 반환 또는 다른 오류 처리
+    // 오류 발생 시 빈 배열 반환
     return [];
   }
 };
 
 /**
- * 게임 결과를 서버에 저장합니다.
- * @param {object} resultData - 저장할 게임 결과 데이터
- * @returns {Promise<void>}
+ * 카드게임 결과를 서버에 저장합니다.
+ * @param {object} resultData - 저장할 카드게임 결과 데이터
+ * @returns {Promise<object>} 저장 결과
+ * 
+ * 엔드포인트: ${CARD_GAME_BASE_URL}/records
+ * 요청 형식: JSON
+ * 응답 형식: { success: boolean, message: string, result_id: string }
  */
 export const saveGameResult = async (resultData) => {
   try {
-    await fetch(`${GAME_API_BASE_URL}/games/records`, {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT);
+
+    const response = await fetch(`/api/games/records`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify(resultData),
+      signal: controller.signal
     });
-  } catch (err) {
-    console.error("게임 결과 저장 실패:", err);
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      throw new Error(`카드게임 결과 저장 실패: ${response.status}`);
+    }
+
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      throw new Error('카드게임 결과 저장 시간 초과');
+    }
+    console.error("카드게임 결과 저장 실패:", error);
+    throw error;
   }
 };
 
@@ -189,17 +219,66 @@ export const saveGameResult = async (resultData) => {
  */
 
 /**
- * 보호자용 게임 결과 목록을 가져옵니다.
+ * 보호자용 카드게임 결과 목록을 가져옵니다.
  * @param {string} userId - 보호자 사용자 ID
- * @returns {Promise<Array>} 게임 결과 목록
+ * @param {number} limit - 조회할 결과 수 (기본값: 10)
+ * @param {number} offset - 건너뛸 결과 수 (기본값: 0)
+ * @returns {Promise<object>} 카드게임 결과 데이터
  * 
- * 예상 엔드포인트: ${AUTH_API_BASE_URL}/caregiver/game-results?user_id=${userId}
- * 예상 응답 형식: [{ id, title, date, score, time, difficulty, status }]
+ * 엔드포인트: ${CARD_GAME_BASE_URL}/list?user_id=${userId}&limit=${limit}&offset=${offset}
+ * 응답 형식: { user_id: string, count: number, results: Array }
  */
-export const fetchCaregiverGameResults = async (userId) => {
-  // TODO: 실제 API 호출 구현
-  console.log('보호자 게임 결과 조회:', userId);
-  return [];
+export const fetchCaregiverGameResults = async (userId, limit = 10, offset = 0) => {
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT);
+
+    const response = await fetch(`/api/games/list?user_id=${userId}&limit=${limit}&offset=${offset}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      signal: controller.signal
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      throw new Error(`카드게임 결과 조회 실패: ${response.status}`);
+    }
+
+    const data = await response.json();
+    
+    // 백엔드 응답을 프론트엔드 형식으로 변환
+    const transformedResults = data.results.map(result => ({
+      id: result.id,
+      title: `카드게임 (${result.difficulty})`,
+      date: new Date().toISOString().split('T')[0], // 백엔드에서 created_at이 없으므로 현재 날짜 사용
+      score: result.score,
+      time: `${Math.floor(result.duration_seconds / 60)}분 ${result.duration_seconds % 60}초`,
+      difficulty: result.difficulty,
+      status: 'completed',
+      attempts: result.attempts,
+      matches: result.matches
+    }));
+    
+    // 백엔드 응답 형식과 동일하게 반환
+    return {
+      user_id: data.user_id,
+      count: data.count,
+      results: transformedResults
+    };
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      throw new Error('카드게임 결과 조회 시간 초과');
+    }
+    console.error('카드게임 결과 조회 실패:', error);
+    return {
+      user_id: userId,
+      count: 0,
+      results: []
+    };
+  }
 };
 
 /**
@@ -207,41 +286,94 @@ export const fetchCaregiverGameResults = async (userId) => {
  * @param {string} userId - 사용자 ID
  * @returns {Promise<Array>} 가족 사진 목록
  * 
- * 예상 엔드포인트: ${AUTH_API_BASE_URL}/family-photos?user_id=${userId}
- * 예상 응답 형식: [{ id, name, date, image_url }]
+ * 엔드포인트: ${AUTH_API_BASE_URL}/family-photos?user_id=${userId}
+ * 응답 형식: [{ id, name, date, image_url }]
  */
 export const fetchFamilyPhotos = async (userId) => {
-  // TODO: 실제 API 호출 구현
-  console.log('가족 사진 조회:', userId);
-  return [];
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT);
+
+    const response = await fetch(`${AUTH_API_BASE_URL}/family-photos?user_id=${userId}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${getAuthToken()}`,
+        'Content-Type': 'application/json'
+      },
+      signal: controller.signal
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      throw new Error(`가족 사진 조회 실패: ${response.status}`);
+    }
+
+    const data = await response.json();
+    
+    // 백엔드 응답을 프론트엔드 형식으로 변환
+    return data.map(photo => ({
+      id: photo.id,
+      name: photo.name || photo.file_name,
+      date: photo.created_at ? new Date(photo.created_at).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
+      image: photo.file_url || photo.image_url
+    }));
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      throw new Error('가족 사진 조회 시간 초과');
+    }
+    console.error('가족 사진 조회 실패:', error);
+    return [];
+  }
 };
 
 /**
- * 파일을 서버에 업로드합니다.
+ * 가족 사진을 서버에 업로드합니다.
  * @param {File} file - 업로드할 파일
  * @param {string} userId - 사용자 ID
  * @returns {Promise<object>} 업로드 결과
  * 
- * 예상 엔드포인트: ${AUTH_API_BASE_URL}/upload/photo
- * 예상 요청 형식: FormData with file and user_id
- * 예상 응답 형식: { success: boolean, file_url: string, file_id: string }
+ * 엔드포인트: ${AUTH_API_BASE_URL}/family-photos
+ * 요청 형식: FormData with file and user_id
+ * 응답 형식: { message: string, photo_id: string, file_url: string }
  */
-export const uploadFileToServer = async (file, userId) => {
-  // TODO: 실제 API 호출 구현
-  console.log('파일 업로드:', { fileName: file.name, userId });
-  return { success: true, file_url: '/temp/' + file.name, file_id: 'temp_' + Date.now() };
+export const uploadFamilyPhoto = async (file, userId) => {
+  try {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('user_id', userId);
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT);
+
+    const response = await fetch(`${AUTH_API_BASE_URL}/family-photos`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${getAuthToken()}`,
+      },
+      body: formData,
+      signal: controller.signal
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      throw new Error(`업로드 실패: ${response.status}`);
+    }
+
+    const result = await response.json();
+    return {
+      success: true,
+      message: result.message,
+      photo_id: result.photo_id,
+      file_url: result.file_url
+    };
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      throw new Error('업로드 시간 초과');
+    }
+    console.error('가족사진 업로드 오류:', error);
+    throw error;
+  }
 };
 
-/**
- * 이번 주 통계를 가져옵니다.
- * @param {string} userId - 사용자 ID
- * @returns {Promise<object>} 통계 데이터
- * 
- * 예상 엔드포인트: ${AUTH_API_BASE_URL}/caregiver/weekly-stats?user_id=${userId}
- * 예상 응답 형식: { games_completed: number, average_score: number }
- */
-export const fetchWeeklyStats = async (userId) => {
-  // TODO: 실제 API 호출 구현
-  console.log('이번 주 통계 조회:', userId);
-  return { games_completed: 12, average_score: 78 };
-};
