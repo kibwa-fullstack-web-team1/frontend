@@ -4,7 +4,7 @@
 const CARD_GAME_BASE_URL = "http://13.251.163.144:8020";
 
 // 로그인 관련 API (FastAPI 서버)
-const AUTH_API_BASE_URL = import.meta.env.VITE_AUTH_API_BASE_URL || "http://localhost:8000";
+const AUTH_API_BASE_URL = import.meta.env.VITE_AUTH_API_BASE_URL || "http://13.251.163.144:8000";
 const API_TIMEOUT = import.meta.env.VITE_API_TIMEOUT || 10000;
 
 /**
@@ -63,27 +63,36 @@ export const loginUser = async (email, password) => {
  * 회원가입 API 호출
  * @param {string} email - 사용자 이메일
  * @param {string} password - 사용자 비밀번호
- * @param {string} nickname - 사용자 닉네임
+ * @param {string} username - 사용자 이름
  * @param {string} phone - 사용자 전화번호
- * @param {string} role - 사용자 역할 (elderly/caregiver)
+ * @param {string} role - 사용자 역할 (senior→senior, family→guardian)
  * @returns {Promise<{user: object}>} - 회원가입 성공 시 사용자 정보
  * 
  * TODO: 실제 백엔드 API 엔드포인트와 연결
  * 현재 설정된 엔드포인트: ${AUTH_API_BASE_URL}/auth/signup
- * 예상 요청 형식: { email, password, nickname, phone, role }
+ * 예상 요청 형식: { email, password, username, phone, role }
  * 예상 응답 형식: { success: boolean, message: string, user: object }
  */
-export const signupUser = async (email, password, nickname, phone, role) => {
+export const signupUser = async (email, password, username, phone, role) => {
   try {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT);
+
+    // 백엔드 API 형식에 맞게 데이터 변환
+    const requestData = {
+      username: username,
+      email: email,
+      phone_number: phone,
+      hashed_password: password, // 백엔드에서 해시 처리할 것으로 예상
+      role: role === 'senior' ? 'senior' : role === 'family' ? 'guardian' : role // senior→senior, family→guardian 매핑
+    };
 
     const response = await fetch(`${AUTH_API_BASE_URL}/auth/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ email, password, nickname, phone, role }),
+      body: JSON.stringify(requestData),
       signal: controller.signal,
     });
 

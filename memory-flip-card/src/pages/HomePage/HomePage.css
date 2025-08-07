@@ -10,7 +10,7 @@
 }
 
 /* Header */
-.header {
+.home-header {
   padding: 20px 40px;
   border-bottom: 1px solid #E5E8EB;
   background: rgba(255, 255, 255, 0.95);
@@ -20,7 +20,7 @@
   z-index: 100;
 }
 
-.logo {
+.home-logo {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -28,7 +28,7 @@
   margin: 0 auto;
 }
 
-.logo-icon {
+.home-logo-icon {
   width: 32px;
   height: 32px;
   border: 1px solid #E5E8EB;
@@ -40,7 +40,7 @@
   flex-shrink: 0;
 }
 
-.logo-text {
+.home-logo-text {
   font-size: 16px;
   font-weight: 700;
   color: #171412;
@@ -49,7 +49,7 @@
 }
 
 /* Main Content */
-.main-content {
+.home-main-content {
   flex: 1;
   max-width: 1200px;
   margin: 0 auto;
@@ -59,12 +59,12 @@
 }
 
 /* Hero Section */
-.hero-section {
+.home-hero-section {
   padding: 80px 0;
   text-align: center;
 }
 
-.hero-title {
+.home-hero-title {
   font-size: 48px;
   font-weight: 700;
   line-height: 1.2;
@@ -73,12 +73,12 @@
   word-break: keep-all;
 }
 
-.hero-description {
+.home-hero-description {
   max-width: 600px;
   margin: 0 auto;
 }
 
-.description-text {
+.home-description-text {
   font-size: 18px;
   font-weight: 400;
   line-height: 1.6;

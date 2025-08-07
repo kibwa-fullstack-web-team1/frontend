@@ -5,7 +5,7 @@
 }
 
 /* Header */
-.header {
+.login-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -14,42 +14,42 @@
   background: #FFFFFF;
 }
 
-.logo {
+.login-logo {
   display: flex;
   align-items: center;
   gap: 16px;
 }
 
-.logo-icon {
+.login-logo-icon {
   width: 12px;
   height: 14px;
 }
 
-.logo-text {
+.login-logo-text {
   font-size: 18px;
   font-weight: 700;
   color: #171412;
   margin: 0;
 }
 
-.nav {
+.login-nav {
   display: flex;
   align-items: center;
   gap: 32px;
 }
 
-.nav-link {
+.login-nav-link {
   font-size: 14px;
   color: #171412;
   text-decoration: none;
   font-weight: 400;
 }
 
-.nav-link:hover {
+.login-nav-link:hover {
   color: #666666;
 }
 
-.sign-in-btn {
+.login-sign-in-btn {
   background: #F5F2F0;
   border: none;
   border-radius: 20px;
@@ -61,12 +61,12 @@
   transition: background-color 0.2s;
 }
 
-.sign-in-btn:hover {
+.login-sign-in-btn:hover {
   background: #E8E4E0;
 }
 
 /* Main Content */
-.main-content {
+.login-main-content {
   display: flex;
   flex-direction: column;
   min-height: calc(100vh - 65px);
