@@ -35,8 +35,8 @@ const ElderlyHeader = ({ title, subtitle, showBackButton = true, onBackClick }) 
           <div className="user-info">
             <div className="user-avatar">어</div>
             <div className="user-details">
-              <span className="user-name">어르신</span>
-              <span className="user-role">사용자</span>
+              <span className="user-name">사용자</span>
+              <span className="user-role">어르신</span>
             </div>
           </div>
         </div>

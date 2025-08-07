@@ -6,7 +6,7 @@
 }
 
 /* 헤더 스타일 */
-.dashboard-header {
+.card-dashboard-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -17,13 +17,13 @@
   height: 90px;
 }
 
-.header-left {
+.card-header-left {
   display: flex;
   align-items: center;
   gap: 16px;
 }
 
-.logo-container {
+.card-logo-container {
   width: 40px;
   height: 40px;
   background-color: #171412;
@@ -34,18 +34,18 @@
   cursor: pointer;
 }
 
-.logo-icon {
+.card-logo-icon {
   color: #FFFFFF;
   font-size: 20px;
 }
 
-.header-text {
+.card-header-text {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-.main-title {
+.card-main-title {
   font-size: 24px;
   font-weight: 700;
   color: #171412;
@@ -53,7 +53,7 @@
   line-height: 1.5;
 }
 
-.subtitle {
+.card-subtitle {
   font-size: 14px;
   font-weight: 400;
   color: #171412;
@@ -62,19 +62,19 @@
   line-height: 1.5;
 }
 
-.header-right {
+.card-header-right {
   display: flex;
   align-items: center;
   gap: 16px;
 }
 
-.user-profile {
+.card-user-profile {
   display: flex;
   align-items: center;
   gap: 16px;
 }
 
-.profile-avatar {
+.card-profile-avatar {
   width: 40px;
   height: 40px;
   background-color: #171412;
@@ -87,7 +87,7 @@
   font-weight: 700;
 }
 
-.profile-info {
+.card-profile-info {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
