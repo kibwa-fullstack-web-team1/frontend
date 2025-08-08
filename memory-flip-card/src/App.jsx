@@ -8,6 +8,7 @@ import CardGamePage from './pages/CardGamePage/CardGamePage';
 import GameSelectPage from './pages/GameSelectPage/GameSelectPage';
 import CardGameDashboard from './pages/CardGameDashboard/CardGameDashboard';
 import StoryGameDashboard from './pages/StoryGameDashboard/StoryGameDashboard';
+import GardenPage from './pages/GardenPage/GardenPage';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/game-select" element={<GameSelectPage />} />
         <Route path="/card-game-dashboard" element={<CardGameDashboard />} />
         <Route path="/story-game-dashboard" element={<StoryGameDashboard />} />
+        <Route path="/garden" element={<GardenPage />} />
       </Routes>
     </Router>
   );

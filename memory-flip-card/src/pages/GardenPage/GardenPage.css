@@ -1,0 +1,44 @@
+.garden-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f0f4f8; /* Light blue sky color */
+}
+
+.garden-header {
+  padding: 20px;
+  text-align: center;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.garden-main {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.garden-background {
+  width: 90%;
+  height: 90%;
+  background-color: #d0e0c0; /* Light green grass color */
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.tree-of-memories {
+  width: 150px;
+  height: 250px;
+  background-color: #8b5a2b; /* Brown tree trunk color */
+  border-radius: 10px 10px 0 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 20px;
+  color: white;
+  font-weight: bold;
+}
