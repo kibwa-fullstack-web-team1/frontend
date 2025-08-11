@@ -13,17 +13,30 @@ export const fetchGardenItems = async (userId) => {
       throw new Error('정원 아이템 조회 실패');
     }
     const data = await response.json();
-    // 백엔드 데이터를 프론트엔드 형식에 맞게 변환 (예: position_x -> left)
-    return data.map(item => ({
-      ...item,
-      left: item.position_x,
-      top: item.position_y,
-      // 공용 보상과 개인화 보상의 이미지 URL 필드 이름을 통일합니다.
-      imageUrl: item.image_url || item.generated_image_url
-    }));
+    
+    const placedItems = [];
+    const inventoryItems = [];
+
+    data.forEach(item => {
+      const transformedItem = {
+        ...item,
+        left: item.position_x,
+        top: item.position_y,
+        imageUrl: item.image_url || item.generated_image_url
+      };
+
+      // position_x 또는 position_y가 null이 아니면 배치된 아이템으로 간주
+      if (item.position_x !== null && item.position_y !== null) {
+        placedItems.push(transformedItem);
+      } else {
+        inventoryItems.push(transformedItem);
+      }
+    });
+
+    return { placedItems, inventoryItems };
   } catch (error) {
     console.error("정원 아이템 로딩 중 오류 발생:", error);
-    return []; // 오류 발생 시 빈 배열 반환
+    return { placedItems: [], inventoryItems: [] }; // 오류 발생 시 빈 배열 반환
   }
 };
 

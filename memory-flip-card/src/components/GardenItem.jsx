@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
 const itemBaseStyle = {
@@ -7,24 +7,38 @@ const itemBaseStyle = {
   cursor: 'grab',
   backgroundSize: 'cover',
   backgroundPosition: 'center',
-  position: 'absolute', // GardenPage에서 absolute로 설정
+  boxSizing: 'border-box', // Add this line
 };
 
-export const GardenItem = ({ id, imageUrl, left, top, type, description, onDragEnd }) => {
+export const GardenItem = ({ id, imageUrl, left, top, type, description, onDragEnd, isPlaced }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  const itemStyle = {
+    ...itemBaseStyle,
+    backgroundImage: `url(${imageUrl})`,
+    // isPlaced가 true일 때만 absolute 포지셔닝과 x, y 좌표 적용
+    ...(isPlaced ? {
+      position: 'absolute',
+      x: left,
+      y: top,
+    } : { // isPlaced가 false일 때 (인벤토리 아이템)
+      position: 'static', // flexbox 흐름을 따르도록 static으로 설정
+      x: undefined, // framer-motion의 x, y를 사용하지 않음
+      y: undefined, // framer-motion의 x, y를 사용하지 않음
+    }),
+  };
+
   return (
     <motion.div 
-      style={{ 
-        ...itemBaseStyle, 
-        backgroundImage: `url(${imageUrl})`,
-        x: left, // framer-motion의 x, y로 초기 위치 설정
-        y: top,
-      }}
+      style={itemStyle}
       drag
-      dragTransition={{ bounceStiffness: 0, bounceDamping: 0 }} // 관성 제거
+      dragMomentum={false}
+      dragTransition={{ bounceStiffness: 0, bounceDamping: 0 }}
       onDragEnd={(event, info) => onDragEnd(id, info.point.x, info.point.y, type)}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       data-testid={`gardenitem`}
     >
-      {/* 툴팁 로직은 GardenItem 내부에서 처리 */}
       {description && (
         <div style={{
           position: 'absolute',
@@ -37,9 +51,9 @@ export const GardenItem = ({ id, imageUrl, left, top, type, description, onDragE
           borderRadius: '5px',
           whiteSpace: 'nowrap',
           zIndex: 10,
-          visibility: 'hidden',
-          opacity: 0,
-          transition: 'opacity 0.3s',
+          visibility: isHovered ? 'visible' : 'hidden',
+          opacity: isHovered ? 1 : 0,
+          transition: 'opacity 0.3s, visibility 0.3s',
         }}>
           {description}
         </div>
