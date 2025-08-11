@@ -1,33 +1,31 @@
-.garden-page {
+.garden-page-container {
   display: flex;
   flex-direction: column;
   height: 100vh;
   background-color: #f0f4f8; /* Light blue sky color */
+  overflow: hidden; /* Ensure no scrollbars from content */
 }
 
-.garden-header {
-  padding: 20px;
+.garden-page-container h1 {
   text-align: center;
+  padding: 20px;
   background-color: #ffffff;
   border-bottom: 1px solid #e0e0e0;
-}
-
-.garden-main {
-  flex-grow: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin: 0;
+  font-size: 24px;
+  color: #333;
 }
 
 .garden-background {
-  width: 90%;
-  height: 90%;
-  background-color: #d0e0c0; /* Light green grass color */
-  border-radius: 15px;
+  flex-grow: 1; /* Take up remaining space */
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
+  background-color: #d0e0c0; /* Light green grass color */
+  margin: 20px; /* Margin around the garden area */
+  border-radius: 15px;
+  overflow: hidden; /* Hide items outside the garden boundary */
 }
 
 .tree-of-memories {
@@ -41,4 +39,34 @@
   padding-top: 20px;
   color: white;
   font-weight: bold;
+  position: absolute; /* Position relative to garden-background */
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Inventory Styles */
+.inventory-container {
+  background-color: #f0f0f0; /* Light gray for better distinction */
+  border-top: 1px solid #e0e0e0;
+  padding: 15px 20px;
+  text-align: center;
+  flex-shrink: 0; /* Prevent shrinking */
+}
+
+.inventory-container h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 20px;
+  color: #333;
+}
+
+.inventory-grid {
+  display: flex; /* Use flexbox for horizontal arrangement */
+  flex-wrap: wrap; /* Allow items to wrap to next line */
+  justify-content: center; /* Center items horizontally */
+  gap: 10px; /* Space between items */
+  padding: 10px;
+  max-height: 150px; /* Limit inventory height */
+  overflow-y: auto; /* Enable vertical scrolling if too many items */
 }
