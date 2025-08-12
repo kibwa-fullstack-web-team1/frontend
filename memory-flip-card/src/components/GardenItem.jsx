@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 
 const itemBaseStyle = {
   width: '80px',
@@ -7,34 +6,41 @@ const itemBaseStyle = {
   cursor: 'grab',
   backgroundSize: 'cover',
   backgroundPosition: 'center',
-  boxSizing: 'border-box', // Add this line
+  boxSizing: 'border-box',
+  pointerEvents: 'auto',
+  zIndex: 100, // Always keep items on top
 };
 
-export const GardenItem = ({ id, imageUrl, left, top, type, description, onDragEnd, isPlaced }) => {
+export const GardenItem = ({ id, imageUrl, left, top, type, description, onDragStart, isPlaced }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const itemStyle = {
     ...itemBaseStyle,
     backgroundImage: `url(${imageUrl})`,
-    // isPlaced가 true일 때만 absolute 포지셔닝과 x, y 좌표 적용
     ...(isPlaced ? {
       position: 'absolute',
-      x: left,
-      y: top,
-    } : { // isPlaced가 false일 때 (인벤토리 아이템)
-      position: 'static', // flexbox 흐름을 따르도록 static으로 설정
-      x: undefined, // framer-motion의 x, y를 사용하지 않음
-      y: undefined, // framer-motion의 x, y를 사용하지 않음
+      left: left, // Use standard CSS properties
+      top: top,
+    } : {
+      position: 'relative',
     }),
   };
 
+  const handleDragStart = (e) => {
+    // 드래그 시작 시 필요한 데이터를 전달
+    const dragData = JSON.stringify({ id, type, isPlaced });
+    e.dataTransfer.setData('application/json', dragData);
+    // 부모 컴포넌트의 핸들러 호출 (필요 시)
+    if (onDragStart) {
+      onDragStart(e);
+    }
+  };
+
   return (
-    <motion.div 
+    <div 
       style={itemStyle}
-      drag
-      dragMomentum={false}
-      dragTransition={{ bounceStiffness: 0, bounceDamping: 0 }}
-      onDragEnd={(event, info) => onDragEnd(id, info.point.x, info.point.y, type)}
+      draggable="true"
+      onDragStart={handleDragStart}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       data-testid={`gardenitem`}
@@ -58,6 +64,6 @@ export const GardenItem = ({ id, imageUrl, left, top, type, description, onDragE
           {description}
         </div>
       )}
-    </motion.div>
+    </div>
   );
 };
