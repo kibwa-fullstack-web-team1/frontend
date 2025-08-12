@@ -50,16 +50,16 @@ function CardGamePage() {
   };
 
   return (
-    <div className="App">
+    <div className="card-game-app">
       <ElderlyHeader 
         onBackClick={handleGoHome}
       />
       
-      <div className="main-container">
-        <div className="game-card">
+      <div className="card-game-main-container">
+        <div className="card-game-card">
           {/* 뒤로가기 버튼 - 난이도 선택 후, 게임 시작 전에만 표시 */}
           {difficulty && !gameStarted && cards.length === 0 && (
-            <button className="back-to-difficulty" onClick={resetGame}>
+            <button className="card-game-back-to-difficulty" onClick={resetGame}>
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                 <path d="M15 10H5M5 10L10 15M5 10L10 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
@@ -67,27 +67,27 @@ function CardGamePage() {
             </button>
           )}
           
-          <h1>추억 카드 짝 맞추기</h1>
+          <h1 className="card-game-title">추억 카드 짝 맞추기</h1>
 
           {/* 게임 정보 섹션 */}
-          <div className="game-info">
-            <div className="info-item">
-              <div className="info-label">점수</div>
-              <div className="info-value">{Math.floor(cards.filter(card => card.matched).length / 2)}점</div>
+          <div className="card-game-info">
+            <div className="card-game-info-item">
+              <div className="card-game-info-label">점수</div>
+              <div className="card-game-info-value">{Math.floor(cards.filter(card => card.matched).length / 2)}점</div>
             </div>
-            <div className="info-item">
-              <div className="info-label">이동 횟수</div>
-              <div className="info-value">{turns}회</div>
+            <div className="card-game-info-item">
+              <div className="card-game-info-label">이동 횟수</div>
+              <div className="card-game-info-value">{turns}회</div>
             </div>
-            <div className="info-item">
-              <div className="info-label">시간</div>
-              <div className="info-value">{Math.floor(elapsedTime / 60)}분 {elapsedTime % 60}초</div>
+            <div className="card-game-info-item">
+              <div className="card-game-info-label">시간</div>
+              <div className="card-game-info-value">{Math.floor(elapsedTime / 60)}분 {elapsedTime % 60}초</div>
             </div>
           </div>
 
           {/* 난이도 선택 */}
           {!gameStarted && !difficulty && (
-            <div className="difficulty-buttons">
+            <div className="card-game-difficulty-buttons">
               <p>난이도를 선택하세요:</p>
               <button onClick={() => handleDifficultySelect("easy")}>쉬움 (8장)</button>
               <button onClick={() => handleDifficultySelect("medium")}>보통 (12장)</button>
@@ -97,21 +97,21 @@ function CardGamePage() {
 
           {/* 게임 시작 버튼 */}
           {!gameStarted && difficulty && !showResultPopup && cards.length === 0 && (
-            <button className="start-button" onClick={shuffleCards}>
+            <button className="card-game-start-button" onClick={shuffleCards}>
               카드 게임 시작
             </button>
           )}
 
           {/* 게임 완료 후 처음으로 돌아가기 버튼 */}
           {showResultPopup && (
-            <button className="start-button" onClick={resetGame}>
+            <button className="card-game-start-button" onClick={resetGame}>
               카드게임 처음으로
             </button>
           )}
 
           {/* 게임 설명 */}
           {!gameStarted && !difficulty && (
-            <div className="game-description">
+            <div className="card-game-description">
               <h2>게임을 시작해보세요!</h2>
               <p>같은 그림의 카드 두 장을 찾아 맞춰보세요</p>
             </div>
@@ -119,7 +119,7 @@ function CardGamePage() {
 
           {/* 게임 방법 */}
           {!gameStarted && !difficulty && (
-            <div className="game-instructions">
+            <div className="card-game-instructions">
               <h3>게임 방법</h3>
               <ul>
                 <li>• 카드를 클릭하여 뒤집어보세요</li>
@@ -132,7 +132,7 @@ function CardGamePage() {
 
           {/* 카드 그리드 */}
           {cards.length > 0 && (
-            <div className="card-grid">
+            <div className="card-game-card-grid">
               {cards.map(card => (
                 <Card
                   key={card.id}
@@ -148,7 +148,7 @@ function CardGamePage() {
 
           {/* 이미지 부족 경고 */}
           {imageWarning && (
-            <div className="popup warning">
+            <div className="card-game-popup warning">
               <p>이미지 장수가 부족합니다. 사진을 더 업로드해주세요.</p>
               <button onClick={() => setImageWarning(false)}>확인</button>
             </div>

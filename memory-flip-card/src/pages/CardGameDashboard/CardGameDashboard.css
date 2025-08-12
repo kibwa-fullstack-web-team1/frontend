@@ -1,138 +1,23 @@
-/* 보호자 대시보드 전체 컨테이너 */
-.caregiver-dashboard {
-  min-height: 100vh;
-  background-color: #F5F2F0;
-  font-family: 'Lexend', sans-serif;
-}
-
-/* 헤더 스타일 */
-.card-dashboard-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 25px 24px;
-  background-color: #FFFFFF;
-  border-bottom: 1px solid #E5E8EB;
-  box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.08);
-  height: 90px;
-}
-
-.card-header-left {
+/* CardGameDashboard 전용 헤더 */
+.card-dashboard-header-left {
   display: flex;
   align-items: center;
   gap: 16px;
 }
 
-.card-logo-container {
-  width: 40px;
-  height: 40px;
-  background-color: #171412;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-.card-logo-icon {
-  color: #FFFFFF;
-  font-size: 20px;
-}
-
-.card-header-text {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.card-main-title {
-  font-size: 24px;
-  font-weight: 700;
-  color: #171412;
-  margin: 0;
-  line-height: 1.5;
-}
-
-.card-subtitle {
-  font-size: 14px;
-  font-weight: 400;
-  color: #171412;
-  margin: 0;
-  opacity: 0.6;
-  line-height: 1.5;
-}
-
-.card-header-right {
+.card-dashboard-header-right {
   display: flex;
   align-items: center;
   gap: 16px;
 }
 
-.card-user-profile {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.card-profile-avatar {
-  width: 40px;
-  height: 40px;
-  background-color: #171412;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #FFFFFF;
-  font-size: 14px;
-  font-weight: 700;
-}
-
-.card-profile-info {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 4px;
-}
-
-.user-name {
-  font-size: 14px;
-  font-weight: 500;
-  color: #171412;
-  line-height: 1.5;
-}
-
-.user-role {
-  font-size: 12px;
-  font-weight: 400;
-  color: #171412;
-  opacity: 0.6;
-  line-height: 1.5;
-}
-
-.logout-button {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  background-color: transparent;
-  border: 1px solid #E5E8EB;
-  border-radius: 8px;
-  color: #171412;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.logout-button:hover {
-  background-color: #F8F6F4;
-  border-color: #171412;
-}
-
-/* 메인 콘텐츠 레이아웃 */
-.dashboard-content {
-  display: flex;
-  height: calc(100vh - 90px);
+/* CardGameDashboard 전용 메인 콘텐츠 */
+.card-dashboard-main-content {
+  max-width: 1271px;
+  margin: 0 auto;
+  padding: 80px 60px 40px;
+  min-height: calc(100vh - 90px);
+  margin-top: 60px;
 }
 
 /* 사이드바 스타일 */
