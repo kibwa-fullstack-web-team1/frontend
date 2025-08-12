@@ -126,24 +126,80 @@ export const logoutUser = () => {
 };
 
 /**
- * 현재 로그인 상태 확인
- * @returns {boolean} 로그인 상태
+ * 현재 로그인한 사용자 정보를 가져옵니다.
+ * @returns {Promise<object>} 사용자 정보
  */
-export const isLoggedIn = () => {
-  return !!localStorage.getItem('authToken');
+export const fetchUserInfo = async () => {
+  try {
+    const authToken = getAuthToken();
+    if (!authToken) {
+      throw new Error('인증 토큰이 없습니다.');
+    }
+
+    // JWT 토큰에서 사용자 ID 추출
+    const tokenParts = authToken.split('.');
+    if (tokenParts.length !== 3) {
+      throw new Error('잘못된 JWT 토큰 형식입니다.');
+    }
+
+    const payload = JSON.parse(atob(tokenParts[1]));
+    const userId = payload.sub; // JWT의 sub 필드에서 사용자 ID 추출
+    
+    console.log('JWT에서 추출한 사용자 ID:', userId);
+
+    // 사용자 ID로 사용자 정보 가져오기
+    const response = await fetch(`${AUTH_API_BASE_URL}/users/${userId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`사용자 정보 요청 실패: ${response.status}`);
+    }
+
+    const userData = await response.json();
+    console.log('API에서 가져온 사용자 정보:', userData);
+    
+    // 사용자 정보를 localStorage에 저장
+    localStorage.setItem('userInfo', JSON.stringify(userData));
+    
+    return userData;
+  } catch (error) {
+    console.error('사용자 정보 가져오기 실패:', error);
+    throw error;
+  }
 };
 
 /**
- * 현재 사용자 정보 가져오기
+ * localStorage에서 현재 사용자 정보를 가져옵니다 (동기 함수).
  * @returns {object|null} 사용자 정보
- * 
- * TODO: 실제 백엔드 API와 연결 시 사용자 정보 검증
- * 현재는 로컬 스토리지에서만 가져옴
- * 예상 엔드포인트: ${AUTH_API_BASE_URL}/auth/me
  */
 export const getCurrentUser = () => {
-  const userInfo = localStorage.getItem('userInfo');
-  return userInfo ? JSON.parse(userInfo) : null;
+  try {
+    const userInfo = localStorage.getItem('userInfo');
+    const authToken = getAuthToken();
+    
+    // 토큰이 없으면 로그인하지 않은 상태
+    if (!authToken) {
+      return null;
+    }
+    
+    return userInfo ? JSON.parse(userInfo) : null;
+  } catch (error) {
+    console.error('사용자 정보 파싱 오류:', error);
+    return null;
+  }
+};
+
+/**
+ * 사용자가 로그인되어 있는지 확인합니다.
+ * @returns {boolean} 로그인 상태
+ */
+export const isAuthenticated = () => {
+  const authToken = localStorage.getItem('authToken');
+  return !!authToken;
 };
 
 /**
@@ -196,7 +252,7 @@ export const saveGameResult = async (resultData) => {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT);
 
-    const response = await fetch(`/api/games/records`, {
+    const response = await fetch(`${CARD_GAME_BASE_URL}/games/records`, {
       method: "POST",
       headers: { 
         "Content-Type": "application/json"
@@ -242,7 +298,7 @@ export const fetchCaregiverGameResults = async (userId, limit = 10, offset = 0) 
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT);
 
-    const response = await fetch(`/api/games/list?user_id=${userId}&limit=${limit}&offset=${offset}`, {
+    const response = await fetch(`${CARD_GAME_BASE_URL}/games/list?user_id=${userId}&limit=${limit}&offset=${offset}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'

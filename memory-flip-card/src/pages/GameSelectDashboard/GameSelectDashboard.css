@@ -1,0 +1,364 @@
+.game-select-dashboard {
+  min-height: 100vh;
+  background-color: #F5F2F0;
+  font-family: 'Lexend', sans-serif;
+  color: #171412;
+}
+
+/* Main Content */
+.dashboard-select-main-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 80px 60px 40px;
+  min-height: calc(100vh - 90px);
+  margin-top: 60px;
+}
+
+/* Hero Section */
+.dashboard-select-hero {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.dashboard-select-hero-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #171412;
+  margin: 0 0 16px 0;
+  line-height: 1.5;
+}
+
+.dashboard-select-hero-description {
+  font-size: 18px;
+  font-weight: 400;
+  color: #171412;
+  margin: 0;
+  line-height: 1.5;
+  opacity: 0.7;
+}
+
+/* Games Grid */
+.dashboard-select-games-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(380px, 1fr));
+  gap: 31px;
+  margin-bottom: 40px;
+  justify-content: center;
+  max-width: 100%;
+}
+
+.dashboard-select-game-card {
+  background: #FFFFFF;
+  border: 1px solid #E5E8EB;
+  border-radius: 12px;
+  padding: 28px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.08);
+  position: relative;
+  min-height: 464px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  min-width: 0; /* 그리드 아이템 오버플로우 방지 */
+  width: 100%;
+}
+
+.dashboard-select-game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.dashboard-select-game-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dashboard-select-difficulty-badge {
+  color: #FFFFFF;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.dashboard-select-game-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.dashboard-select-game-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #171412;
+  margin: 0 0 16px 0;
+  line-height: 1.4;
+  word-break: keep-all;
+}
+
+.dashboard-select-game-description {
+  font-size: 14px;
+  font-weight: 400;
+  color: #171412;
+  margin: 0 0 16px 0;
+  line-height: 1.5;
+  opacity: 0.7;
+  word-break: keep-all;
+}
+
+.dashboard-select-game-meta {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.dashboard-select-meta-item {
+  font-size: 12px;
+  font-weight: 400;
+  color: #171412;
+  opacity: 0.6;
+  white-space: nowrap;
+}
+
+.dashboard-select-game-effects {
+  margin-bottom: 24px;
+}
+
+.dashboard-select-effects-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #171412;
+  margin: 0 0 16px 0;
+  line-height: 1.5;
+}
+
+.dashboard-select-effects-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dashboard-select-effect-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #171412;
+  opacity: 0.6;
+}
+
+.dashboard-select-effect-dot {
+  width: 4px;
+  height: 4px;
+  background-color: #171412;
+  border-radius: 50%;
+  opacity: 0.6;
+}
+
+.dashboard-select-game-footer {
+  margin-top: auto;
+  border-top: 1px solid #E5E8EB;
+  padding-top: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dashboard-select-last-played {
+  display: flex;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #171412;
+  opacity: 0.6;
+}
+
+.dashboard-select-play-button {
+  width: 24px;
+  height: 24px;
+  border: 2px solid #E5E8EB;
+  border-radius: 50%;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.dashboard-select-play-button:hover {
+  background: #F8F6F4;
+  border-color: #D1D5DB;
+}
+
+/* Stats Section */
+.dashboard-select-stats-section {
+  background: #171412;
+  border-radius: 12px;
+  padding: 32px;
+  text-align: center;
+}
+
+.dashboard-select-stats-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0 0 32px 0;
+  line-height: 1.5;
+}
+
+.dashboard-select-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+.dashboard-select-stat-item {
+  text-align: center;
+}
+
+.dashboard-select-stat-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.dashboard-select-stat-label {
+  font-size: 14px;
+  font-weight: 400;
+  color: #FFFFFF;
+  opacity: 0.8;
+  line-height: 1.5;
+}
+
+/* Responsive Design */
+@media (min-width: 1400px) {
+  .dashboard-select-main-content {
+    max-width: 1600px;
+    padding: 80px 80px 40px;
+  }
+  
+  .dashboard-select-games-grid {
+    grid-template-columns: repeat(3, minmax(400px, 1fr));
+    gap: 40px;
+  }
+  
+  .dashboard-select-game-card {
+    padding: 32px;
+  }
+}
+
+@media (max-width: 1400px) {
+  .dashboard-select-games-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  
+  .dashboard-select-main-content {
+    padding: 60px 40px 40px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .dashboard-select-games-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  
+  .dashboard-select-main-content {
+    padding: 50px 30px 40px;
+  }
+  
+  .dashboard-select-game-card {
+    padding: 28px;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-select-main-content {
+    padding: 40px 20px;
+    margin-top: 40px;
+  }
+  
+  .dashboard-select-hero-title {
+    font-size: 28px;
+  }
+  
+  .dashboard-select-hero-description {
+    font-size: 16px;
+  }
+  
+  .dashboard-select-games-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .dashboard-select-game-card {
+    padding: 24px;
+    min-height: auto;
+  }
+  
+  .dashboard-select-game-meta {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .dashboard-select-game-effects {
+    margin-bottom: 20px;
+  }
+  
+  .dashboard-select-effects-list {
+    margin-bottom: 16px;
+  }
+  
+  .dashboard-select-stats-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  .dashboard-select-stats-section {
+    padding: 24px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-select-main-content {
+    padding: 20px 16px;
+  }
+  
+  .dashboard-select-hero-title {
+    font-size: 24px;
+  }
+  
+  .dashboard-select-hero-description {
+    font-size: 14px;
+  }
+  
+  .dashboard-select-game-card {
+    padding: 20px;
+  }
+  
+  .dashboard-select-game-meta {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .dashboard-select-stats-section {
+    padding: 20px 16px;
+  }
+}
