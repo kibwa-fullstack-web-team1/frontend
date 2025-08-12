@@ -105,88 +105,92 @@ function SignupPage() {
 
   return (
     <div className="signup-page">
-      <header className="header">
-        <div className="logo">
-          <div className="logo-icon">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M1.14 0.38L14.85 15.62" stroke="#171412" strokeWidth="1.5"/>
-            </svg>
+      {/* Header */}
+      <header className="signup-header">
+        <div className="signup-header-content">
+          <div className="signup-logo">
+            <div className="signup-logo-icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M1.14 0.38L14.85 15.62" stroke="#171412" strokeWidth="1.5"/>
+              </svg>
+            </div>
+            <h1 className="signup-logo-text">Garden of Memory</h1>
           </div>
-          <h1 className="logo-text">Garden of Memory</h1>
+          <nav className="signup-nav">
+            <a href="#" className="signup-nav-link">Games</a>
+            <a href="#" className="signup-nav-link">About Us</a>
+            <a href="#" className="signup-nav-link">Contact</a>
+            <button className="signup-sign-in-btn" onClick={handleBackToLogin}>Sign In</button>
+          </nav>
         </div>
-        <nav className="nav">
-          <a href="#" className="nav-link">Games</a>
-          <a href="#" className="nav-link">About Us</a>
-          <a href="#" className="nav-link">Contact</a>
-          <button className="sign-in-btn" onClick={handleBackToLogin}>Sign In</button>
-        </nav>
       </header>
 
-      <main className="main-content">
+      {/* Main Content */}
+      <main className="signup-main-content">
         <div className="signup-container">
           <div className="signup-form-wrapper">
             <h2 className="signup-title">회원가입</h2>
             <p className="signup-subtitle">소중한 기억들을 함께 만들어가세요</p>
             
             <form onSubmit={handleSubmit} className="signup-form">
-              <div className="form-group">
-                <label htmlFor="nickname" className="form-label">닉네임</label>
+              <div className="signup-form-group">
+                <label htmlFor="nickname" className="signup-form-label">닉네임</label>
                 <input 
                   type="text" 
                   id="nickname" 
                   name="nickname" 
                   value={formData.nickname} 
                   onChange={handleInputChange} 
-                  className="form-input" 
+                  className="signup-form-input" 
                   placeholder="닉네임을 입력하세요" 
                   required 
                 />
               </div>
 
-              <div className="form-group">
-                <label htmlFor="email" className="form-label">이메일</label>
+              <div className="signup-form-group">
+                <label htmlFor="email" className="signup-form-label">이메일</label>
                 <input 
                   type="email" 
                   id="email" 
                   name="email" 
                   value={formData.email} 
                   onChange={handleInputChange} 
-                  className="form-input" 
+                  className="signup-form-input" 
                   placeholder="이메일을 입력하세요" 
                   required 
                 />
               </div>
 
-              <div className="form-group">
-                <label htmlFor="phone" className="form-label">전화번호</label>
+              <div className="signup-form-group">
+                <label htmlFor="phone" className="signup-form-label">전화번호</label>
                 <input 
                   type="tel" 
                   id="phone" 
                   name="phone" 
                   value={formData.phone} 
                   onChange={handleInputChange} 
-                  className="form-input" 
+                  className="signup-form-input" 
                   placeholder="전화번호를 입력하세요" 
                   required 
                 />
               </div>
 
-              <div className="form-group">
-                <label htmlFor="password" className="form-label">비밀번호</label>
+              <div className="signup-form-group">
+                <label htmlFor="password" className="signup-form-label">비밀번호</label>
                 <div className="password-input-container">
-                  <input 
-                    type={showPassword ? "text" : "password"} 
-                    id="password" 
-                    name="password" 
-                    value={formData.password} 
-                    onChange={handleInputChange} 
-                    className="form-input" 
-                    placeholder="비밀번호를 입력하세요" 
-                    required 
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    id="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleInputChange}
+                    className="signup-form-input"
+                    placeholder="비밀번호를 입력하세요"
+                    required
                   />
-                  <button 
-                    type="button" 
-                    className="password-toggle" 
+                  <button
+                    type="button"
+                    className="password-toggle"
                     onClick={() => setShowPassword(!showPassword)}
                   >
                     {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
@@ -194,65 +198,57 @@ function SignupPage() {
                 </div>
               </div>
 
-              <div className="form-group">
-                <label htmlFor="confirmPassword" className="form-label">비밀번호 확인</label>
-                <div className="password-input-container">
-                  <input 
-                    type={showConfirmPassword ? "text" : "password"} 
-                    id="confirmPassword" 
-                    name="confirmPassword" 
-                    value={formData.confirmPassword} 
-                    onChange={handleInputChange} 
-                    className="form-input" 
-                    placeholder="비밀번호를 다시 입력하세요" 
-                    required 
-                  />
-                  <button 
-                    type="button" 
-                    className="password-toggle" 
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  >
-                    {showConfirmPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
-                  </button>
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">역할 선택</label>
+              <div className="signup-form-group">
+                <label className="signup-form-label">사용자 유형</label>
                 <div className="role-selection">
-                  <div 
-                    className={`role-card ${formData.role === 'elderly' ? 'selected' : ''}`}
-                    onClick={() => setFormData(prev => ({ ...prev, role: 'elderly' }))}
-                  >
-                    <div className="role-icon">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 1H5C3.9 1 3 1.9 3 3V21C3 22.1 3.9 23 5 23H19C20.1 23 21 22.1 21 21V9ZM19 9H14V4H5V21H19V9Z" fill="#171412"/>
-                      </svg>
-                    </div>
-                    <span className="role-text">노약자</span>
-                  </div>
-                  <div 
-                    className={`role-card ${formData.role === 'caregiver' ? 'selected' : ''}`}
-                    onClick={() => setFormData(prev => ({ ...prev, role: 'caregiver' }))}
-                  >
-                    <div className="role-icon">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path d="M16 4C16 6.21 14.21 8 12 8C9.79 8 8 6.21 8 4C8 1.79 9.79 0 12 0C14.21 0 16 1.79 16 4ZM4 18V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V18C20 15.79 18.21 14 16 14H8C5.79 14 4 15.79 4 18Z" fill="#171412"/>
-                      </svg>
-                    </div>
-                    <span className="role-text">보호자</span>
-                  </div>
+                  <label className="role-option">
+                    <input
+                      type="radio"
+                      name="role"
+                      value="senior"
+                      checked={formData.role === 'senior'}
+                      onChange={handleInputChange}
+                      className="role-radio"
+                    />
+                    <span className="role-text">어르신</span>
+                  </label>
+                  <label className="role-option">
+                    <input
+                      type="radio"
+                      name="role"
+                      value="family"
+                      checked={formData.role === 'family'}
+                      onChange={handleInputChange}
+                      className="role-radio"
+                    />
+                    <span className="role-text">가족</span>
+                  </label>
                 </div>
               </div>
 
+              <div className="signup-form-options">
+                <label className="signup-checkbox-container">
+                  <input
+                    type="checkbox"
+                    name="agreeToTerms"
+                    checked={formData.agreeToTerms}
+                    onChange={handleInputChange}
+                    className="signup-checkbox"
+                    required
+                  />
+                  <span className="signup-checkmark"></span>
+                  <span className="signup-terms-text">
+                    <a href="#" className="signup-terms-link">이용약관</a> 및 <a href="#" className="signup-terms-link">개인정보처리방침</a>에 동의합니다
+                  </span>
+                </label>
+              </div>
 
-
-              {error && <div className="error-message">{error}</div>}
+              {error && <div className="signup-error-message">{error}</div>}
 
               <button type="submit" className="signup-button" disabled={isLoading}>
                 {isLoading ? (
-                  <div className="loading-spinner">
-                    <div className="spinner"></div>
+                  <div className="signup-loading-spinner">
+                    <div className="signup-spinner"></div>
                     회원가입 중...
                   </div>
                 ) : (
@@ -264,25 +260,25 @@ function SignupPage() {
               </button>
             </form>
 
-            <div className="login-section">
-              <span className="login-text">이미 계정이 있으신가요?</span>
-              <button type="button" className="login-button" onClick={handleBackToLogin}>
+            <div className="signup-login-section">
+              <span className="signup-login-text">이미 계정이 있으신가요?</span>
+              <button type="button" className="signup-login-button" onClick={handleBackToLogin}>
                 로그인하기
               </button>
             </div>
           </div>
         </div>
 
-        <footer className="footer">
-          <div className="footer-content">
-            <div className="footer-logo">
+        <footer className="signup-footer">
+          <div className="signup-footer-content">
+            <div className="signup-footer-logo">
               <FiX size={16} />
               <span>Garden of Memory</span>
             </div>
-            <p className="footer-description">
+            <p className="signup-footer-description">
               소중한 기억들을 영원히 간직할 수 있는 디지털 정원입니다.
             </p>
-            <div className="social-links">
+            <div className="signup-social-links">
               {/* 소셜 링크들 */}
             </div>
           </div>
