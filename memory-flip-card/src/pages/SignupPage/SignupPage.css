@@ -1,160 +1,98 @@
-/* 회원가입 페이지 전체 스타일 */
+/* SignupPage.css - 회원가입 페이지 전용 스타일 */
+
 .signup-page {
   min-height: 100vh;
-  background: #FFFFFF;
+  background: linear-gradient(135deg, #F5F2F0 0%, #FFFFFF 100%);
   font-family: 'Lexend', sans-serif;
+  color: #171412;
+  overflow-x: hidden;
 }
 
-/* 헤더 스타일 */
+/* SignupPage 전용 헤더 */
 .signup-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 90px;
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #E5E8EB;
+  box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.08);
+  z-index: 100;
+}
+
+.signup-header-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 40px;
-  border-bottom: 1px solid #E5E8EB;
-  background: #FFFFFF;
+  height: 100%;
+  padding: 0 24px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.signup-logo {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.signup-logo-icon {
-  width: 12px;
-  height: 14px;
-}
-
-.signup-logo-text {
-  font-size: 18px;
-  font-weight: 700;
-  color: #171412;
-  margin: 0;
-}
-
-.signup-nav {
-  display: flex;
-  align-items: center;
-  gap: 32px;
-}
-
-.signup-nav-link {
-  font-size: 14px;
-  color: #171412;
-  text-decoration: none;
-  font-weight: 400;
-}
-
-.signup-nav-link:hover {
-  color: #666666;
-}
-
-.signup-sign-in-btn {
-  background: #F5F2F0;
-  border: none;
-  border-radius: 20px;
-  padding: 8px 16px;
-  font-size: 14px;
-  font-weight: 700;
-  color: #171412;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.signup-sign-in-btn:hover {
-  background: #E8E4E0;
-}
-
-/* 메인 콘텐츠 */
+/* SignupPage 전용 메인 콘텐츠 */
 .signup-main-content {
-  display: flex;
-  flex-direction: column;
-  min-height: calc(100vh - 65px);
-}
-
-/* 회원가입 컨테이너 */
-.signup-container {
-  flex: 1;
+  padding-top: 90px;
+  min-height: calc(100vh - 90px);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px 20px;
 }
 
-.signup-form-wrapper {
-  background: #FFFFFF;
-  border: 1px solid #E5E8EB;
-  border-radius: 12px;
-  padding: 40px;
-  width: 100%;
-  max-width: 420px;
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.08);
+/* SignupPage 전용 폼 스타일 */
+.signup-form-group {
+  margin-bottom: 24px;
 }
 
-.signup-title {
-  font-size: 36px;
-  font-weight: 700;
+.signup-form-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
   color: #171412;
-  margin: 0 0 16px 0;
-  text-align: center;
-  line-height: 1.2;
-}
-
-.signup-subtitle {
-  font-size: 16px;
-  color: #6B7280;
-  margin: 0 0 32px 0;
-  text-align: center;
+  margin-bottom: 8px;
   line-height: 1.5;
 }
 
-/* 폼 스타일 */
-.signup-form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.form-label {
-  font-size: 14px;
-  font-weight: 500;
+.signup-form-input {
+  width: 100%;
+  padding: 16px 20px;
+  border: 2px solid #E5E8EB;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 400;
   color: #171412;
+  background-color: #FFFFFF;
+  transition: border-color 0.2s ease;
+  line-height: 1.5;
 }
 
-.form-input {
-  padding: 16px;
-  border: 1px solid #E5E8EB;
-  border-radius: 8px;
-  font-size: 14px;
-  font-family: 'Lexend', sans-serif;
-  transition: border-color 0.2s;
-  background: #FFFFFF;
-  height: 56px;
-  box-sizing: border-box;
-}
-
-.form-input:focus {
+.signup-form-input:focus {
   outline: none;
-  border-color: #171412;
+  border-color: #4A90E2;
+  box-shadow: 0px 0px 0px 3px rgba(74, 144, 226, 0.1);
 }
 
-.form-input::placeholder {
-  color: #000000;
-  opacity: 0.6;
+.signup-form-input::placeholder {
+  color: #9CA3AF;
+  opacity: 1;
+}
+
+.password-input-container .signup-form-input {
+  padding-right: 60px;
+}
+
+/* SignupPage 전용 옵션 */
+.signup-form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
 /* 비밀번호 입력필드에만 오른쪽 패딩 추가 */
-.password-input-container .form-input {
-  padding-right: 56px;
-}
-
 .password-input-container {
   position: relative;
   height: 56px;
@@ -182,13 +120,6 @@
 }
 
 /* 폼 옵션 */
-.form-options {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 8px;
-}
-
 .checkbox-container {
   display: flex;
   align-items: center;

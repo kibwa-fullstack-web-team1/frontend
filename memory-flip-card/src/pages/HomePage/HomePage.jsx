@@ -140,7 +140,7 @@ function HomePage() {
             <ul className="home-footer-menu">
               <li><a href="#" onClick={(e) => handleLinkClick(e, '/card-game')}>추억 카드 뒤집기</a></li>
               <li><a href="#" onClick={(e) => handleLinkClick(e)}>이야기 순서 맞추기</a></li>
-              <li><a href="#" onClick={(e) => handleLinkClick(e)}>오늘의 질문</a></li>
+              <li><a href="#" onClick={(e) => handleLinkClick(e, '/daily-question')}>오늘의 질문</a></li>
               <li><a href="#" onClick={(e) => handleLinkClick(e)}>나만의 정원 가꾸기</a></li>
             </ul>
           </div>

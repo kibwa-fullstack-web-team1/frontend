@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiUpload, FiPlus, FiArrowLeft, FiLogOut, FiEdit } from 'react-icons/fi';
 import { logoutUser, uploadFamilyPhoto, fetchFamilyPhotos, getCurrentUser, fetchCaregiverGameResults } from '../../services/api';
+import FamilyHeader from '../../components/FamilyHeader';
 import './CardGameDashboard.css';
 
 const CardGameDashboard = () => {
@@ -215,43 +216,19 @@ const CardGameDashboard = () => {
   };
 
   return (
-    <div className="caregiver-dashboard">
-      {/* 헤더 */}
-      <header className="dashboard-header">
-        <div className="header-left">
-          <div className="logo-container">
-            <div className="logo-icon">
-              <FiArrowLeft />
-            </div>
-          </div>
-          <div className="header-text">
-            <h1 className="main-title">기억의 정원</h1>
-            <p className="subtitle">보호자 대시보드</p>
-          </div>
-        </div>
-        <div className="header-right">
-          <div className="user-profile">
-            <div className="profile-avatar">김</div>
-            <div className="profile-info">
-              <span className="user-name">김보호자님</span>
-              <span className="user-role">보호자</span>
-            </div>
-          </div>
-          <button className="logout-button" onClick={handleLogout}>
-            <FiLogOut size={20} />
-            <span>로그아웃</span>
-          </button>
-        </div>
-      </header>
+    <div className="card-dashboard">
+      <FamilyHeader 
+        onBackClick={handleBackToHome}
+      />
 
-      <div className="dashboard-content">
+      <div className="card-dashboard-content">
         {/* 왼쪽 사이드바 */}
-        <aside className="sidebar">
+        <aside className="card-dashboard-sidebar">
           {/* 가족 사진 업로드 */}
-          <section className="upload-section">
-            <h2 className="section-title">가족 사진 업로드</h2>
+          <section className="card-dashboard-upload-section">
+            <h2 className="card-dashboard-section-title">가족 사진 업로드</h2>
             <div 
-              className="upload-area"
+              className="card-dashboard-upload-area"
               onDragOver={handleDragOver}
               onDrop={handleDrop}
             >
@@ -263,17 +240,17 @@ const CardGameDashboard = () => {
                 onChange={handleFileUpload}
                 style={{ display: 'none' }}
               />
-              <label htmlFor="file-upload" className="upload-label">
+              <label htmlFor="file-upload" className="card-dashboard-upload-label">
                 {uploading ? (
                   <>
-                    <div className="upload-spinner"></div>
-                    <p className="upload-text">업로드 중...</p>
+                    <div className="card-dashboard-upload-spinner"></div>
+                    <p className="card-dashboard-upload-text">업로드 중...</p>
                   </>
                 ) : (
                   <>
-                    <FiUpload className="upload-icon" />
-                    <p className="upload-text">사진을 드래그하거나 클릭하여 업로드</p>
-                    <p className="upload-hint">JPG, PNG 파일만 지원</p>
+                    <FiUpload className="card-dashboard-upload-icon" />
+                    <p className="card-dashboard-upload-text">사진을 드래그하거나 클릭하여 업로드</p>
+                    <p className="card-dashboard-upload-hint">JPG, PNG 파일만 지원</p>
                   </>
                 )}
               </label>
@@ -281,17 +258,17 @@ const CardGameDashboard = () => {
           </section>
 
           {/* 최근 업로드 */}
-          <section className="recent-uploads">
-            <h3 className="section-subtitle">최근 업로드</h3>
-            <div className="upload-list">
+          <section className="card-dashboard-recent-uploads">
+            <h3 className="card-dashboard-section-subtitle">최근 업로드</h3>
+            <div className="card-dashboard-upload-list">
               {recentUploads.map((item) => (
-                <div key={item.id} className="upload-item">
-                  <div className="upload-thumbnail">
+                <div key={item.id} className="card-dashboard-upload-item">
+                  <div className="card-dashboard-upload-thumbnail">
                     <img src={item.image} alt={item.name} />
                   </div>
-                  <div className="upload-info">
-                    <p className="upload-name">{item.name}</p>
-                    <p className="upload-date">{item.date}</p>
+                  <div className="card-dashboard-upload-info">
+                    <p className="card-dashboard-upload-name">{item.name}</p>
+                    <p className="card-dashboard-upload-date">{item.date}</p>
                   </div>
                 </div>
               ))}
@@ -299,9 +276,9 @@ const CardGameDashboard = () => {
           </section>
 
           {/* 이야기 등록 */}
-          <section className="story-registration-section">
-            <h3 className="section-subtitle">이야기 관리</h3>
-            <button className="story-registration-button" onClick={handleStoryRegistration}>
+          <section className="card-dashboard-story-registration-section">
+            <h3 className="card-dashboard-section-subtitle">이야기 관리</h3>
+            <button className="card-dashboard-story-registration-button" onClick={handleStoryRegistration}>
               <FiEdit size={16} />
               <span>이야기 등록</span>
             </button>
@@ -309,37 +286,37 @@ const CardGameDashboard = () => {
         </aside>
 
         {/* 메인 콘텐츠 */}
-        <main className="main-content">
+        <main className="card-dashboard-main-content">
           {/* 가족 사진 갤러리 */}
-          <section className="gallery-section">
-            <h2 className="section-title">가족 사진 갤러리</h2>
-            <div className="photo-grid">
+          <section className="card-dashboard-gallery-section">
+            <h2 className="card-dashboard-section-title">가족 사진 갤러리</h2>
+            <div className="card-dashboard-photo-grid">
               {loadingPhotos ? (
-                <div className="loading-photos">
-                  <div className="loading-spinner"></div>
+                <div className="card-dashboard-loading-photos">
+                  <div className="card-dashboard-loading-spinner"></div>
                   <p>사진을 불러오는 중...</p>
                 </div>
               ) : familyPhotos.length === 0 ? (
-                <div className="no-photos">
+                <div className="card-dashboard-no-photos">
                   <p>아직 업로드된 사진이 없습니다.</p>
                   <p>왼쪽 사이드바에서 사진을 업로드해보세요.</p>
                 </div>
               ) : (
                 <>
                   {familyPhotos.map((photo) => (
-                    <div key={photo.id} className="photo-item">
-                      <div className="photo-container">
+                    <div key={photo.id} className="card-dashboard-photo-item">
+                      <div className="card-dashboard-photo-container">
                         <img src={photo.image} alt={photo.name} />
                       </div>
-                      <p className="photo-name">{photo.name}</p>
-                      <p className="photo-date">{photo.date}</p>
+                      <p className="card-dashboard-photo-name">{photo.name}</p>
+                      <p className="card-dashboard-photo-date">{photo.date}</p>
                     </div>
                   ))}
-                  <div className="photo-item add-photo">
-                    <div className="photo-container">
-                      <FiPlus className="add-icon" />
+                  <div className="card-dashboard-photo-item add-photo">
+                    <div className="card-dashboard-photo-container">
+                      <FiPlus className="card-dashboard-add-icon" />
                     </div>
-                    <p className="add-text">사진 추가</p>
+                    <p className="card-dashboard-add-text">사진 추가</p>
                   </div>
                 </>
               )}
@@ -348,47 +325,47 @@ const CardGameDashboard = () => {
         </main>
 
         {/* 오른쪽 사이드바 */}
-        <aside className="results-sidebar">
+        <aside className="card-dashboard-results-sidebar">
           {/* 게임 결과 */}
-          <section className="game-results">
-            <h2 className="section-title">게임 결과</h2>
-            <div className="results-list">
+          <section className="card-dashboard-game-results">
+            <h2 className="card-dashboard-section-title">게임 결과</h2>
+            <div className="card-dashboard-results-list">
               {loadingResults ? (
-                <div className="loading-results">
-                  <div className="loading-spinner"></div>
+                <div className="card-dashboard-loading-results">
+                  <div className="card-dashboard-loading-spinner"></div>
                   <p>게임 결과를 불러오는 중...</p>
                 </div>
               ) : gameResults.length === 0 ? (
-                <div className="no-results">
+                <div className="card-dashboard-no-results">
                   <p>아직 게임 결과가 없습니다.</p>
                 </div>
               ) : (
                 gameResults.map((result) => (
-                <div key={result.id} className="result-item">
-                  <div className="result-header">
-                    <h3 className="result-title">{result.title}</h3>
+                <div key={result.id} className="card-dashboard-result-item">
+                  <div className="card-dashboard-result-header">
+                    <h3 className="card-dashboard-result-title">{result.title}</h3>
                     <div 
-                      className="status-indicator"
+                      className="card-dashboard-status-indicator"
                       style={{ backgroundColor: getStatusColor(result.status) }}
                     ></div>
                   </div>
-                  <p className="result-date">{result.date}</p>
+                  <p className="card-dashboard-result-date">{result.date}</p>
                   
-                  <div className="result-stats">
-                    <div className="stat-item">
-                      <span className="stat-label">점수</span>
-                      <span className="stat-value">
+                  <div className="card-dashboard-result-stats">
+                    <div className="card-dashboard-stat-item">
+                      <span className="card-dashboard-stat-label">점수</span>
+                      <span className="card-dashboard-stat-value">
                         {result.score ? `${result.score}점` : '미완료'}
                       </span>
                     </div>
-                    <div className="stat-item">
-                      <span className="stat-label">소요시간</span>
-                      <span className="stat-value">{result.time}</span>
+                    <div className="card-dashboard-stat-item">
+                      <span className="card-dashboard-stat-label">소요시간</span>
+                      <span className="card-dashboard-stat-value">{result.time}</span>
                     </div>
-                    <div className="stat-item">
-                      <span className="stat-label">난이도</span>
+                    <div className="card-dashboard-stat-item">
+                      <span className="card-dashboard-stat-label">난이도</span>
                       <span 
-                        className="difficulty-badge"
+                        className="card-dashboard-difficulty-badge"
                         style={{ backgroundColor: getDifficultyColor(result.difficulty) }}
                       >
                         {result.difficulty}
@@ -402,19 +379,19 @@ const CardGameDashboard = () => {
             
             {/* 페이지네이션 */}
             {!loadingResults && gameResults.length > 0 && (
-              <div className="pagination">
+              <div className="card-dashboard-pagination">
                 <button 
-                  className="pagination-button"
+                  className="card-dashboard-pagination-button"
                   onClick={() => handlePageChange(currentPage - 1)}
                   disabled={currentPage === 1}
                 >
                   이전
                 </button>
-                <span className="pagination-info">
+                <span className="card-dashboard-pagination-info">
                   {currentPage} / {Math.ceil(totalResults / resultsPerPage)}
                 </span>
                 <button 
-                  className="pagination-button"
+                  className="card-dashboard-pagination-button"
                   onClick={() => handlePageChange(currentPage + 1)}
                   disabled={gameResults.length < resultsPerPage}
                 >
@@ -425,16 +402,16 @@ const CardGameDashboard = () => {
           </section>
 
           {/* 이번 주 통계 */}
-          <section className="weekly-stats">
-            <h3 className="stats-title">이번 주 통계</h3>
-            <div className="stats-grid">
-              <div className="stat-card">
-                <span className="stat-number">12</span>
-                <span className="stat-label">게임 완료</span>
+          <section className="card-dashboard-weekly-stats">
+            <h3 className="card-dashboard-stats-title">이번 주 통계</h3>
+            <div className="card-dashboard-stats-grid">
+              <div className="card-dashboard-stat-card">
+                <span className="card-dashboard-stat-number">12</span>
+                <span className="card-dashboard-stat-label">게임 완료</span>
               </div>
-              <div className="stat-card">
-                <span className="stat-number">78</span>
-                <span className="stat-label">평균 점수</span>
+              <div className="card-dashboard-stat-card">
+                <span className="card-dashboard-stat-number">78</span>
+                <span className="card-dashboard-stat-label">평균 점수</span>
               </div>
             </div>
           </section>

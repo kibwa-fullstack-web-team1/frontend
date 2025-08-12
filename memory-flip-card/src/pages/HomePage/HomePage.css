@@ -88,7 +88,7 @@
 }
 
 /* Services Section */
-.services-section {
+.home-services-section {
   padding: 80px 0;
   background: #F8F6F4;
   margin: 0 -40px;
@@ -97,7 +97,7 @@
   box-sizing: border-box;
 }
 
-.section-title {
+.home-section-title {
   font-size: 14px;
   font-weight: 600;
   text-align: center;
@@ -107,7 +107,7 @@
   letter-spacing: 0.5px;
 }
 
-.services-grid {
+.home-services-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 32px;
@@ -115,7 +115,7 @@
   margin: 0 auto;
 }
 
-.service-card {
+.home-service-card {
   background: #FFFFFF;
   border: 1px solid #E5E8EB;
   border-radius: 12px;
@@ -126,12 +126,12 @@
   box-sizing: border-box;
 }
 
-.service-card:hover {
+.home-service-card:hover {
   transform: translateY(-4px);
   box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.12);
 }
 
-.service-icon {
+.home-service-icon {
   width: 48px;
   height: 48px;
   background: #F5F2F0;
@@ -143,14 +143,14 @@
   flex-shrink: 0;
 }
 
-.service-title {
+.home-service-title {
   font-size: 16px;
   font-weight: 600;
   margin-bottom: 16px;
   color: #171412;
 }
 
-.service-description {
+.home-service-description {
   font-size: 14px;
   font-weight: 400;
   line-height: 1.5;
@@ -159,12 +159,12 @@
 }
 
 /* CTA Section */
-.cta-section {
+.home-cta-section {
   padding: 80px 0;
   text-align: center;
 }
 
-.cta-button {
+.home-cta-button {
   background: #F5F2F0;
   border: 1px solid #E5E8EB;
   border-radius: 24px;
@@ -182,13 +182,13 @@
   font-family: inherit;
 }
 
-.cta-button:hover {
+.home-cta-button:hover {
   background: #E8E4E0;
   transform: translateY(-2px);
   box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.12);
 }
 
-.arrow-icon {
+.home-arrow-icon {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -196,7 +196,7 @@
 }
 
 /* Footer */
-.footer {
+.home-footer {
   background: #F8F6F4;
   border-top: 1px solid #E5E8EB;
   padding: 60px 40px;
@@ -204,7 +204,7 @@
   box-sizing: border-box;
 }
 
-.footer-content {
+.home-footer-content {
   max-width: 1200px;
   margin: 0 auto;
   display: grid;
@@ -212,11 +212,11 @@
   gap: 60px;
 }
 
-.footer-section {
+.home-footer-section {
   text-align: center;
 }
 
-.footer-title {
+.home-footer-title {
   font-size: 14px;
   font-weight: 600;
   margin-bottom: 24px;
@@ -225,17 +225,17 @@
   letter-spacing: 0.5px;
 }
 
-.footer-menu {
+.home-footer-menu {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.footer-menu li {
+.home-footer-menu li {
   margin-bottom: 12px;
 }
 
-.footer-menu a {
+.home-footer-menu a {
   font-size: 13px;
   font-weight: 400;
   color: #171412;
@@ -244,17 +244,17 @@
   cursor: pointer;
 }
 
-.footer-menu a:hover {
+.home-footer-menu a:hover {
   color: #666;
 }
 
-.social-links {
+.home-social-links {
   display: flex;
   justify-content: center;
   gap: 16px;
 }
 
-.social-link {
+.home-social-link {
   width: 32px;
   height: 32px;
   border: 1px solid #E5E8EB;
@@ -267,89 +267,89 @@
   flex-shrink: 0;
 }
 
-.social-link:hover {
+.home-social-link:hover {
   background: #F5F2F0;
   transform: translateY(-2px);
 }
 
 /* Responsive Design */
 @media (max-width: 1024px) {
-  .services-grid {
+  .home-services-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 24px;
   }
   
-  .footer-content {
+  .home-footer-content {
     grid-template-columns: repeat(2, 1fr);
     gap: 40px;
   }
 }
 
 @media (max-width: 768px) {
-  .header {
+  .home-header {
     padding: 16px 20px;
   }
   
-  .main-content {
+  .home-main-content {
     padding: 0 20px;
   }
   
-  .hero-section {
+  .home-hero-section {
     padding: 60px 0;
   }
   
-  .hero-title {
+  .home-hero-title {
     font-size: 36px;
   }
   
-  .description-text {
+  .home-description-text {
     font-size: 16px;
   }
   
-  .services-section {
+  .home-services-section {
     margin: 0 -20px;
     padding-left: 20px;
     padding-right: 20px;
   }
   
-  .services-grid {
+  .home-services-grid {
     grid-template-columns: 1fr;
     gap: 20px;
   }
   
-  .service-card {
+  .home-service-card {
     padding: 30px 20px;
   }
   
-  .footer {
+  .home-footer {
     padding: 40px 20px;
   }
   
-  .footer-content {
+  .home-footer-content {
     grid-template-columns: 1fr;
     gap: 30px;
   }
 }
 
 @media (max-width: 480px) {
-  .hero-title {
+  .home-hero-title {
     font-size: 28px;
   }
   
-  .description-text {
+  .home-description-text {
     font-size: 14px;
   }
   
-  .cta-button {
+  .home-cta-button {
     padding: 14px 24px;
     font-size: 14px;
   }
   
-  .service-card {
+  .home-service-card {
     padding: 24px 16px;
   }
   
-  .service-icon {
+  .home-service-icon {
     width: 40px;
     height: 40px;
   }

@@ -1,6 +1,6 @@
-/* ElderlyHeader.css - 어르신용 헤더 스타일 */
+/* FamilyHeader.css - 보호자용 헤더 스타일 */
 
-.elderly-header {
+.family-header {
   position: fixed;
   top: 0;
   left: 0;
@@ -12,7 +12,7 @@
   z-index: 100;
 }
 
-.elderly-header-content {
+.family-header-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -23,7 +23,7 @@
 }
 
 /* 뒤로가기 버튼 */
-.elderly-back-button {
+.family-back-button {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -39,11 +39,11 @@
   min-width: 140px;
 }
 
-.elderly-back-button:hover {
+.family-back-button:hover {
   background-color: #F8F6F4;
 }
 
-.elderly-logo-icon {
+.family-logo-icon {
   width: 32px;
   height: 32px;
   border: 1px solid #E5E8EB;
@@ -55,19 +55,19 @@
   flex-shrink: 0;
 }
 
-.elderly-logo-icon svg {
+.family-logo-icon svg {
   width: 16px;
   height: 16px;
 }
 
 /* 헤더 텍스트 */
-.elderly-header-text {
+.family-header-text {
   flex: 1;
   text-align: center;
   margin: 0 20px;
 }
 
-.elderly-header-title {
+.family-header-title {
   font-size: 24px;
   font-weight: 700;
   color: #171412;
@@ -75,7 +75,7 @@
   line-height: 1.5;
 }
 
-.elderly-header-subtitle {
+.family-header-subtitle {
   font-size: 14px;
   font-weight: 400;
   color: #171412;
@@ -85,21 +85,21 @@
 }
 
 /* 우측 사용자 정보 */
-.elderly-header-right {
+.family-header-right {
   display: flex;
   align-items: center;
 }
 
-.elderly-user-info {
+.family-user-info {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
-.elderly-user-avatar {
+.family-user-avatar {
   width: 40px;
   height: 40px;
-  background-color: #171412;
+  background-color: #4A90E2; /* 보호자용 파란색 */
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -109,80 +109,81 @@
   font-weight: 700;
 }
 
-.elderly-user-avatar svg {
+.family-user-avatar svg {
   width: 28px;
   height: 28px;
   display: block;
 }
 
-.elderly-user-details {
+.family-user-details {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   gap: 2px;
 }
 
-.elderly-user-name {
+.family-user-name {
   font-size: 14px;
   font-weight: 500;
   color: #171412;
   line-height: 1.5;
 }
 
-.elderly-user-role {
+.family-user-role {
   font-size: 12px;
   font-weight: 400;
-  color: #171412;
-  opacity: 0.6;
+  color: #4A90E2; /* 보호자용 파란색 */
+  opacity: 0.8;
   line-height: 1.5;
 }
 
 /* 반응형 디자인 */
 @media (max-width: 768px) {
-  .elderly-header-content {
+  .family-header-content {
     padding: 0 16px;
   }
   
-  .elderly-header-title {
+  .family-header-title {
     font-size: 20px;
   }
   
-  .elderly-back-button {
+  .family-back-button {
     min-width: 60px;
     font-size: 14px;
     padding: 6px 12px;
   }
   
-  .elderly-back-button span {
+  .family-back-button span {
     display: none;
   }
   
-  .elderly-logo-icon {
+  .family-logo-icon {
     width: 28px;
     height: 28px;
   }
   
-  .elderly-user-details {
+  .family-user-details {
     display: none;
   }
 }
 
 @media (max-width: 480px) {
-  .elderly-header-content {
+  .family-header-content {
     padding: 0 12px;
   }
   
-  .elderly-header-title {
+  .family-header-title {
     font-size: 18px;
   }
   
-  .elderly-header-text {
+  .family-header-text {
     margin: 0 10px;
   }
   
-  .elderly-user-avatar {
+  .family-user-avatar {
     width: 32px;
     height: 32px;
     font-size: 14px;
   }
-} 
+}
+
