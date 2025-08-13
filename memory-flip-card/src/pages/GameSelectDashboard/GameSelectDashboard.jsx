@@ -60,6 +60,27 @@ function GameSelectDashboard() {
           <path d="M12 2L15.09 8.26L22 9L15.09 9.74L12 16L8.91 9.74L2 9L8.91 8.26L12 2Z" stroke="#000000" strokeWidth="2"/>
         </svg>
       )
+    },
+    {
+      id: 'puzzle-solving',
+      title: '퍼즐 맞추기',
+      description: '다양한 퍼즐을 맞추며 공간 인지력과 문제 해결 능력을 향상시킵니다.',
+      difficulty: '보통',
+      difficultyColor: '#8B5CF6',
+      iconColor: 'rgba(139, 92, 246, 0.13)',
+      duration: '20-25분',
+      recentScore: '78점',
+      lastPlayed: '1월 13일',
+      effects: ['공간 인지력 향상', '문제 해결 능력', '논리적 사고력'],
+      icon: (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M4 4H20V20H4V4Z" stroke="#000000" strokeWidth="2"/>
+          <path d="M4 12H20" stroke="#000000" strokeWidth="2"/>
+          <path d="M12 4V20" stroke="#000000" strokeWidth="2"/>
+          <path d="M8 8H16" stroke="#000000" strokeWidth="2"/>
+          <path d="M8 16H16" stroke="#000000" strokeWidth="2"/>
+        </svg>
+      )
     }
   ];
 
@@ -80,6 +101,9 @@ function GameSelectDashboard() {
       case 'daily-question':
         navigate('/game');
         break;
+      case 'puzzle-solving':
+        navigate('/game');
+        break;
       default:
         navigate('/game');
     }
@@ -98,16 +122,20 @@ function GameSelectDashboard() {
       <main className="dashboard-select-main-content">
         {/* Hero Section */}
         <div className="dashboard-select-hero">
-          <h2 className="dashboard-select-hero-title">인지 훈련 게임 선택</h2>
+          <h2 className="dashboard-select-hero-title">활동 발자취</h2>
           <p className="dashboard-select-hero-description">
-            어르신의 인지 능력 향상을 위한 다양한 게임을 선택해보세요
+          어르신의 게임 참여 현황과 성과를 확인해보세요
           </p>
         </div>
 
         {/* Games Grid */}
         <div className="dashboard-select-games-grid">
           {games.map((game) => (
-            <div key={game.id} className="dashboard-select-game-card">
+            <div 
+              key={game.id} 
+              className="dashboard-select-game-card"
+              onClick={() => handleGameSelect(game.id)}
+            >
               <div className="dashboard-select-game-header">
                 <div 
                   className="dashboard-select-game-icon"
@@ -151,7 +179,10 @@ function GameSelectDashboard() {
                   </div>
                   <button 
                     className="dashboard-select-play-button"
-                    onClick={() => handleGameSelect(game.id)}
+                    onClick={(e) => {
+                      e.stopPropagation(); // 이벤트 버블링 방지
+                      handleGameSelect(game.id);
+                    }}
                   >
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                       <path d="M8 5V19L19 12L8 5Z" fill="#171412"/>

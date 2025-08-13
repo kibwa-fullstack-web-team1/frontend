@@ -1,7 +1,7 @@
 import React from 'react';
 import './Card.css';
 
-function Card({ card, handleChoice, flipped, disabled, isWrongMatch }) {
+function Card({ card, handleChoice, flipped, disabled, isWrongMatch, className }) {
   const handleClick = () => {
     // Only allow clicks if the card is not disabled
     if (!disabled) {
@@ -12,9 +12,10 @@ function Card({ card, handleChoice, flipped, disabled, isWrongMatch }) {
   // Dynamically combine class names
   const cardClasses = [
     'card',
+    className || '',
     isWrongMatch ? 'wrong-match' : '',
     card.matched ? 'matched' : ''
-  ].join(' ');
+  ].filter(Boolean).join(' ');
 
   return (
     <div className={cardClasses} onClick={handleClick}>

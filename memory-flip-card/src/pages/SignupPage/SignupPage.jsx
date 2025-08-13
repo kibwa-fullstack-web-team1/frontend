@@ -12,7 +12,8 @@ function SignupPage() {
     confirmPassword: '',
     nickname: '',
     phone: '',
-    role: ''
+    role: '',
+    agreeToTerms: false
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -177,7 +178,7 @@ function SignupPage() {
 
               <div className="signup-form-group">
                 <label htmlFor="password" className="signup-form-label">비밀번호</label>
-                <div className="password-input-container">
+                <div className="signup-password-input-container">
                   <input
                     type={showPassword ? "text" : "password"}
                     id="password"
@@ -190,7 +191,7 @@ function SignupPage() {
                   />
                   <button
                     type="button"
-                    className="password-toggle"
+                    className="signup-password-toggle"
                     onClick={() => setShowPassword(!showPassword)}
                   >
                     {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
@@ -199,29 +200,52 @@ function SignupPage() {
               </div>
 
               <div className="signup-form-group">
+                <label htmlFor="confirmPassword" className="signup-form-label">비밀번호 확인</label>
+                <div className="signup-password-input-container">
+                  <input
+                    type={showConfirmPassword ? "text" : "password"}
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    value={formData.confirmPassword}
+                    onChange={handleInputChange}
+                    className="signup-form-input"
+                    placeholder="비밀번호를 다시 입력하세요"
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="signup-password-toggle"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  >
+                    {showConfirmPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
+                  </button>
+                </div>
+              </div>
+
+              <div className="signup-form-group">
                 <label className="signup-form-label">사용자 유형</label>
-                <div className="role-selection">
-                  <label className="role-option">
+                <div className="signup-role-selection">
+                  <label className="signup-role-option">
                     <input
                       type="radio"
                       name="role"
                       value="senior"
                       checked={formData.role === 'senior'}
                       onChange={handleInputChange}
-                      className="role-radio"
+                      className="signup-role-radio"
                     />
-                    <span className="role-text">어르신</span>
+                    <span className="signup-role-text">어르신</span>
                   </label>
-                  <label className="role-option">
+                  <label className="signup-role-option">
                     <input
                       type="radio"
                       name="role"
                       value="family"
                       checked={formData.role === 'family'}
                       onChange={handleInputChange}
-                      className="role-radio"
+                      className="signup-role-radio"
                     />
-                    <span className="role-text">가족</span>
+                    <span className="signup-role-text">가족</span>
                   </label>
                 </div>
               </div>
