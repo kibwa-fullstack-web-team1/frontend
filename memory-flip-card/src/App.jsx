@@ -10,6 +10,7 @@ import CardGameDashboard from './pages/CardGameDashboard/CardGameDashboard';
 import GameSelectDashboard from './pages/GameSelectDashboard/GameSelectDashboard';
 import StoryGameDashboard from './pages/StoryGameDashboard/StoryGameDashboard';
 import DailyQuestionPage from './pages/DailyQuestionPage/DailyQuestionPage';
+import EnterPage from './pages/EnterPage/EnterPage';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/daily-question" element={<DailyQuestionPage />} />
         <Route path="/card-game-dashboard" element={<CardGameDashboard />} />
         <Route path="/story-game-dashboard" element={<StoryGameDashboard />} />
+        <Route path="/enter" element={<EnterPage />} />
       </Routes>
     </Router>
   );

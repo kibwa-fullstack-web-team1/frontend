@@ -56,7 +56,7 @@ function CardGamePage() {
       />
       
       <div className="card-game-main-container">
-        <div className="card-game-card">
+        <div className="card-game-main-card">
           {/* 뒤로가기 버튼 - 난이도 선택 후, 게임 시작 전에만 표시 */}
           {difficulty && !gameStarted && cards.length === 0 && (
             <button className="card-game-back-to-difficulty" onClick={resetGame}>
@@ -141,6 +141,7 @@ function CardGamePage() {
                   flipped={card === choiceOne || card === choiceTwo || card.matched || !gameStarted}
                   disabled={disabled}
                   isWrongMatch={isWrongMatch && (card === choiceOne || card === choiceTwo)}
+                  className="card-game-individual-card"
                 />
               ))}
             </div>
