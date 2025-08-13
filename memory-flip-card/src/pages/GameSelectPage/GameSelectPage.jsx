@@ -68,7 +68,7 @@ function GameSelectPage() {
         navigate('/card-game');
         break;
       case 'story-sequence':
-        navigate('/game');
+        navigate('/story-sequence');
         break;
       case 'memory-maze':
         navigate('/daily-question');
