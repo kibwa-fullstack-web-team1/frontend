@@ -1,0 +1,548 @@
+/* StorySequence.css - 기존 프론트엔드 스타일 기반 */
+
+.story-sequence-app {
+  min-height: 100vh;
+  background-color: #F5F2F0;
+  font-family: 'Lexend', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #171412;
+  position: relative;
+  box-sizing: border-box;
+}
+
+/* 메인 컨테이너 */
+.story-sequence-main-container {
+  max-width: 1152px;
+  margin: 0 auto;
+  padding: 122px 52px 0;
+  min-height: calc(100vh - 90px);
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* 메인 카드 */
+.story-sequence-card {
+  background-color: #FFFFFF;
+  border: 1px solid #E5E8EB;
+  border-radius: 16px;
+  padding: 60px;
+  min-height: 900px;
+  position: relative;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 게임 제목 */
+.story-sequence-title {
+  font-size: 40px;
+  font-weight: 700;
+  color: #171412;
+  text-align: center;
+  margin: 0 0 40px 0;
+  line-height: 1.5;
+}
+
+/* 3패널 레이아웃 */
+.story-sequence-layout {
+  display: flex;
+  gap: 40px;
+  align-items: stretch;
+}
+
+.story-sequence-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.story-sequence-panel--left {
+  min-width: 280px;
+}
+
+.story-sequence-panel--center {
+  min-width: 400px;
+}
+
+.story-sequence-panel--right {
+  min-width: 280px;
+}
+
+/* 섹션 스타일 */
+.story-sequence-section {
+  margin-bottom: 32px;
+}
+
+.story-sequence-section-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #171412;
+  margin: 0 0 16px 0;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #E5E8EB;
+}
+
+/* 전체 문장 */
+.story-sequence-full-sentence {
+  background-color: #F8F6F4;
+  border: 1px solid #E5E8EB;
+  border-radius: 12px;
+  padding: 20px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #171412;
+  font-weight: 500;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+}
+
+/* 단어 조각들 */
+.story-sequence-word-fragments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+  min-height: 60px;
+}
+
+.story-sequence-word-fragment {
+  background-color: #EAF6F8;
+  border: 2px solid #21808D;
+  border-radius: 8px;
+  padding: 12px 18px;
+  cursor: grab;
+  font-size: 16px;
+  font-weight: 500;
+  color: #171412;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+  user-select: none;
+  position: relative;
+}
+
+.story-sequence-word-fragment:hover {
+  background-color: #D1E7ED;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.story-sequence-word-fragment.dragging {
+  background-color: #B2E0EA;
+  transform: rotate(5deg) scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.story-sequence-word-fragment.placed {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #F8F6F4;
+  border-color: #D1D5DB;
+}
+
+/* 단어 순서 영역 */
+.story-sequence-word-sequence {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 200px;
+}
+
+.story-sequence-drop-zone {
+  background-color: #F8F6F4;
+  border: 2px dashed #B2E0EA;
+  border-radius: 8px;
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.story-sequence-drop-zone.drag-over {
+  border-color: #21808D;
+  background-color: #EAF6F8;
+  transform: scale(1.02);
+}
+
+.story-sequence-drop-zone.filled {
+  border-style: solid;
+  background-color: #EAF6F8;
+  border-color: #21808D;
+}
+
+.story-sequence-drop-zone-label {
+  font-weight: 600;
+  color: #21808D;
+  margin-right: 12px;
+  font-size: 14px;
+  min-width: 40px;
+}
+
+.story-sequence-drop-zone-text {
+  color: #6B7280;
+  font-size: 14px;
+  font-style: italic;
+}
+
+.story-sequence-placed-word {
+  background-color: #21808D;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 16px;
+  flex: 1;
+  text-align: center;
+}
+
+/* 액션 버튼들 */
+.story-sequence-action-buttons {
+  display: flex;
+  gap: 16px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+.story-sequence-btn {
+  border: none;
+  border-radius: 10px;
+  padding: 14px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  min-width: 120px;
+}
+
+.story-sequence-btn--primary {
+  background-color: #21808D;
+  color: white;
+}
+
+.story-sequence-btn--primary:hover {
+  background-color: #1A6B76;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(33, 128, 141, 0.3);
+}
+
+.story-sequence-btn--secondary {
+  background-color: #EAF6F8;
+  color: #21808D;
+  border: 2px solid #21808D;
+}
+
+.story-sequence-btn--secondary:hover {
+  background-color: #D1E7ED;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(33, 128, 141, 0.2);
+}
+
+.story-sequence-btn--outline {
+  background-color: transparent;
+  border: 2px solid #E5E8EB;
+  color: #6B7280;
+}
+
+.story-sequence-btn--outline:hover {
+  background-color: #F8F6F4;
+  border-color: #D1D5DB;
+  color: #171412;
+  transform: translateY(-2px);
+}
+
+/* 진행 상황 */
+.story-sequence-progress-section {
+  margin-bottom: 24px;
+}
+
+.story-sequence-progress-bar {
+  background-color: #EAF6F8;
+  border-radius: 8px;
+  height: 12px;
+  width: 100%;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+
+.story-sequence-progress-fill {
+  background-color: #21808D;
+  height: 100%;
+  border-radius: 8px;
+  transition: width 0.3s ease;
+}
+
+.story-sequence-progress-text {
+  font-size: 14px;
+  color: #6B7280;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* 피드백 메시지 */
+.story-sequence-feedback-section {
+  margin-bottom: 24px;
+}
+
+.story-sequence-feedback-message {
+  background-color: #F8F6F4;
+  border: 1px solid #E5E8EB;
+  border-radius: 8px;
+  padding: 16px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #171412;
+  text-align: center;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.story-sequence-feedback-message.success {
+  background-color: #ECFDF5;
+  border-color: #10B981;
+  color: #065F46;
+}
+
+.story-sequence-feedback-message.error {
+  background-color: #FEF2F2;
+  border-color: #EF4444;
+  color: #991B1B;
+}
+
+.story-sequence-feedback-message.info {
+  background-color: #EFF6FF;
+  border-color: #3B82F6;
+  color: #1E40AF;
+}
+
+/* 타이머 */
+.story-sequence-timer-section {
+  text-align: center;
+}
+
+.story-sequence-timer-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #171412;
+  margin: 0 0 12px 0;
+}
+
+.story-sequence-timer {
+  font-size: 24px;
+  font-weight: 700;
+  color: #21808D;
+  background-color: #F8F6F4;
+  border: 2px solid #E5E8EB;
+  border-radius: 8px;
+  padding: 16px;
+  min-width: 100px;
+  display: inline-block;
+}
+
+/* 성공 모달 */
+.story-sequence-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.story-sequence-modal-content {
+  background-color: white;
+  border-radius: 16px;
+  padding: 40px;
+  min-width: 400px;
+  max-width: 500px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  text-align: center;
+}
+
+.story-sequence-modal-header h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #171412;
+  margin: 0 0 16px 0;
+}
+
+.story-sequence-modal-body p {
+  font-size: 18px;
+  color: #6B7280;
+  margin: 0 0 24px 0;
+  line-height: 1.5;
+}
+
+.story-sequence-completion-stats {
+  background-color: #F8F6F4;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.story-sequence-completion-stats p {
+  font-size: 16px;
+  color: #171412;
+  margin: 8px 0;
+  font-weight: 500;
+}
+
+.story-sequence-completion-stats span {
+  font-weight: 700;
+  color: #21808D;
+}
+
+.story-sequence-modal-footer {
+  display: flex;
+  justify-content: center;
+}
+
+/* 로딩 상태 */
+.story-sequence-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  color: #171412;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #E5E8EB;
+  border-top: 4px solid #21808D;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.story-sequence-loading p {
+  font-size: 18px;
+  font-weight: 500;
+  color: #6B7280;
+}
+
+/* 에러 상태 */
+.story-sequence-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  text-align: center;
+}
+
+.story-sequence-error p {
+  font-size: 18px;
+  color: #EF4444;
+  margin-bottom: 24px;
+  font-weight: 500;
+}
+
+.story-sequence-retry-btn {
+  background-color: #21808D;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 14px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.story-sequence-retry-btn:hover {
+  background-color: #1A6B76;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(33, 128, 141, 0.3);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 1200px) {
+  .story-sequence-layout {
+    flex-direction: column;
+    gap: 32px;
+  }
+  
+  .story-sequence-panel {
+    min-width: auto;
+  }
+  
+  .story-sequence-main-container {
+    padding: 122px 32px 0;
+  }
+  
+  .story-sequence-card {
+    padding: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .story-sequence-main-container {
+    padding: 122px 20px 0;
+  }
+  
+  .story-sequence-card {
+    padding: 24px;
+  }
+  
+  .story-sequence-title {
+    font-size: 32px;
+    margin-bottom: 32px;
+  }
+  
+  .story-sequence-action-buttons {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .story-sequence-btn {
+    min-width: auto;
+    width: 100%;
+  }
+  
+  .story-sequence-modal-content {
+    margin: 20px;
+    padding: 24px;
+    min-width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .story-sequence-main-container {
+    padding: 122px 16px 0;
+  }
+  
+  .story-sequence-card {
+    padding: 20px;
+  }
+  
+  .story-sequence-title {
+    font-size: 28px;
+    margin-bottom: 24px;
+  }
+  
+  .story-sequence-word-fragment {
+    font-size: 14px;
+    padding: 10px 14px;
+  }
+  
+  .story-sequence-drop-zone {
+    min-height: 48px;
+    padding: 10px 12px;
+  }
+}
