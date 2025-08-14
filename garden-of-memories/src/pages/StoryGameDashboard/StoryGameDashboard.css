@@ -5,108 +5,16 @@
   font-family: 'Lexend', sans-serif;
 }
 
-/* 헤더 스타일 */
-.story-dashboard-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 25px 24px;
-  background-color: #FFFFFF;
-  border-bottom: 1px solid #E5E8EB;
-  box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.08);
-  height: 90px;
-}
+/* 헤더 스타일 제거 - FamilyHeader 컴포넌트 사용 */
 
-.story-header-left {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.story-logo-container {
-  width: 40px;
-  height: 40px;
-  background-color: #171412;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.story-logo-container:hover {
-  background-color: #333333;
-}
-
-.story-logo-icon {
-  color: #FFFFFF;
-  font-size: 20px;
-}
-
-.story-header-text {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.story-main-title {
-  font-size: 24px;
-  font-weight: 700;
-  color: #171412;
-  margin: 0;
-  line-height: 1.5;
-}
-
-.story-subtitle {
-  font-size: 14px;
-  font-weight: 400;
-  color: #171412;
-  margin: 0;
-  opacity: 0.6;
-  line-height: 1.5;
-}
-
-.story-header-right {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.story-user-profile {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.story-profile-avatar {
-  width: 40px;
-  height: 40px;
-  background-color: #171412;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #FFFFFF;
-  font-size: 14px;
-  font-weight: 700;
-}
-
-.story-profile-info {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 4px;
-}
-
-.user-name {
+.story-user-name {
   font-size: 14px;
   font-weight: 500;
   color: #171412;
   line-height: 1.5;
 }
 
-.user-role {
+.story-user-role {
   font-size: 12px;
   font-weight: 400;
   color: #171412;
@@ -114,7 +22,7 @@
   line-height: 1.5;
 }
 
-.logout-button {
+.story-logout-button {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -129,19 +37,20 @@
   transition: all 0.3s ease;
 }
 
-.logout-button:hover {
+.story-logout-button:hover {
   background-color: #F8F6F4;
   border-color: #171412;
 }
 
 /* 메인 콘텐츠 레이아웃 */
-.dashboard-content {
+.story-dashboard-content {
   display: flex;
   height: calc(100vh - 90px);
+  margin-top: 60px;
 }
 
 /* 사이드바 스타일 */
-.sidebar {
+.story-sidebar {
   width: 320px;
   background-color: #FFFFFF;
   border-right: 1px solid #E5E8EB;
@@ -149,7 +58,7 @@
   overflow-y: auto;
 }
 
-.section-title {
+.story-section-title {
   font-size: 20px;
   font-weight: 700;
   color: #171412;
@@ -162,28 +71,28 @@
   margin-bottom: 24px;
 }
 
-.registration-form {
+.story-registration-form {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-.form-group {
+.story-form-group {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.form-label {
+.story-form-label {
   font-size: 14px;
   font-weight: 500;
   color: #171412;
   line-height: 1.5;
 }
 
-.form-input,
-.form-select,
-.form-textarea {
+.story-form-input,
+.story-form-select,
+.story-form-textarea {
   padding: 12px 16px;
   border: 1px solid #E5E8EB;
   border-radius: 8px;
@@ -194,24 +103,24 @@
   transition: border-color 0.3s ease;
 }
 
-.form-input:focus,
-.form-select:focus,
-.form-textarea:focus {
+.story-form-input:focus,
+.story-form-select:focus,
+.story-form-textarea:focus {
   outline: none;
   border-color: #171412;
 }
 
-.form-input::placeholder,
-.form-textarea::placeholder {
+.story-form-input::placeholder,
+.story-form-textarea::placeholder {
   color: #999999;
 }
 
-.form-textarea {
+.story-form-textarea {
   resize: vertical;
   min-height: 120px;
 }
 
-.submit-button {
+.story-submit-button {
   padding: 12px 24px;
   background-color: #171412;
   border: none;
@@ -223,22 +132,22 @@
   transition: background-color 0.3s ease;
 }
 
-.submit-button:hover {
+.story-submit-button:hover {
   background-color: #333333;
 }
 
 /* 메인 콘텐츠 */
-.main-content {
+.story-main-content {
   flex: 1;
   padding: 24px;
   overflow-y: auto;
 }
 
-.registered-stories {
+.story-registered-stories {
   margin-bottom: 24px;
 }
 
-.stories-list {
+.story-stories-list {
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -251,14 +160,14 @@
   border-radius: 12px;
 }
 
-.story-header {
+.story-card-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 12px;
 }
 
-.story-title {
+.story-card-title {
   font-size: 16px;
   font-weight: 700;
   color: #171412;
@@ -266,21 +175,21 @@
   line-height: 1.5;
 }
 
-.status-indicator {
+.story-status-indicator {
   width: 8px;
   height: 8px;
   border-radius: 50%;
   flex-shrink: 0;
 }
 
-.story-meta {
+.story-card-meta {
   display: flex;
   align-items: center;
   gap: 12px;
   margin-bottom: 12px;
 }
 
-.story-date {
+.story-card-date {
   font-size: 12px;
   font-weight: 400;
   color: #171412;
@@ -288,7 +197,7 @@
   line-height: 1.5;
 }
 
-.story-category {
+.story-card-category {
   padding: 4px 8px;
   background-color: #171412;
   border-radius: 4px;
@@ -298,7 +207,7 @@
   line-height: 1.5;
 }
 
-.story-content {
+.story-card-content {
   font-size: 14px;
   font-weight: 400;
   color: #171412;
@@ -306,13 +215,13 @@
   line-height: 1.5;
 }
 
-.story-actions {
+.story-card-actions {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
 }
 
-.action-button {
+.story-action-button {
   display: flex;
   align-items: center;
   gap: 4px;
@@ -327,54 +236,54 @@
   transition: all 0.3s ease;
 }
 
-.action-button:hover {
+.story-action-button:hover {
   background-color: #FFFFFF;
   border-color: #171412;
 }
 
-.action-button.preview {
+.story-action-button.preview {
   border-color: #E5E8EB;
 }
 
-.action-button.edit {
+.story-action-button.edit {
   border-color: #E5E8EB;
 }
 
-.action-button.publish {
+.story-action-button.publish {
   background-color: #22C55E;
   border-color: #22C55E;
   color: #FFFFFF;
 }
 
-.action-button.publish:hover {
+.story-action-button.publish:hover {
   background-color: #16A34A;
   border-color: #16A34A;
 }
 
-.action-button.private {
+.story-action-button.private {
   background-color: #F59E0B;
   border-color: #F59E0B;
   color: #FFFFFF;
 }
 
-.action-button.private:hover {
+.story-action-button.private:hover {
   background-color: #D97706;
   border-color: #D97706;
 }
 
-.action-button.delete {
+.story-action-button.delete {
   background-color: #EF4444;
   border-color: #EF4444;
   color: #FFFFFF;
 }
 
-.action-button.delete:hover {
+.story-action-button.delete:hover {
   background-color: #DC2626;
   border-color: #DC2626;
 }
 
 /* 오른쪽 사이드바 */
-.preview-sidebar {
+.story-preview-sidebar {
   width: 320px;
   background-color: #FFFFFF;
   border-left: 1px solid #E5E8EB;
@@ -382,11 +291,11 @@
   overflow-y: auto;
 }
 
-.preview-section {
+.story-preview-section {
   margin-bottom: 24px;
 }
 
-.preview-title {
+.story-preview-title {
   font-size: 20px;
   font-weight: 700;
   color: #171412;
@@ -394,7 +303,7 @@
   line-height: 1.5;
 }
 
-.preview-container {
+.story-preview-container {
   border: 2px solid #E5E8EB;
   border-radius: 12px;
   min-height: 400px;
@@ -404,7 +313,7 @@
   padding: 20px;
 }
 
-.preview-placeholder {
+.story-preview-placeholder {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -412,12 +321,12 @@
   text-align: center;
 }
 
-.placeholder-icon {
+.story-placeholder-icon {
   color: #171412;
   opacity: 0.4;
 }
 
-.placeholder-text {
+.story-placeholder-text {
   font-size: 14px;
   font-weight: 400;
   color: #171412;
@@ -430,7 +339,7 @@
   text-align: left;
 }
 
-.preview-story-title {
+.story-preview-story-title {
   font-size: 18px;
   font-weight: 700;
   color: #171412;
@@ -438,7 +347,7 @@
   line-height: 1.5;
 }
 
-.preview-story-content {
+.story-preview-story-content {
   font-size: 14px;
   font-weight: 400;
   color: #171412;
@@ -446,7 +355,7 @@
   line-height: 1.6;
 }
 
-.preview-story-meta {
+.story-preview-story-meta {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -455,22 +364,22 @@
   opacity: 0.6;
 }
 
-.preview-category {
+.story-preview-category {
   font-weight: 500;
 }
 
-.preview-date {
+.story-preview-date {
   font-weight: 400;
 }
 
 /* 반응형 디자인 */
 @media (max-width: 1200px) {
-  .dashboard-content {
+  .story-dashboard-content {
     flex-direction: column;
   }
   
-  .sidebar,
-  .preview-sidebar {
+  .story-sidebar,
+  .story-preview-sidebar {
     width: 100%;
     border-right: none;
     border-left: none;
@@ -479,37 +388,108 @@
 }
 
 @media (max-width: 768px) {
-  .dashboard-header {
+  .story-dashboard-header {
     padding: 16px;
     height: auto;
     flex-direction: column;
     gap: 16px;
   }
   
-  .header-left {
+  .story-dashboard-header-left {
     width: 100%;
     justify-content: center;
   }
   
-  .header-right {
+  .story-dashboard-header-right {
     width: 100%;
     justify-content: center;
   }
   
-  .main-content {
+  .story-main-content {
     padding: 16px;
   }
   
-  .sidebar,
-  .preview-sidebar {
+  .story-sidebar,
+  .story-preview-sidebar {
     padding: 16px;
   }
   
-  .story-actions {
+  .story-card-actions {
     flex-direction: column;
   }
   
-  .action-button {
+  .story-action-button {
     justify-content: center;
   }
+} 
+
+/* StoryGameDashboard 전용 폼 스타일 */
+.story-form-group {
+  margin-bottom: 24px;
+}
+
+.story-form-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #171412;
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.story-form-input,
+.story-form-select,
+.story-form-textarea {
+  width: 100%;
+  padding: 16px 20px;
+  border: 2px solid #E5E8EB;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 400;
+  color: #171412;
+  background-color: #FFFFFF;
+  transition: border-color 0.2s ease;
+  line-height: 1.5;
+  font-family: 'Lexend', sans-serif;
+}
+
+.story-form-input:focus,
+.story-form-select:focus,
+.story-form-textarea:focus {
+  outline: none;
+  border-color: #4A90E2;
+  box-shadow: 0px 0px 0px 3px rgba(74, 144, 226, 0.1);
+}
+
+.story-form-input::placeholder,
+.story-form-textarea::placeholder {
+  color: #9CA3AF;
+  opacity: 1;
+}
+
+.story-form-textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* StoryGameDashboard 전용 메인 콘텐츠 */
+.story-dashboard-main-content {
+  max-width: 1271px;
+  margin: 0 auto;
+  padding: 80px 60px 40px;
+  min-height: calc(100vh - 90px);
+  margin-top: 60px;
+}
+
+/* StoryGameDashboard 전용 헤더 */
+.story-dashboard-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.story-dashboard-header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 } 
