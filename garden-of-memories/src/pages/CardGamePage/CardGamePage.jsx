@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useCardGame } from '../../hooks/useCardGame';
 import Card from '../../components/Card';
 import ResultPopup from '../../components/ResultPopup';
-import ElderlyHeader from '../../components/ElderlyHeader';
+
 import './CardGamePage.css';
 
 function CardGamePage() {
@@ -51,9 +51,7 @@ function CardGamePage() {
 
   return (
     <div className="card-game-app">
-      <ElderlyHeader 
-        onBackClick={handleGoHome}
-      />
+      
       
       <div className="card-game-main-container">
         <div className="card-game-main-card">

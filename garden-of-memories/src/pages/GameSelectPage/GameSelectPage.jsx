@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import ElderlyHeader from '../../components/ElderlyHeader';
+
 import './GameSelectPage.css';
 
 function GameSelectPage() {
@@ -87,9 +87,7 @@ function GameSelectPage() {
 
   return (
     <div className="game-select-page">
-      <ElderlyHeader 
-        onBackClick={handleBackToHome}
-      />
+      
 
       <main className="select-main-content">
         <div className="select-hero-section">
