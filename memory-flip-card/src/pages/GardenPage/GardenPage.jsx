@@ -1,87 +1,103 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { GardenItem } from '../../components/GardenItem';
 import { useGarden } from '../../hooks/useGarden';
 import './GardenPage.css';
 
+// Fixed positions for service category display areas (red boxes and labels)
+const SERVICE_CATEGORY_DISPLAY_POSITIONS = [
+  { service_category_id: 1, label: "오늘의 질문", left: 100, top: 100, width: 200, height: 150 },
+  { service_category_id: 2, label: "이야기 시퀀서", left: 350, top: 100, width: 200, height: 150 },
+  { service_category_id: 3, label: "추억 카드 뒤집기", left: 600, top: 100, width: 200, height: 150 },
+  { service_category_id: 4, label: "부모의 질문", left: 850, top: 100, width: 200, height: 150 },
+];
+
 const GardenPage = () => {
-  const { placedItems, inventoryItems, moveItem, returnItemToInventory, saveGardenState, resetGardenLayout } = useGarden(1);
   const gardenRef = useRef(null);
+  const [gardenWidth, setGardenWidth] = useState(0);
 
-  const handleDragOver = (e) => {
-    e.preventDefault(); // 드롭을 허용하기 위해 필수
-  };
-
-  const handleDrop = (e, dropZone) => {
-    e.preventDefault();
-    const dragData = e.dataTransfer.getData('application/json');
-    if (!dragData) return;
-
-    const { id, type, isPlaced } = JSON.parse(dragData);
-
-    if (dropZone === 'garden') {
+  // Measure garden width on mount and resize
+  useEffect(() => {
+    const measureWidth = () => {
       if (gardenRef.current) {
-        const gardenRect = gardenRef.current.getBoundingClientRect();
-        const itemWidth = 80;
-        const itemHeight = 80;
-
-        // 정원 기준 상대 좌표 계산
-        let newLeft = e.clientX - gardenRect.left;
-        let newTop = e.clientY - e.clientY - gardenRect.top;
-
-        // 아이템의 중심이 마우스 포인터와 맞도록 보정
-        newLeft -= itemWidth / 2;
-        newTop -= itemHeight / 2;
-
-        // 경계 유지 로직
-        const clampedLeft = Math.max(0, Math.min(newLeft, gardenRect.width - itemWidth));
-        const clampedTop = Math.max(0, Math.min(newTop, gardenRect.height - itemHeight));
-
-        moveItem(id, clampedLeft, clampedTop, type);
+        setGardenWidth(gardenRef.current.offsetWidth);
       }
-    } else if (dropZone === 'inventory') {
-      if (isPlaced) { // 정원에 있던 아이템일 경우에만 인벤토리로 이동
-        returnItemToInventory(id, type);
-      }
-    }
-  };
+    };
+
+    measureWidth(); // Initial measurement
+    window.addEventListener('resize', measureWidth); // Update on resize
+
+    return () => {
+      window.removeEventListener('resize', measureWidth);
+    };
+  }, []);
+
+  const { displayedRewards, personalizationConveyorWidth } = useGarden(1, gardenWidth);
+
+  const commonRewards = displayedRewards.filter(item => item.type === 'common');
+  const personalizationRewards = displayedRewards.filter(item => item.type === 'personalization');
 
   return (
     <div className="garden-page-container">
       <div className="garden-header">
         <h1>기억의 정원</h1>
-        <button onClick={saveGardenState} className="save-button">저장하기</button>
-        <button onClick={resetGardenLayout} className="reset-button">초기화</button>
       </div>
       <div 
         ref={gardenRef} 
         className="garden-background"
-        onDragOver={handleDragOver}
-        onDrop={(e) => handleDrop(e, 'garden')}
       >
-        <div className="tree-of-memories">기억의 나무</div>
-        {placedItems.map((item) => (
+        {/* Render service category display areas */}
+        {SERVICE_CATEGORY_DISPLAY_POSITIONS.map((pos) => (
+          <div 
+            key={pos.service_category_id}
+            style={{
+              position: 'absolute',
+              left: pos.left,
+              top: pos.top,
+              width: pos.width,
+              height: pos.height,
+              border: '2px solid red',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'flex-end',
+              paddingBottom: '10px',
+              boxSizing: 'border-box',
+            }}
+          >
+            <span style={{ color: 'red', fontWeight: 'bold' }}>{pos.label}</span>
+          </div>
+        ))}
+
+        {/* Render common rewards */}
+        {commonRewards.map((item) => (
           <GardenItem 
             key={`${item.type}-${item.id}`}
             {...item}
-            isPlaced={true}
+            isPlaced={true} // Common rewards are always considered 'placed' for display
           />
         ))}
-      </div>
 
-      <div 
-        className="inventory-container"
-        onDragOver={handleDragOver}
-        onDrop={(e) => handleDrop(e, 'inventory')}
-      >
-        <h2>인벤토리</h2>
-        <div className="inventory-grid">
-          {inventoryItems.map((item) => (
-            <GardenItem 
-              key={`${item.type}-${item.id}`}
-              {...item}
-              isPlaced={false}
-            />
-          ))}
+        {/* Personalization rewards conveyor belt */}
+        <div className="personalization-conveyor-wrapper">
+          <div 
+            className="personalization-conveyor"
+            style={{ '--personalization-conveyor-width': `${personalizationConveyorWidth}px` }}
+          >
+            {personalizationRewards.map((item) => (
+              <GardenItem 
+                key={`${item.type}-${item.id}`}
+                {...item}
+                // isPlaced is not needed for personalization rewards as they are not absolutely positioned
+              />
+            ))}
+            {/* Duplicate items for seamless loop */}
+            {personalizationRewards.map((item) => (
+              <GardenItem 
+                key={`duplicate-${item.type}-${item.id}`}
+                {...item}
+                // isPlaced is not needed for personalization rewards as they are not absolutely positioned
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>
