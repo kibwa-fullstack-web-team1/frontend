@@ -1,46 +1,53 @@
 import React, { useState } from 'react';
 
 const itemBaseStyle = {
-  width: '80px',
-  height: '80px',
-  cursor: 'grab',
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   boxSizing: 'border-box',
   pointerEvents: 'auto',
   zIndex: 100, // Always keep items on top
+  cursor: 'default', // Always default cursor
+  transformStyle: 'preserve-3d', // Enable 3D transformations
+  animation: 'rotate3d 5s linear infinite', // Apply 3D rotation animation
 };
 
-export const GardenItem = ({ id, imageUrl, left, top, type, description, onDragStart, isPlaced }) => {
+export const GardenItem = ({ id, imageUrl, left, top, type, description, stage }) => {
   const [isHovered, setIsHovered] = useState(false);
+
+  let currentWidth = 80;
+  let currentHeight = 80;
+
+  if (type === 'common') {
+    currentWidth = 240; // 3배 크게
+    currentHeight = 240;
+    if (stage && stage > 1) {
+      const scaleMultiplier = Math.pow(1.2, stage - 1);
+      currentWidth = Math.round(currentWidth * scaleMultiplier);
+      currentHeight = Math.round(currentHeight * scaleMultiplier);
+    }
+  }
 
   const itemStyle = {
     ...itemBaseStyle,
+    width: `${currentWidth}px`,
+    height: `${currentHeight}px`,
     backgroundImage: `url(${imageUrl})`,
-    ...(isPlaced ? {
+    // Positioning logic: common rewards are absolute, personalization rewards are flex-positioned
+    ...(type === 'common' ? {
       position: 'absolute',
-      left: left, // Use standard CSS properties
+      left: left,
       top: top,
     } : {
-      position: 'relative',
+      // Personalization rewards will be positioned by flexbox in their container
+      // No absolute positioning here
+      position: 'relative', // Ensure it respects flexbox layout
     }),
-  };
-
-  const handleDragStart = (e) => {
-    // 드래그 시작 시 필요한 데이터를 전달
-    const dragData = JSON.stringify({ id, type, isPlaced });
-    e.dataTransfer.setData('application/json', dragData);
-    // 부모 컴포넌트의 핸들러 호출 (필요 시)
-    if (onDragStart) {
-      onDragStart(e);
-    }
   };
 
   return (
     <div 
       style={itemStyle}
-      draggable="true"
-      onDragStart={handleDragStart}
+      draggable="false" // Not draggable
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       data-testid={`gardenitem`}
