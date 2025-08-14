@@ -8,7 +8,7 @@ const itemBaseStyle = {
   zIndex: 100, // Always keep items on top
   cursor: 'default', // Always default cursor
   transformStyle: 'preserve-3d', // Enable 3D transformations
-  animation: 'rotate3d 5s linear infinite', // Apply 3D rotation animation
+  
 };
 
 export const GardenItem = ({ id, imageUrl, left, top, type, description, stage }) => {
@@ -37,6 +37,7 @@ export const GardenItem = ({ id, imageUrl, left, top, type, description, stage }
       position: 'absolute',
       left: left,
       top: top,
+      animation: 'rotate3d 5s linear infinite', // Apply 3D rotation animation ONLY for common type
     } : {
       // Personalization rewards will be positioned by flexbox in their container
       // No absolute positioning here
