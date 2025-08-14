@@ -7,8 +7,11 @@ import SignupPage from './pages/SignupPage/SignupPage';
 import CardGamePage from './pages/CardGamePage/CardGamePage';
 import GameSelectPage from './pages/GameSelectPage/GameSelectPage';
 import CardGameDashboard from './pages/CardGameDashboard/CardGameDashboard';
+import GameSelectDashboard from './pages/GameSelectDashboard/GameSelectDashboard';
 import StoryGameDashboard from './pages/StoryGameDashboard/StoryGameDashboard';
 import GardenPage from './pages/GardenPage/GardenPage';
+import DailyQuestionPage from './pages/DailyQuestionPage/DailyQuestionPage';
+import StorySequence from './pages/StorySequence/StorySequence';
 
 function App() {
   return (
@@ -19,9 +22,12 @@ function App() {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/card-game" element={<CardGamePage />} />
         <Route path="/game-select" element={<GameSelectPage />} />
+        <Route path="/game-select-dashboard" element={<GameSelectDashboard />} />
+        <Route path="/daily-question" element={<DailyQuestionPage />} />
         <Route path="/card-game-dashboard" element={<CardGameDashboard />} />
         <Route path="/story-game-dashboard" element={<StoryGameDashboard />} />
         <Route path="/garden" element={<GardenPage />} />
+        <Route path="/story-sequence" element={<StorySequence />} />
       </Routes>
     </Router>
   );

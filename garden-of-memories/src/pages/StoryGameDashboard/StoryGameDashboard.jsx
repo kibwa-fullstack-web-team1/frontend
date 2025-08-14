@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiLogOut, FiEye, FiEdit, FiTrash2, FiPlay } from 'react-icons/fi';
 import { logoutUser } from '../../services/api';
+import FamilyHeader from '../../components/FamilyHeader';
 import './StoryGameDashboard.css';
 
 const StoryGameDashboard = () => {
@@ -145,89 +146,65 @@ const StoryGameDashboard = () => {
 
   return (
     <div className="story-registration-page">
-      {/* 헤더 */}
-      <header className="dashboard-header">
-        <div className="header-left">
-          <div className="logo-container" onClick={handleBackToDashboard}>
-            <div className="logo-icon">
-              <FiArrowLeft />
-            </div>
-          </div>
-          <div className="header-text">
-            <h1 className="main-title">기억의 정원</h1>
-            <p className="subtitle">보호자 대시보드</p>
-          </div>
-        </div>
-        <div className="header-right">
-          <div className="user-profile">
-            <div className="profile-avatar">김</div>
-            <div className="profile-info">
-              <span className="user-name">김보호자님</span>
-              <span className="user-role">보호자</span>
-            </div>
-          </div>
-          <button className="logout-button" onClick={handleLogout}>
-            <FiLogOut size={20} />
-            <span>로그아웃</span>
-          </button>
-        </div>
-      </header>
+      <FamilyHeader 
+        onBackClick={handleBackToDashboard}
+      />
 
-      <div className="dashboard-content">
+      <div className="story-dashboard-content">
         {/* 왼쪽 사이드바 - 이야기 등록 */}
-        <aside className="sidebar">
+        <aside className="story-sidebar">
           <section className="story-registration">
-            <h2 className="section-title">이야기 등록</h2>
+            <h2 className="story-section-title">이야기 등록</h2>
             
-            <form onSubmit={handleSubmit} className="registration-form">
-              <div className="form-group">
-                <label htmlFor="title" className="form-label">제목</label>
+            <form onSubmit={handleSubmit} className="story-form">
+              <div className="story-form-group">
+                <label htmlFor="title" className="story-form-label">이야기 제목</label>
                 <input
                   type="text"
                   id="title"
                   name="title"
                   value={formData.title}
                   onChange={handleInputChange}
-                  className="form-input"
+                  className="story-form-input"
                   placeholder="이야기 제목을 입력하세요"
                   required
                 />
               </div>
 
-              <div className="form-group">
-                <label htmlFor="category" className="form-label">카테고리</label>
+              <div className="story-form-group">
+                <label htmlFor="category" className="story-form-label">카테고리</label>
                 <select
                   id="category"
                   name="category"
                   value={formData.category}
                   onChange={handleInputChange}
-                  className="form-select"
+                  className="story-form-select"
                   required
                 >
                   <option value="">카테고리를 선택하세요</option>
-                  {categories.map(category => (
-                    <option key={category.value} value={category.label}>
+                  {categories.map((category) => (
+                    <option key={category.value} value={category.value}>
                       {category.label}
                     </option>
                   ))}
                 </select>
               </div>
 
-              <div className="form-group">
-                <label htmlFor="content" className="form-label">내용</label>
+              <div className="story-form-group">
+                <label htmlFor="content" className="story-form-label">이야기 내용</label>
                 <textarea
                   id="content"
                   name="content"
                   value={formData.content}
                   onChange={handleInputChange}
-                  className="form-textarea"
+                  className="story-form-textarea"
                   placeholder="이야기 내용을 입력하세요"
-                  rows="8"
+                  rows="6"
                   required
                 />
               </div>
 
-              <button type="submit" className="submit-button">
+              <button type="submit" className="story-submit-button">
                 이야기 등록
               </button>
             </form>
@@ -235,38 +212,38 @@ const StoryGameDashboard = () => {
         </aside>
 
         {/* 메인 콘텐츠 - 등록된 이야기 */}
-        <main className="main-content">
-          <section className="registered-stories">
-            <h2 className="section-title">등록된 이야기</h2>
+        <main className="story-main-content">
+          <section className="story-registered-stories">
+            <h2 className="story-section-title">등록된 이야기</h2>
             
-            <div className="stories-list">
+            <div className="story-stories-list">
               {registeredStories.map((story) => (
                 <div key={story.id} className="story-card">
-                  <div className="story-header">
-                    <h3 className="story-title">{story.title}</h3>
+                  <div className="story-card-header">
+                    <h3 className="story-card-title">{story.title}</h3>
                     <div 
-                      className="status-indicator"
+                      className="story-status-indicator"
                       style={{ backgroundColor: getStatusColor(story.status) }}
                     ></div>
                   </div>
                   
-                  <div className="story-meta">
-                    <span className="story-date">{story.date}</span>
-                    <span className="story-category">{story.category}</span>
+                  <div className="story-card-meta">
+                    <span className="story-card-date">{story.date}</span>
+                    <span className="story-card-category">{story.category}</span>
                   </div>
                   
-                  <p className="story-content">{story.content}</p>
+                  <p className="story-card-content">{story.content}</p>
                   
-                  <div className="story-actions">
+                  <div className="story-card-actions">
                     <button 
-                      className="action-button preview"
+                      className="story-action-button preview"
                       onClick={() => handleStoryAction(story.id, 'preview')}
                     >
                       <FiEye size={14} />
                       미리보기
                     </button>
                     <button 
-                      className="action-button edit"
+                      className="story-action-button edit"
                       onClick={() => handleStoryAction(story.id, 'edit')}
                     >
                       <FiEdit size={14} />
@@ -274,7 +251,7 @@ const StoryGameDashboard = () => {
                     </button>
                     {story.status === 'draft' ? (
                       <button 
-                        className="action-button publish"
+                        className="story-action-button publish"
                         onClick={() => handleStoryAction(story.id, 'publish')}
                       >
                         <FiPlay size={14} />
@@ -282,14 +259,14 @@ const StoryGameDashboard = () => {
                       </button>
                     ) : (
                       <button 
-                        className="action-button private"
+                        className="story-action-button private"
                         onClick={() => handleStoryAction(story.id, 'private')}
                       >
                         비공개
                       </button>
                     )}
                     <button 
-                      className="action-button delete"
+                      className="story-action-button delete"
                       onClick={() => handleStoryAction(story.id, 'delete')}
                     >
                       <FiTrash2 size={14} />
@@ -303,26 +280,26 @@ const StoryGameDashboard = () => {
         </main>
 
         {/* 오른쪽 사이드바 - 미리보기 */}
-        <aside className="preview-sidebar">
-          <section className="preview-section">
-            <h3 className="preview-title">사용자 화면 미리보기</h3>
+        <aside className="story-preview-sidebar">
+          <section className="story-preview-section">
+            <h3 className="story-preview-title">사용자 화면 미리보기</h3>
             
-            <div className="preview-container">
+            <div className="story-preview-container">
               {selectedStory ? (
                 <div className="story-preview">
-                  <h4 className="preview-story-title">{selectedStory.title}</h4>
-                  <p className="preview-story-content">{selectedStory.content}</p>
-                  <div className="preview-story-meta">
-                    <span className="preview-category">{selectedStory.category}</span>
-                    <span className="preview-date">{selectedStory.date}</span>
+                  <h4 className="story-preview-story-title">{selectedStory.title}</h4>
+                  <p className="story-preview-story-content">{selectedStory.content}</p>
+                  <div className="story-preview-story-meta">
+                    <span className="story-preview-category">{selectedStory.category}</span>
+                    <span className="story-preview-date">{selectedStory.date}</span>
                   </div>
                 </div>
               ) : (
-                <div className="preview-placeholder">
-                  <div className="placeholder-icon">
+                <div className="story-preview-placeholder">
+                  <div className="story-placeholder-icon">
                     <FiEye size={48} />
                   </div>
-                  <p className="placeholder-text">
+                  <p className="story-placeholder-text">
                     이야기를 선택하면<br />
                     미리보기가 표시됩니다
                   </p>

@@ -14,6 +14,8 @@
   background: #FFFFFF;
 }
 
+
+
 .login-logo {
   display: flex;
   align-items: center;
@@ -21,8 +23,8 @@
 }
 
 .login-logo-icon {
-  width: 12px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
 }
 
 .login-logo-text {
@@ -64,6 +66,8 @@
 .login-sign-in-btn:hover {
   background: #E8E4E0;
 }
+
+
 
 /* Main Content */
 .login-main-content {
@@ -115,20 +119,20 @@
   gap: 24px;
 }
 
-.form-group {
+.login-form-group {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.form-label {
+.login-form-label {
   font-size: 14px;
   font-weight: 600;
   color: #171412;
   line-height: 1.4;
 }
 
-.form-input {
+.login-form-input {
   padding: 12px 16px;
   border: 1px solid #E5E8EB;
   border-radius: 8px;
@@ -139,16 +143,16 @@
 }
 
 /* 비밀번호 입력필드에만 오른쪽 패딩 추가 */
-.password-input-container .form-input {
+.password-input-container .login-form-input {
   padding-right: 48px;
 }
 
-.form-input:focus {
+.login-form-input:focus {
   outline: none;
   border-color: #171412;
 }
 
-.form-input::placeholder {
+.login-form-input::placeholder {
   color: #000000;
   opacity: 0.6;
 }
@@ -178,14 +182,14 @@
   opacity: 1;
 }
 
-.form-options {
+.login-form-options {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: 8px;
 }
 
-.checkbox-container {
+.login-checkbox-container {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -196,11 +200,11 @@
   opacity: 0.8;
 }
 
-.checkbox {
+.login-checkbox {
   display: none;
 }
 
-.checkmark {
+.login-checkmark {
   width: 16px;
   height: 16px;
   border: 1px solid #666666;
@@ -209,7 +213,7 @@
   background: #FFFFFF;
 }
 
-.checkbox:checked + .checkmark::after {
+.login-checkbox:checked + .login-checkmark::after {
   content: '';
   position: absolute;
   left: 5px;
@@ -221,7 +225,7 @@
   transform: rotate(45deg);
 }
 
-.forgot-password {
+.login-forgot-password {
   background: none;
   border: none;
   color: #171412;
@@ -232,11 +236,11 @@
   transition: opacity 0.2s;
 }
 
-.forgot-password:hover {
+.login-forgot-password:hover {
   opacity: 1;
 }
 
-.error-message {
+.login-error-message {
   background: #FEE;
   color: #C33;
   padding: 12px;
@@ -278,14 +282,14 @@
   cursor: not-allowed;
 }
 
-.loading-spinner {
+.login-loading-spinner {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
 }
 
-.spinner {
+.login-spinner {
   width: 20px;
   height: 20px;
   border: 2px solid rgba(23, 20, 18, 0.3);
@@ -299,7 +303,7 @@
   100% { transform: rotate(360deg); }
 }
 
-.signup-section {
+.login-signup-section {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -307,14 +311,14 @@
   margin-top: 24px;
 }
 
-.signup-text {
+.login-signup-text {
   color: #171412;
   font-size: 14px;
   font-weight: 400;
   opacity: 0.8;
 }
 
-.signup-button {
+.login-signup-button {
   background: none;
   border: none;
   color: #171412;
@@ -324,59 +328,26 @@
   transition: opacity 0.2s;
 }
 
-.signup-button:hover {
+.login-signup-button:hover {
   opacity: 0.8;
 }
 
-/* 정원 입장하기 버튼 */
-.enter-garden-section {
-  margin-top: 24px;
-  text-align: center;
-}
 
-.enter-garden-button {
-  background: #171412;
-  color: #FFFFFF;
-  border: none;
-  border-radius: 24px;
-  padding: 16px 32px;
-  font-size: 16px;
-  font-weight: 700;
-  font-family: 'Lexend', sans-serif;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition: all 0.2s;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
-  width: 100%;
-}
-
-.enter-garden-button:hover {
-  background: #333333;
-  transform: translateY(-1px);
-  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.2);
-}
-
-.enter-garden-button svg {
-  color: #FFFFFF;
-}
 
 /* Footer */
-.footer {
+.login-footer {
   background: #F8F6F4;
   border-top: 1px solid #E5E8EB;
   padding: 40px 20px;
 }
 
-.footer-content {
+.login-footer-content {
   max-width: 1200px;
   margin: 0 auto;
   text-align: center;
 }
 
-.footer-logo {
+.login-footer-logo {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -384,17 +355,17 @@
   margin-bottom: 16px;
 }
 
-.footer-logo svg {
+.login-footer-logo svg {
   color: #171412;
 }
 
-.footer-logo span {
+.login-footer-logo span {
   font-size: 14px;
   font-weight: 600;
   color: #171412;
 }
 
-.footer-description {
+.login-footer-description {
   font-size: 14px;
   font-weight: 400;
   color: #171412;
@@ -403,14 +374,14 @@
   line-height: 1.5;
 }
 
-.social-links {
+.login-social-links {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 16px;
 }
 
-.social-link {
+.login-social-link {
   width: 32px;
   height: 32px;
   border: 1px solid #E5E8EB;
@@ -421,21 +392,21 @@
   transition: background-color 0.2s;
 }
 
-.social-link:hover {
+.login-social-link:hover {
   background: #F5F2F0;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .header {
+  .login-header {
     padding: 12px 20px;
   }
   
-  .nav {
+  .login-nav {
     gap: 16px;
   }
   
-  .nav-link {
+  .login-nav-link {
     font-size: 12px;
   }
   
@@ -452,7 +423,7 @@
     font-size: 14px;
   }
   
-  .form-options {
+  .login-form-options {
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;

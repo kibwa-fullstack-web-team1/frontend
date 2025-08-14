@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiEye, FiEyeOff, FiArrowRight, FiX } from 'react-icons/fi';
-import { loginUser } from '../../services/api';
+import { loginUser, fetchUserInfo } from '../../services/api';
 import './LoginPage.css';
 
 function LoginPage() {
@@ -44,15 +44,48 @@ function LoginPage() {
       }
 
       console.log('로그인 성공:', response);
+      console.log('전체 응답 데이터:', JSON.stringify(response, null, 2));
+      
+      // 로그인 성공 후 사용자 정보 가져오기
+      let userData;
+      try {
+        userData = await fetchUserInfo();
+        console.log('사용자 정보 가져오기 성공:', userData);
+      } catch (userInfoError) {
+        console.warn('사용자 정보 가져오기 실패, 기본 정보 사용:', userInfoError);
+        // 사용자 정보를 가져올 수 없는 경우 기본 정보 사용
+        userData = { role: 'senior' }; // 기본값으로 어르신 역할 설정
+      }
 
-      // 로그인 성공 시 게임 선택 페이지로 이동
-      navigate('/game-select');
-    } catch (err) {
-      console.error('로그인 오류:', err);
-      setError(err.message || '로그인에 실패했습니다. 다시 시도해주세요.');
-    } finally {
-      setIsLoading(false);
-    }
+      // 사용자 역할 확인 (배열 형태 응답 처리)
+      let role = null;
+      if (Array.isArray(userData) && userData.length > 0) {
+        role = userData[0].role;
+      } else if (userData && userData.role) {
+        role = userData.role;
+      }
+
+      console.log('확인된 사용자 역할:', role);
+
+      // 역할 → 페이지 매핑
+      const ROLE_ROUTE = {
+        senior: '/game-select',
+        family: '/game-select-dashboard',
+        guardian: '/game-select-dashboard', // 혼용 대응
+      };
+
+      const nextPath = role && ROLE_ROUTE[role] ? ROLE_ROUTE[role] : '/game-select';
+
+      console.log('결정된 nextPath:', nextPath, '(role:', role, ')');
+      console.log('ROLE_ROUTE[role]:', role ? ROLE_ROUTE[role] : 'undefined');
+      navigate(nextPath);
+
+   } catch (err) {
+     console.error('로그인 오류:', err);
+     setError(err.message || '로그인에 실패했습니다. 다시 시도해주세요.');
+   } finally {
+     setIsLoading(false);
+   }
   };
 
   const handleSignUp = () => {
@@ -64,54 +97,52 @@ function LoginPage() {
     alert('비밀번호 찾기 기능은 준비 중입니다.');
   };
 
-  const handleEnterGarden = () => {
-    navigate('/game-select');
-  };
-
   return (
     <div className="login-page">
       {/* Header */}
-      <header className="header">
-        <div className="logo">
-          <div className="logo-icon">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M1.14 0.38L14.85 15.62" stroke="#171412" strokeWidth="1.5"/>
-            </svg>
+      <header className="login-header">
+        <div className="login-header-content">
+          <div className="login-logo">
+            <div className="login-logo-icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M1.14 0.38L14.85 15.62" stroke="#171412" strokeWidth="1.5"/>
+              </svg>
+            </div>
+            <h1 className="login-logo-text">Garden of Memory</h1>
           </div>
-          <h1 className="logo-text">Garden of Memory</h1>
+          <nav className="login-nav">
+            <a href="#" className="login-nav-link">Games</a>
+            <a href="#" className="login-nav-link">About Us</a>
+            <a href="#" className="login-nav-link">Contact</a>
+            <button className="login-sign-in-btn">Sign In</button>
+          </nav>
         </div>
-        <nav className="nav">
-          <a href="#" className="nav-link">Games</a>
-          <a href="#" className="nav-link">About Us</a>
-          <a href="#" className="nav-link">Contact</a>
-          <button className="sign-in-btn">Sign In</button>
-        </nav>
       </header>
 
       {/* Main Content */}
-      <main className="main-content">
+      <main className="login-main-content">
         <div className="login-container">
           <div className="login-form-wrapper">
             <h2 className="login-title">로그인</h2>
             <p className="login-subtitle">소중한 기억들이 기다리고 있습니다</p>
             
             <form onSubmit={handleSubmit} className="login-form">
-              <div className="form-group">
-                <label htmlFor="email" className="form-label">이메일</label>
+              <div className="login-form-group">
+                <label htmlFor="email" className="login-form-label">이메일</label>
                 <input
                   type="email"
                   id="email"
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="form-input"
+                  className="login-form-input"
                   placeholder="이메일을 입력하세요"
                   required
                 />
               </div>
 
-              <div className="form-group">
-                <label htmlFor="password" className="form-label">비밀번호</label>
+              <div className="login-form-group">
+                <label htmlFor="password" className="login-form-label">비밀번호</label>
                 <div className="password-input-container">
                   <input
                     type={showPassword ? "text" : "password"}
@@ -119,7 +150,7 @@ function LoginPage() {
                     name="password"
                     value={formData.password}
                     onChange={handleInputChange}
-                    className="form-input"
+                    className="login-form-input"
                     placeholder="비밀번호를 입력하세요"
                     required
                   />
@@ -133,22 +164,22 @@ function LoginPage() {
                 </div>
               </div>
 
-              <div className="form-options">
-                <label className="checkbox-container">
+              <div className="login-form-options">
+                <label className="login-checkbox-container">
                   <input
                     type="checkbox"
                     name="rememberMe"
                     checked={formData.rememberMe}
                     onChange={handleInputChange}
-                    className="checkbox"
+                    className="login-checkbox"
                   />
-                  <span className="checkmark"></span>
+                  <span className="login-checkmark"></span>
                   로그인 상태 유지
                 </label>
                 
                 <button
                   type="button"
-                  className="forgot-password"
+                  className="login-forgot-password"
                   onClick={handleForgotPassword}
                 >
                   비밀번호 찾기
@@ -156,7 +187,7 @@ function LoginPage() {
               </div>
 
               {error && (
-                <div className="error-message">
+                <div className="login-error-message">
                   {error}
                 </div>
               )}
@@ -167,8 +198,8 @@ function LoginPage() {
                 disabled={isLoading}
               >
                 {isLoading ? (
-                  <div className="loading-spinner">
-                    <div className="spinner"></div>
+                  <div className="login-loading-spinner">
+                    <div className="login-spinner"></div>
                     로그인 중...
                   </div>
                 ) : (
@@ -180,52 +211,41 @@ function LoginPage() {
               </button>
             </form>
 
-            <div className="signup-section">
-              <span className="signup-text">아직 계정이 없으신가요?</span>
+            <div className="login-signup-section">
+              <span className="login-signup-text">아직 계정이 없으신가요?</span>
               <button
                 type="button"
-                className="signup-button"
+                className="login-signup-button"
                 onClick={handleSignUp}
               >
                 회원가입
-              </button>
-            </div>
-
-            <div className="enter-garden-section">
-              <button
-                type="button"
-                className="enter-garden-button"
-                onClick={handleEnterGarden}
-              >
-                정원에 입장하기
-                <FiArrowRight size={20} />
               </button>
             </div>
           </div>
         </div>
 
         {/* Footer */}
-        <footer className="footer">
-          <div className="footer-content">
-            <div className="footer-logo">
+        <footer className="login-footer">
+          <div className="login-footer-content">
+            <div className="login-footer-logo">
               <FiX size={16} />
               <span>Garden of Memory</span>
             </div>
-            <p className="footer-description">
+            <p className="login-footer-description">
               소중한 기억들을 영원히 간직할 수 있는 디지털 정원입니다.
             </p>
-            <div className="social-links">
-              <a href="#" className="social-link">
+            <div className="login-social-links">
+              <a href="#" className="login-social-link">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                   <path d="M0 1.5L16 13.5" stroke="#171412" strokeWidth="1.5"/>
                 </svg>
               </a>
-              <a href="#" className="social-link">
+              <a href="#" className="login-social-link">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                   <path d="M1.03 2.67L14.98 13.33" stroke="#171412" strokeWidth="1.5"/>
                 </svg>
               </a>
-              <a href="#" className="social-link">
+              <a href="#" className="login-social-link">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                   <path d="M0 0L16 15.61" stroke="#171412" strokeWidth="1.5"/>
                 </svg>
