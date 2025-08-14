@@ -96,13 +96,10 @@ function GameSelectDashboard() {
         navigate('/card-game');
         break;
       case 'story-sequence':
-        navigate('/game');
+        navigate('/story-sequence');
         break;
       case 'daily-question':
-        navigate('/game');
-        break;
-      case 'puzzle-solving':
-        navigate('/game');
+        navigate('/daily-question');
         break;
       default:
         navigate('/game');
