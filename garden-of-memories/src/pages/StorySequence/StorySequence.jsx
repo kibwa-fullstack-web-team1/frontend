@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import ElderlyHeader from '../../components/ElderlyHeader';
 import './StorySequence.css';
 
+// API 기본 URL 변수
+const STORY_GAME_BASE_URL = 'http://13.251.163.144:8011';
+
 function StorySequence() {
   const navigate = useNavigate();
   const [gameData, setGameData] = useState(null);
@@ -53,20 +56,19 @@ function StorySequence() {
       }
       
       // 실제 story-sequencer API 호출
-      const response = await fetch('http://localhost:8011/api/v0/stories/segments/random', {
+      const response = await fetch(`${STORY_GAME_BASE_URL}/api/v0/stories/segments/random`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${authToken}`
         }
       });
-
+    
       if (!response.ok) {
         throw new Error(`API 호출 실패: ${response.status}`);
       }
-
-      const data = await response.json();
-      console.log('API 응답:', data);
+    
+      const data = await response.json();      console.log('API 응답:', data);
       
       if (!data.results || !data.results.segment_text) {
         throw new Error('유효한 세그먼트 데이터를 받지 못했습니다.');
@@ -243,7 +245,7 @@ function StorySequence() {
         user_id: parseInt(userId.replace('user', '')) || 1
       };
 
-      const response = await fetch('http://localhost:8011/api/v0/game-results/submit-result', {
+      const response = await fetch(`${STORY_GAME_BASE_URL}/api/v0/game-results/submit-result`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -16,33 +16,72 @@ const CardGameDashboard = () => {
   const [totalResults, setTotalResults] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [resultsPerPage] = useState(10);
-  // 임시로 user2 사용 (실제로는 로그인한 사용자 정보 사용)
-  const userId = 'user2';
+  const [currentUser, setCurrentUser] = useState(null);
+  const [loadingUser, setLoadingUser] = useState(true);
+
+  // 현재 로그인한 사용자 정보 가져오기
+  useEffect(() => {
+    const loadCurrentUser = () => {
+      try {
+        const user = getCurrentUser();
+        if (user) {
+          // guardian 역할인지 확인
+          if (user.role === 'guardian') {
+            setCurrentUser(user);
+            console.log('현재 guardian 사용자:', user);
+          } else {
+            console.log('guardian이 아닌 사용자, 홈으로 리다이렉트');
+            navigate('/');
+            return;
+          }
+        } else {
+          // 로그인되지 않은 경우 홈으로 리다이렉트
+          console.log('로그인되지 않음, 홈으로 리다이렉트');
+          navigate('/');
+          return;
+        }
+      } catch (error) {
+        console.error('사용자 정보 로딩 실패:', error);
+        navigate('/');
+        return;
+      } finally {
+        setLoadingUser(false);
+      }
+    };
+
+    loadCurrentUser();
+  }, [navigate]);
 
   // 게임 결과 불러오기
   useEffect(() => {
+    if (!currentUser) return;
+
     const loadGameResults = async () => {
       setLoadingResults(true);
       try {
         const offset = (currentPage - 1) * resultsPerPage;
-        const data = await fetchCaregiverGameResults(userId, resultsPerPage, offset);
+        const data = await fetchCaregiverGameResults(currentUser.id || currentUser.user_id, resultsPerPage, offset);
         setGameResults(data.results);
         setTotalResults(data.count);
       } catch (error) {
         console.error('게임 결과 로딩 실패:', error);
+        setGameResults([]);
+        setTotalResults(0);
       } finally {
         setLoadingResults(false);
       }
     };
 
     loadGameResults();
-  }, [userId, currentPage, resultsPerPage]);
+  }, [currentUser, currentPage, resultsPerPage]);
 
   // 가족 사진 불러오기 함수
   const loadFamilyPhotos = async () => {
+    if (!currentUser) return;
+    
     setLoadingPhotos(true);
     try {
-      const photos = await fetchFamilyPhotos(userId);
+      const photos = await fetchFamilyPhotos(currentUser.id || currentUser.user_id);
       setFamilyPhotos(photos);
     } catch (error) {
       console.error('가족 사진 로딩 실패:', error);
@@ -55,34 +94,25 @@ const CardGameDashboard = () => {
 
   // 가족 사진 불러오기
   useEffect(() => {
-    loadFamilyPhotos();
-  }, [userId]);
-
-  // TODO: 실제 백엔드 API에서 받아올 최근 업로드 데이터
-  // 현재는 임시 데이터 (실제로는 API 호출로 가져옴)
-  const recentUploads = [
-    {
-      id: 1,
-      name: '가족여행.jpg',
-      date: '2024-01-15',
-      image: '/images/family-trip.jpg'
-    },
-    {
-      id: 2,
-      name: '생일파티.jpg',
-      date: '2024-01-10',
-      image: '/images/birthday-party.jpg'
-    },
-    {
-      id: 3,
-      name: '할머니와함께.jpg',
-      date: '2024-01-05',
-      image: '/images/with-grandma.jpg'
+    if (currentUser) {
+      loadFamilyPhotos();
     }
-  ];
+  }, [currentUser]);
 
   // 실제 백엔드 API와 연결된 파일 업로드 처리
   const handleFileUpload = async (event) => {
+    if (!currentUser) {
+      alert('로그인이 필요합니다.');
+      return;
+    }
+
+    // 사용자 ID 확인
+    const userId = currentUser.id || currentUser.user_id;
+    if (!userId) {
+      alert('사용자 정보를 찾을 수 없습니다. 다시 로그인해주세요.');
+      return;
+    }
+
     const files = Array.from(event.target.files);
     
     if (files.length === 0) return;
@@ -104,7 +134,7 @@ const CardGameDashboard = () => {
           setUploadedFiles(prev => [newFile, ...prev]);
           
           // 중복 파일 메시지 표시
-          if (result.message.includes('이미 업로드된 파일')) {
+          if (result.message && result.message.includes('이미 업로드된 파일')) {
             console.log(result.message);
             // 사용자에게 중복 파일 알림 (선택사항)
             // alert(result.message);
@@ -131,6 +161,11 @@ const CardGameDashboard = () => {
 
   // 실제 백엔드 API와 연결된 드래그 앤 드롭 파일 업로드 처리
   const handleDrop = async (event) => {
+    if (!currentUser) {
+      alert('로그인이 필요합니다.');
+      return;
+    }
+
     event.preventDefault();
     const files = Array.from(event.dataTransfer.files);
     
@@ -140,7 +175,7 @@ const CardGameDashboard = () => {
     
     try {
       for (const file of files) {
-        const result = await uploadFamilyPhoto(file, userId);
+        const result = await uploadFamilyPhoto(file, currentUser.id || currentUser.user_id);
         
         if (result.success) {
           // 업로드 성공 시 로컬 상태에 추가
@@ -153,7 +188,7 @@ const CardGameDashboard = () => {
           setUploadedFiles(prev => [newFile, ...prev]);
           
           // 중복 파일 메시지 표시
-          if (result.message.includes('이미 업로드된 파일')) {
+          if (result.message && result.message.includes('이미 업로드된 파일')) {
             console.log(result.message);
             // 사용자에게 중복 파일 알림 (선택사항)
             // alert(result.message);
@@ -215,6 +250,18 @@ const CardGameDashboard = () => {
     setCurrentPage(newPage);
   };
 
+  // 로딩 중이거나 사용자 정보가 없으면 로딩 표시
+  if (loadingUser || !currentUser) {
+    return (
+      <div className="card-dashboard">
+        <div className="card-dashboard-loading">
+          <div className="card-dashboard-loading-spinner"></div>
+          <p>사용자 정보를 불러오는 중...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="card-dashboard">
       <FamilyHeader 
@@ -261,17 +308,21 @@ const CardGameDashboard = () => {
           <section className="card-dashboard-recent-uploads">
             <h3 className="card-dashboard-section-subtitle">최근 업로드</h3>
             <div className="card-dashboard-upload-list">
-              {recentUploads.map((item) => (
-                <div key={item.id} className="card-dashboard-upload-item">
-                  <div className="card-dashboard-upload-thumbnail">
-                    <img src={item.image} alt={item.name} />
+              {uploadedFiles.length > 0 ? (
+                uploadedFiles.slice(0, 3).map((item) => (
+                  <div key={item.id} className="card-dashboard-upload-item">
+                    <div className="card-dashboard-upload-thumbnail">
+                      <img src={item.image} alt={item.name} />
+                    </div>
+                    <div className="card-dashboard-upload-info">
+                      <p className="card-dashboard-upload-name">{item.name}</p>
+                      <p className="card-dashboard-upload-date">{item.date}</p>
+                    </div>
                   </div>
-                  <div className="card-dashboard-upload-info">
-                    <p className="card-dashboard-upload-name">{item.name}</p>
-                    <p className="card-dashboard-upload-date">{item.date}</p>
-                  </div>
-                </div>
-              ))}
+                ))
+              ) : (
+                <p className="card-dashboard-no-uploads">아직 업로드된 사진이 없습니다.</p>
+              )}
             </div>
           </section>
 
@@ -406,11 +457,16 @@ const CardGameDashboard = () => {
             <h3 className="card-dashboard-stats-title">이번 주 통계</h3>
             <div className="card-dashboard-stats-grid">
               <div className="card-dashboard-stat-card">
-                <span className="card-dashboard-stat-number">12</span>
+                <span className="card-dashboard-stat-number">{gameResults.length}</span>
                 <span className="card-dashboard-stat-label">게임 완료</span>
               </div>
               <div className="card-dashboard-stat-card">
-                <span className="card-dashboard-stat-number">78</span>
+                <span className="card-dashboard-stat-number">
+                  {gameResults.length > 0 
+                    ? Math.round(gameResults.reduce((sum, result) => sum + (result.score || 0), 0) / gameResults.length)
+                    : 0
+                  }
+                </span>
                 <span className="card-dashboard-stat-label">평균 점수</span>
               </div>
             </div>

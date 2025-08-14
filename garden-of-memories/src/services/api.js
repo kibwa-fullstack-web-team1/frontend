@@ -359,7 +359,7 @@ export const fetchFamilyPhotos = async (userId) => {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT);
 
-    const response = await fetch(`${AUTH_API_BASE_URL}/family-photos?user_id=${userId}`, {
+    const response = await fetch(`${CARD_GAME_BASE_URL}/list/family-photos?user_id=${userId}`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${getAuthToken()}`,
@@ -411,7 +411,7 @@ export const uploadFamilyPhoto = async (file, userId) => {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT);
 
-    const response = await fetch(`${AUTH_API_BASE_URL}/family-photos`, {
+    const response = await fetch(`${CARD_GAME_BASE_URL}/upload/family-photos`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${getAuthToken()}`,

@@ -1,35 +1,29 @@
-/* CardGameDashboard 전용 헤더 */
-.card-dashboard-header-left {
-  display: flex;
-  align-items: center;
-  gap: 16px;
+/* CardGameDashboard 전용 스타일 */
+.card-dashboard {
+  min-height: 100vh;
+  background-color: #F8F6F4;
 }
 
-.card-dashboard-header-right {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-/* CardGameDashboard 전용 메인 콘텐츠 */
-.card-dashboard-main-content {
-  max-width: 1271px;
-  margin: 0 auto;
-  padding: 80px 60px 40px;
+.card-dashboard-content {
+  display: grid;
+  grid-template-columns: 320px 1fr 320px;
+  gap: 0;
   min-height: calc(100vh - 90px);
-  margin-top: 60px;
+  margin-top: 90px;
 }
 
-/* 사이드바 스타일 */
-.sidebar {
-  width: 320px;
+/* 왼쪽 사이드바 */
+.card-dashboard-sidebar {
   background-color: #FFFFFF;
   border-right: 1px solid #E5E8EB;
   padding: 24px;
   overflow-y: auto;
+  height: calc(100vh - 90px);
+  position: sticky;
+  top: 90px;
 }
 
-.section-title {
+.card-dashboard-section-title {
   font-size: 20px;
   font-weight: 700;
   color: #171412;
@@ -37,7 +31,7 @@
   line-height: 1.5;
 }
 
-.section-subtitle {
+.card-dashboard-section-subtitle {
   font-size: 16px;
   font-weight: 700;
   color: #171412;
@@ -46,11 +40,11 @@
 }
 
 /* 업로드 섹션 */
-.upload-section {
+.card-dashboard-upload-section {
   margin-bottom: 32px;
 }
 
-.upload-area {
+.card-dashboard-upload-area {
   width: 100%;
   height: 193px;
   border: 2px dashed #E5E8EB;
@@ -60,26 +54,29 @@
   justify-content: center;
   cursor: pointer;
   transition: border-color 0.3s ease;
+  background-color: #FFFFFF;
 }
 
-.upload-area:hover {
+.card-dashboard-upload-area:hover {
   border-color: #171412;
+  background-color: #F8F6F4;
 }
 
-.upload-label {
+.card-dashboard-upload-label {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 16px;
   cursor: pointer;
+  text-align: center;
 }
 
-.upload-icon {
+.card-dashboard-upload-icon {
   font-size: 48px;
   color: #171412;
 }
 
-.upload-text {
+.card-dashboard-upload-text {
   font-size: 16px;
   font-weight: 500;
   color: #171412;
@@ -88,7 +85,7 @@
   line-height: 1.5;
 }
 
-.upload-hint {
+.card-dashboard-upload-hint {
   font-size: 14px;
   font-weight: 400;
   color: #171412;
@@ -99,7 +96,7 @@
 }
 
 /* 업로드 스피너 */
-.upload-spinner {
+.card-dashboard-upload-spinner {
   width: 24px;
   height: 24px;
   border: 2px solid rgba(23, 20, 18, 0.3);
@@ -114,86 +111,18 @@
   100% { transform: rotate(360deg); }
 }
 
-/* 게임 결과 로딩 및 빈 상태 */
-.loading-results,
-.no-results {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 20px;
-  text-align: center;
-}
-
-.loading-results .loading-spinner {
-  width: 32px;
-  height: 32px;
-  border: 3px solid rgba(23, 20, 18, 0.3);
-  border-top: 3px solid #171412;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin-bottom: 16px;
-}
-
-.loading-results p,
-.no-results p {
-  font-size: 14px;
-  color: #171412;
-  opacity: 0.7;
-  margin: 0;
-}
-
-/* 페이지네이션 */
-.pagination {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  margin-top: 24px;
-  padding-top: 16px;
-  border-top: 1px solid #E5E8EB;
-}
-
-.pagination-button {
-  background: #F5F2F0;
-  border: 1px solid #E5E8EB;
-  border-radius: 8px;
-  padding: 8px 16px;
-  font-size: 14px;
-  font-weight: 500;
-  color: #171412;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.pagination-button:hover:not(:disabled) {
-  background: #E8E4E0;
-  border-color: #171412;
-}
-
-.pagination-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.pagination-info {
-  font-size: 14px;
-  font-weight: 500;
-  color: #171412;
-}
-
 /* 최근 업로드 */
-.recent-uploads {
+.card-dashboard-recent-uploads {
   margin-bottom: 24px;
 }
 
-.upload-list {
+.card-dashboard-upload-list {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.upload-item {
+.card-dashboard-upload-item {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -202,7 +131,7 @@
   border-radius: 12px;
 }
 
-.upload-thumbnail {
+.card-dashboard-upload-thumbnail {
   width: 48px;
   height: 48px;
   border-radius: 8px;
@@ -210,18 +139,18 @@
   flex-shrink: 0;
 }
 
-.upload-thumbnail img {
+.card-dashboard-upload-thumbnail img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.upload-info {
+.card-dashboard-upload-info {
   flex: 1;
   min-width: 0;
 }
 
-.upload-name {
+.card-dashboard-upload-name {
   font-size: 14px;
   font-weight: 500;
   color: #171412;
@@ -232,7 +161,7 @@
   text-overflow: ellipsis;
 }
 
-.upload-date {
+.card-dashboard-upload-date {
   font-size: 12px;
   font-weight: 400;
   color: #171412;
@@ -241,14 +170,53 @@
   line-height: 1.5;
 }
 
+/* 업로드 없음 상태 */
+.card-dashboard-no-uploads {
+  font-size: 14px;
+  color: #171412;
+  opacity: 0.6;
+  text-align: center;
+  margin: 0;
+  padding: 20px;
+  background-color: #F8F6F4;
+  border-radius: 12px;
+}
+
+/* 전체 로딩 상태 */
+.card-dashboard-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  text-align: center;
+}
+
+.card-dashboard-loading .card-dashboard-loading-spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(23, 20, 18, 0.3);
+  border-top: 4px solid #171412;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 24px;
+}
+
+.card-dashboard-loading p {
+  font-size: 18px;
+  color: #171412;
+  opacity: 0.7;
+  margin: 0;
+}
+
 /* 이야기 등록 섹션 */
-.story-registration-section {
+.card-dashboard-story-registration-section {
   margin-top: 24px;
   padding-top: 24px;
   border-top: 1px solid #E5E8EB;
 }
 
-.story-registration-button {
+.card-dashboard-story-registration-button {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -264,34 +232,36 @@
   transition: background-color 0.3s ease;
 }
 
-.story-registration-button:hover {
+.card-dashboard-story-registration-button:hover {
   background-color: #333333;
 }
 
 /* 메인 콘텐츠 */
-.main-content {
-  flex: 1;
+.card-dashboard-main-content {
   padding: 24px;
   overflow-y: auto;
+  background-color: #FFFFFF;
+  border-right: 1px solid #E5E8EB;
+  border-left: 1px solid #E5E8EB;
 }
 
-.gallery-section {
+.card-dashboard-gallery-section {
   margin-bottom: 24px;
 }
 
-.photo-grid {
+.card-dashboard-photo-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(184px, 1fr));
   gap: 16px;
 }
 
-.photo-item {
+.card-dashboard-photo-item {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.photo-container {
+.card-dashboard-photo-container {
   width: 100%;
   height: 184px;
   border: 1px solid #E5E8EB;
@@ -300,13 +270,13 @@
   background-color: #F8F6F4;
 }
 
-.photo-container img {
+.card-dashboard-photo-container img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.photo-name {
+.card-dashboard-photo-name {
   font-size: 14px;
   font-weight: 500;
   color: #171412;
@@ -314,7 +284,7 @@
   line-height: 1.5;
 }
 
-.photo-date {
+.card-dashboard-photo-date {
   font-size: 12px;
   font-weight: 400;
   color: #171412;
@@ -323,11 +293,11 @@
   line-height: 1.5;
 }
 
-.add-photo {
+.card-dashboard-photo-item.add-photo {
   cursor: pointer;
 }
 
-.add-photo .photo-container {
+.card-dashboard-photo-item.add-photo .card-dashboard-photo-container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -335,12 +305,12 @@
   background-color: #F8F6F4;
 }
 
-.add-icon {
+.card-dashboard-add-icon {
   font-size: 32px;
   color: #171412;
 }
 
-.add-text {
+.card-dashboard-add-text {
   font-size: 14px;
   font-weight: 400;
   color: #171412;
@@ -350,41 +320,73 @@
   line-height: 1.5;
 }
 
+/* 로딩 및 빈 상태 */
+.card-dashboard-loading-photos,
+.card-dashboard-no-photos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+  grid-column: 1 / -1;
+}
+
+.card-dashboard-loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(23, 20, 18, 0.3);
+  border-top: 3px solid #171412;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+.card-dashboard-loading-photos p,
+.card-dashboard-no-photos p {
+  font-size: 14px;
+  color: #171412;
+  opacity: 0.7;
+  margin: 0;
+}
+
 /* 오른쪽 사이드바 */
-.results-sidebar {
-  width: 320px;
+.card-dashboard-results-sidebar {
   background-color: #FFFFFF;
   border-left: 1px solid #E5E8EB;
   padding: 24px;
   overflow-y: auto;
+  height: calc(100vh - 90px);
+  position: sticky;
+  top: 90px;
 }
 
 /* 게임 결과 */
-.game-results {
+.card-dashboard-game-results {
   margin-bottom: 32px;
 }
 
-.results-list {
+.card-dashboard-results-list {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.result-item {
+.card-dashboard-result-item {
   padding: 16px;
   background-color: #F8F6F4;
   border: 1px solid #E5E8EB;
   border-radius: 12px;
 }
 
-.result-header {
+.card-dashboard-result-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 8px;
 }
 
-.result-title {
+.card-dashboard-result-title {
   font-size: 16px;
   font-weight: 700;
   color: #171412;
@@ -392,14 +394,14 @@
   line-height: 1.5;
 }
 
-.status-indicator {
+.card-dashboard-status-indicator {
   width: 8px;
   height: 8px;
   border-radius: 50%;
   flex-shrink: 0;
 }
 
-.result-date {
+.card-dashboard-result-date {
   font-size: 12px;
   font-weight: 400;
   color: #171412;
@@ -408,19 +410,19 @@
   line-height: 1.5;
 }
 
-.result-stats {
+.card-dashboard-result-stats {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.stat-item {
+.card-dashboard-stat-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.stat-label {
+.card-dashboard-stat-label {
   font-size: 14px;
   font-weight: 400;
   color: #171412;
@@ -428,14 +430,14 @@
   line-height: 1.5;
 }
 
-.stat-value {
+.card-dashboard-stat-value {
   font-size: 14px;
   font-weight: 500;
   color: #171412;
   line-height: 1.5;
 }
 
-.difficulty-badge {
+.card-dashboard-difficulty-badge {
   padding: 4px 8px;
   border-radius: 6px;
   font-size: 12px;
@@ -444,14 +446,82 @@
   line-height: 1.5;
 }
 
+/* 로딩 및 빈 상태 */
+.card-dashboard-loading-results,
+.card-dashboard-no-results {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.card-dashboard-loading-results .card-dashboard-loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(23, 20, 18, 0.3);
+  border-top: 3px solid #171412;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+.card-dashboard-loading-results p,
+.card-dashboard-no-results p {
+  font-size: 14px;
+  color: #171412;
+  opacity: 0.7;
+  margin: 0;
+}
+
+/* 페이지네이션 */
+.card-dashboard-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #E5E8EB;
+}
+
+.card-dashboard-pagination-button {
+  background: #F5F2F0;
+  border: 1px solid #E5E8EB;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #171412;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.card-dashboard-pagination-button:hover:not(:disabled) {
+  background: #E8E4E0;
+  border-color: #171412;
+}
+
+.card-dashboard-pagination-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.card-dashboard-pagination-info {
+  font-size: 14px;
+  font-weight: 500;
+  color: #171412;
+}
+
 /* 이번 주 통계 */
-.weekly-stats {
+.card-dashboard-weekly-stats {
   padding: 16px;
   background-color: #171412;
   border-radius: 12px;
 }
 
-.stats-title {
+.card-dashboard-stats-title {
   font-size: 16px;
   font-weight: 700;
   color: #FFFFFF;
@@ -460,27 +530,27 @@
   line-height: 1.5;
 }
 
-.stats-grid {
+.card-dashboard-stats-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
 }
 
-.stat-card {
+.card-dashboard-stat-card {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
 }
 
-.stat-number {
+.card-dashboard-stat-number {
   font-size: 24px;
   font-weight: 700;
   color: #FFFFFF;
   line-height: 1.5;
 }
 
-.stat-card .stat-label {
+.card-dashboard-stat-card .card-dashboard-stat-label {
   font-size: 12px;
   font-weight: 400;
   color: #FFFFFF;
@@ -491,56 +561,62 @@
 
 /* 반응형 디자인 */
 @media (max-width: 1200px) {
-  .dashboard-content {
-    flex-direction: column;
+  .card-dashboard-content {
+    grid-template-columns: 1fr;
+    gap: 0;
   }
   
-  .sidebar,
-  .results-sidebar {
-    width: 100%;
+  .card-dashboard-sidebar,
+  .card-dashboard-results-sidebar {
+    position: static;
+    height: auto;
     border-right: none;
     border-left: none;
     border-bottom: 1px solid #E5E8EB;
   }
   
-  .photo-grid {
+  .card-dashboard-main-content {
+    border: none;
+  }
+  
+  .card-dashboard-photo-grid {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   }
 }
 
 @media (max-width: 768px) {
-  .dashboard-header {
-    padding: 16px;
-    height: auto;
-    flex-direction: column;
-    gap: 16px;
+  .card-dashboard-content {
+    margin-top: 70px;
   }
   
-  .header-left {
-    width: 100%;
-    justify-content: center;
-  }
-  
-  .header-right {
-    width: 100%;
-    justify-content: center;
-  }
-  
-  .main-content {
+  .card-dashboard-sidebar,
+  .card-dashboard-main-content,
+  .card-dashboard-results-sidebar {
     padding: 16px;
   }
   
-  .sidebar,
-  .results-sidebar {
-    padding: 16px;
-  }
-  
-  .photo-grid {
+  .card-dashboard-photo-grid {
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     gap: 12px;
   }
   
-  .stats-grid {
+  .card-dashboard-stats-grid {
     grid-template-columns: 1fr;
+  }
+  
+  .card-dashboard-upload-area {
+    height: 150px;
+  }
+  
+  .card-dashboard-upload-icon {
+    font-size: 32px;
+  }
+  
+  .card-dashboard-upload-text {
+    font-size: 14px;
+  }
+  
+  .card-dashboard-upload-hint {
+    font-size: 12px;
   }
 } 

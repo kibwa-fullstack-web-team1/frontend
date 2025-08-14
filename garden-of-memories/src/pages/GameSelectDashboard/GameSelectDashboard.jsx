@@ -93,13 +93,13 @@ function GameSelectDashboard() {
   const handleGameSelect = (gameId) => {
     switch (gameId) {
       case 'memory-flip-card':
-        navigate('/card-game');
+        navigate('/card-game-dashboard');
         break;
       case 'story-sequence':
-        navigate('/story-sequence');
+        navigate('/story-game-dashboard');
         break;
       case 'daily-question':
-        navigate('/daily-question');
+        navigate('/daily-question-dashboard');
         break;
       default:
         navigate('/game');
