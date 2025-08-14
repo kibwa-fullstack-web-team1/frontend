@@ -11,7 +11,7 @@
 
 /* 메인 컨테이너 */
 .story-sequence-main-container {
-  max-width: 1152px;
+  max-width: 1400px; /* 가로 길이 확장 */
   margin: 0 auto;
   padding: 122px 52px 0;
   min-height: calc(100vh - 90px);
@@ -28,6 +28,9 @@
   min-height: 900px;
   position: relative;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box; /* 패딩을 포함한 크기 계산 */
+  width: 100%; /* 전체 너비 사용 */
+  min-width: 1200px; /* 최소 가로 길이 설정 */
 }
 
 /* 게임 제목 */
@@ -45,29 +48,40 @@
   display: flex;
   gap: 40px;
   align-items: stretch;
+  max-width: 100%; /* 최대 너비 제한 */
+  min-width: 1000px; /* 최소 가로 길이 설정 */
 }
 
 .story-sequence-panel {
   flex: 1;
   display: flex;
   flex-direction: column;
+  max-width: 100%; /* 패널 최대 너비 제한 */
 }
 
 .story-sequence-panel--left {
-  min-width: 280px;
+  min-width: 320px; /* 왼쪽 패널 너비 확장 */
+  flex: 1;
 }
 
 .story-sequence-panel--center {
-  min-width: 400px;
+  min-width: 480px; /* 중앙 패널 너비 확장 */
+  flex: 2;
 }
 
 .story-sequence-panel--right {
-  min-width: 280px;
+  min-width: 320px; /* 오른쪽 패널 너비 확장 */
+  flex: 1;
 }
 
 /* 섹션 스타일 */
 .story-sequence-section {
   margin-bottom: 32px;
+  max-width: 100%; /* 섹션 최대 너비 제한 */
+  box-sizing: border-box; /* 패딩과 마진을 포함한 크기 계산 */
+  padding: 20px; /* 섹션 내부 여백 추가 */
+  background-color: rgba(248, 246, 244, 0.5); /* 배경색 추가로 구분 */
+  border-radius: 12px; /* 모서리 둥글게 */
 }
 
 .story-sequence-section-title {
@@ -101,6 +115,10 @@
   gap: 12px;
   margin-bottom: 24px;
   min-height: 60px;
+  max-width: 100%; /* 최대 너비 제한 */
+  padding: 16px; /* 내부 여백 추가 */
+  background-color: rgba(234, 246, 248, 0.3); /* 연한 배경색 */
+  border-radius: 8px; /* 모서리 둥글게 */
 }
 
 .story-sequence-word-fragment {
@@ -144,6 +162,10 @@
   flex-direction: column;
   gap: 12px;
   min-height: 200px;
+  max-width: 100%; /* 최대 너비 제한 */
+  padding: 16px; /* 내부 여백 추가 */
+  background-color: rgba(248, 246, 244, 0.3); /* 연한 배경색 */
+  border-radius: 8px; /* 모서리 둥글게 */
 }
 
 .story-sequence-drop-zone {
@@ -414,7 +436,7 @@
   color: #171412;
 }
 
-.loading-spinner {
+.story-sequence-loading-spinner {
   width: 40px;
   height: 40px;
   border: 4px solid #E5E8EB;
@@ -472,6 +494,22 @@
 }
 
 /* 반응형 디자인 */
+@media (max-width: 1400px) {
+  .story-sequence-main-container {
+    max-width: 1200px;
+    padding: 122px 40px 0;
+  }
+  
+  .story-sequence-card {
+    min-width: 1000px;
+    padding: 50px;
+  }
+  
+  .story-sequence-layout {
+    min-width: 800px;
+  }
+}
+
 @media (max-width: 1200px) {
   .story-sequence-layout {
     flex-direction: column;
@@ -488,6 +526,11 @@
   
   .story-sequence-card {
     padding: 40px;
+    min-width: auto;
+  }
+  
+  .story-sequence-layout {
+    min-width: auto;
   }
 }
 
