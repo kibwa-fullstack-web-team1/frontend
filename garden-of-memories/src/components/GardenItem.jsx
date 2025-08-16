@@ -34,13 +34,9 @@ export const GardenItem = ({ id, imageUrl, left, top, type, description, stage }
     backgroundImage: `url(${imageUrl})`,
     // Positioning logic: common rewards are absolute, personalization rewards are flex-positioned
     ...(type === 'common' ? {
-      position: 'absolute',
-      left: left,
-      top: top,
+      // No absolute positioning here, handled by parent flexbox
       animation: 'rotate3d 5s linear infinite', // Apply 3D rotation animation ONLY for common type
     } : {
-      // Personalization rewards will be positioned by flexbox in their container
-      // No absolute positioning here
       position: 'relative', // Ensure it respects flexbox layout
     }),
   };

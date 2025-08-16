@@ -2,35 +2,35 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: #f0f4f8; /* Light blue sky color */
-  overflow: hidden; /* Ensure no scrollbars from content */
+  background-color: #F0EAD6; /* Soft, muted background */
+  overflow: hidden;
 }
 
 .garden-header {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px 20px;
-  background-color: #ffffff;
-  border-bottom: 1px solid #e0e0e0;
-  position: relative; /* For absolute positioning of the button */
+  padding: 20px 20px;
+  background-color: transparent; /* Transparent header */
+  border-bottom: none; /* No border */
+  position: relative;
 }
 
 .garden-header h1 {
   margin: 0;
-  font-size: 24px;
-  color: #333;
+  font-size: 36px; /* Larger font for elegance */
+  color: #5C5B5B; /* Muted dark gray */
+  font-family: 'Playfair Display', serif; /* Example elegant font */
 }
 
 .garden-background {
-  flex-grow: 1; /* Take up remaining space */
+  flex-grow: 1;
   position: relative;
-  background-color: #FDFDFD; /* Bright ivory color for display case */
-  background: linear-gradient(145deg, #f0f0f0, #ffffff); /* Subtle gradient */
-  margin: 20px; /* Margin around the display case */
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), inset 0 0 10px rgba(0, 0, 0, 0.1); /* Outer shadow and inner shadow for depth */
-  border: 5px solid #e0e0e0; /* Lighter frame for the display case */
+  background: #E0DDCF; /* Light, desaturated beige/brown */
+  margin: 20px;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  border: none;
 }
 
 .tree-of-memories {
@@ -44,7 +44,7 @@
   right: 20px;
   height: 120px; /* Height to accommodate items */
   overflow: hidden;
-  background-color: rgba(0, 0, 0, 0.3); /* Dark transparent background */
+  background-color: #FBFBFB; /* Off-white background */
   border-radius: 10px;
   display: flex;
   align-items: center;
