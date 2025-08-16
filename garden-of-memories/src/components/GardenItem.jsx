@@ -11,15 +11,15 @@ const itemBaseStyle = {
   
 };
 
-export const GardenItem = ({ id, imageUrl, left, top, type, description, stage }) => {
+export const GardenItem = ({ id, imageUrl, left, top, type, description, stage, onClick }) => {
   const [isHovered, setIsHovered] = useState(false);
 
-  let currentWidth = 80;
-  let currentHeight = 80;
+  let currentWidth = 60;
+  let currentHeight = 60;
 
   if (type === 'common') {
-    currentWidth = 240; // 3배 크게
-    currentHeight = 240;
+    currentWidth = 180; // 3배 크게
+    currentHeight = 180;
     if (stage && stage > 1) {
       const scaleMultiplier = Math.pow(1.2, stage - 1);
       currentWidth = Math.round(currentWidth * scaleMultiplier);
@@ -47,6 +47,7 @@ export const GardenItem = ({ id, imageUrl, left, top, type, description, stage }
       draggable="false" // Not draggable
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onClick={onClick}
       data-testid={`gardenitem`}
     >
       {description && (
