@@ -5,18 +5,25 @@ const NotificationPage = () => {
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [skip, setSkip] = useState(0);
+  const [limit, setLimit] = useState(5); // Display 5 notifications per page
 
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        // TODO: Replace with actual API call to notification-service GET /history
-        // For now, simulate API call
-        const dummyNotifications = [
-          { id: 1, message: '새로운 보상을 획득했습니다: 지혜의 씨앗', timestamp: '2025-08-16 10:00:00', read: false },
-          { id: 2, message: '오늘의 질문에 답변할 시간입니다.', timestamp: '2025-08-17 09:00:00', read: false },
-          { id: 3, message: '주간 리포트가 생성되었습니다.', timestamp: '2025-08-15 18:00:00', read: true },
-        ];
-        setNotifications(dummyNotifications);
+        const response = await fetch(`/notifications-api/notifications/history?recipient_user_id=11&skip=${skip}&limit=${limit}`); // TODO: 테스트용. 실제로는 로그인한 보호자의 user ID로 대체해야 합니다.
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setNotifications(data.map(log => ({
+          id: log.id,
+          message: log.message,
+          timestamp: new Date(log.sent_at).toLocaleString(), // Format timestamp
+          read: false, // Assuming all fetched are unread for now, or add a 'read' field to backend
+          triggering_user_id: log.triggering_user_id,
+          recipient_user_id: log.recipient_user_id,
+        })));
       } catch (err) {
         setError(err);
       } finally {
@@ -25,7 +32,7 @@ const NotificationPage = () => {
     };
 
     fetchNotifications();
-  }, []);
+  }, [skip, limit]);
 
   if (loading) {
     return <div className="notification-page-container">알림을 불러오는 중...</div>;
@@ -51,6 +58,22 @@ const NotificationPage = () => {
             ))}
           </ul>
         )}
+        <div className="pagination-controls" style={{ marginTop: '20px', textAlign: 'center' }}>
+          <button
+            onClick={() => setSkip(prevSkip => Math.max(0, prevSkip - limit))}
+            disabled={skip === 0}
+            style={{ padding: '10px 20px', marginRight: '10px', cursor: 'pointer' }}
+          >
+            이전 페이지
+          </button>
+          <button
+            onClick={() => setSkip(prevSkip => prevSkip + limit)}
+            disabled={notifications.length < limit} // Simple check for last page
+            style={{ padding: '10px 20px', cursor: 'pointer' }}
+          >
+            다음 페이지
+          </button>
+        </div>
       </div>
     </div>
   );
