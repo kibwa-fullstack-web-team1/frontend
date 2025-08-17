@@ -37,6 +37,7 @@
   padding: 1rem;
   border-bottom: 1px solid #eee;
   text-align: left;
+  margin-bottom: 1rem; /* Add spacing between items */
 }
 
 .notification-list-item:last-child {
