@@ -13,6 +13,7 @@ import GardenPage from './pages/GardenPage/GardenPage';
 import DailyQuestionPage from './pages/DailyQuestionPage/DailyQuestionPage';
 import StorySequence from './pages/StorySequence/StorySequence';
 import EnterPage from './pages/EnterPage/EnterPage';
+import NotificationPage from './pages/NotificationPage/NotificationPage';
 
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
         <Route path="/garden" element={<GardenPage />} />
         <Route path="/story-sequence" element={<StorySequence />} />
         <Route path="/enter" element={<EnterPage />} />
+        <Route path="/notifications" element={<NotificationPage />} />
       </Routes>
     </Router>
   );
