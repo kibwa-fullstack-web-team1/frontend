@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiEye, FiEyeOff, FiArrowRight, FiX, FiArrowLeft } from 'react-icons/fi';
 import { signupUser } from '../../services/api';
+import RegisterHeader from '../../components/RegisterHeader';
 import './SignupPage.css';
 
 function SignupPage() {
@@ -107,24 +108,10 @@ function SignupPage() {
   return (
     <div className="signup-page">
       {/* Header */}
-      <header className="signup-header">
-        <div className="signup-header-content">
-          <div className="signup-logo">
-            <div className="signup-logo-icon">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M1.14 0.38L14.85 15.62" stroke="#171412" strokeWidth="1.5"/>
-              </svg>
-            </div>
-            <h1 className="signup-logo-text">Garden of Memory</h1>
-          </div>
-          <nav className="signup-nav">
-            <a href="#" className="signup-nav-link">Games</a>
-            <a href="#" className="signup-nav-link">About Us</a>
-            <a href="#" className="signup-nav-link">Contact</a>
-            <button className="signup-sign-in-btn" onClick={handleBackToLogin}>Sign In</button>
-          </nav>
-        </div>
-      </header>
+      <RegisterHeader 
+        onSignInClick={handleBackToLogin}
+        showSignInButton={true}
+      />
 
       {/* Main Content */}
       <main className="signup-main-content">

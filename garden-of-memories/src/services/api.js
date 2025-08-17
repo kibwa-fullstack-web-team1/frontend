@@ -376,10 +376,32 @@ export const fetchFamilyPhotos = async (userId) => {
 
     const data = await response.json();
     
+    console.log('백엔드 응답 데이터:', data); // 디버깅용 로그
+    
+    // 데이터 형태 확인 및 안전한 처리
+    let photosArray = [];
+    
+    if (Array.isArray(data)) {
+      // 직접 배열인 경우
+      photosArray = data;
+    } else if (data && Array.isArray(data.photos)) {
+      // { photos: [...] } 형태인 경우
+      photosArray = data.photos;
+    } else if (data && Array.isArray(data.data)) {
+      // { data: [...] } 형태인 경우
+      photosArray = data.data;
+    } else if (data && Array.isArray(data.results)) {
+      // { results: [...] } 형태인 경우
+      photosArray = data.results;
+    } else {
+      console.warn('예상하지 못한 데이터 형태:', data);
+      return [];
+    }
+    
     // 백엔드 응답을 프론트엔드 형식으로 변환
-    return data.map(photo => ({
+    return photosArray.map(photo => ({
       id: photo.id,
-      name: photo.name || photo.file_name,
+      name: photo.name || photo.file_name || 'Unknown',
       date: photo.created_at ? new Date(photo.created_at).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
       image: photo.file_url || photo.image_url
     }));
@@ -404,29 +426,58 @@ export const fetchFamilyPhotos = async (userId) => {
  */
 export const uploadFamilyPhoto = async (file, userId) => {
   try {
+    console.log('=== 업로드 시작 ===');
+    console.log('파일 정보:', {
+      name: file.name,
+      size: file.size,
+      type: file.type,
+      lastModified: new Date(file.lastModified).toISOString()
+    });
+    console.log('사용자 ID:', userId);
+    console.log('API URL:', `${CARD_GAME_BASE_URL}/upload/family-photos`);
+    console.log('인증 토큰:', getAuthToken() ? '존재함' : '없음');
+
     const formData = new FormData();
     formData.append('file', file);
     formData.append('user_id', userId);
 
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT);
+    // FormData 내용 확인
+    for (let [key, value] of formData.entries()) {
+      console.log(`FormData - ${key}:`, value);
+    }
 
     const response = await fetch(`${CARD_GAME_BASE_URL}/upload/family-photos`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${getAuthToken()}`,
       },
-      body: formData,
-      signal: controller.signal
+      body: formData
     });
 
-    clearTimeout(timeoutId);
+    console.log('=== 서버 응답 ===');
+    console.log('Status:', response.status);
+    console.log('Status Text:', response.statusText);
+    console.log('Headers:', Object.fromEntries(response.headers.entries()));
 
     if (!response.ok) {
-      throw new Error(`업로드 실패: ${response.status}`);
+      let errorMessage = `업로드 실패: ${response.status}`;
+      
+      try {
+        const errorData = await response.json();
+        console.error('서버 에러 응답:', errorData);
+        errorMessage = errorData.detail || errorData.message || errorMessage;
+      } catch (parseError) {
+        console.error('에러 응답 파싱 실패:', parseError);
+        const errorText = await response.text();
+        console.error('에러 응답 텍스트:', errorText);
+      }
+      
+      throw new Error(errorMessage);
     }
 
     const result = await response.json();
+    console.log('업로드 성공 응답:', result);
+    
     return {
       success: true,
       message: result.message,
@@ -434,10 +485,10 @@ export const uploadFamilyPhoto = async (file, userId) => {
       file_url: result.file_url
     };
   } catch (error) {
-    if (error.name === 'AbortError') {
-      throw new Error('업로드 시간 초과');
-    }
-    console.error('가족사진 업로드 오류:', error);
+    console.error('=== 업로드 오류 상세 ===');
+    console.error('에러 타입:', error.name);
+    console.error('에러 메시지:', error.message);
+    console.error('에러 스택:', error.stack);
     throw error;
   }
 };
