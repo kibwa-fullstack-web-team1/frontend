@@ -48,24 +48,29 @@
 }
 
 .trophy-case-wrapper h2 {
+  width: 100%; /* Added */
   text-align: center;
   color: #5C5B5B;
   font-family: 'Playfair Display', serif;
   margin-bottom: 20px;
 }
 
-.trophy-case {
-  width: 100%; /* Added */
-  display: flex;
-  flex-direction: column;
-  gap: 30px; /* Space between shelves */
-}
+  .trophy-case {
+    width: 100%; /* Added */
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Space between shelves */
+  }
 
 .service-shelf {
-  padding: 20px;
+  padding: 20px 20px 0px 20px; /* Removed bottom padding */
   background: rgba(255, 255, 255, 0.7);
   border-radius: 8px;
+  border-bottom-left-radius: 0; /* Straighten bottom corners */
+  border-bottom-right-radius: 0; /* Straighten bottom corners */
   border: 1px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 15px solid #8B4513; /* Added for shelf floor */
+  overflow-y: auto;
 }
 
 .service-shelf h3 {
@@ -78,10 +83,12 @@
 }
 
 .shelf-items {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  align-items: flex-end;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 5 slots per row */
+  gap: 5px; /* Changed from 5px to 0 */
+  justify-items: center; /* Center items horizontally */
+  align-items: end; /* Align items to the bottom */
+  padding-bottom: 0; /* Remove bottom padding */
 }
 
 .personalization-conveyor-wrapper {
@@ -128,12 +135,15 @@
 
 .personalization-album {
   display: grid;
-  grid-template-columns: repeat(5, 1fr); /* 5 items per row */
-  gap: 15px; /* Appropriate margins */
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Adjust item size as needed */
+  gap: 15px;
   padding: 10px;
+  justify-items: center; /* Center items horizontally */
+  align-items: center; /* Center items vertically */
 }
 
 .personalization-album h2 {
+  width: 100%; /* Added */
   text-align: center;
   color: #5C5B5B;
   font-family: 'Playfair Display', serif;

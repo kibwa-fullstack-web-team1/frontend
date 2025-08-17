@@ -3,11 +3,12 @@ import { GardenItem } from '../../components/GardenItem';
 import { useGarden } from '../../hooks/useGarden';
 import ModelViewerModal from '../../components/ModelViewerModal';
 import './GardenPage.css';
+import '../../components/SectionTitle.css';
 
 // Define service categories to control rendering order and names
 const SERVICE_CATEGORIES = {
   1: '오늘의 질문',
-  2: '이야기 시퀀서',
+  2: '이야기 순서 맞추기',
   3: '추억 카드 뒤집기',
 };
 
@@ -46,7 +47,7 @@ const GardenPage = () => {
       <div ref={gardenRef} className="garden-background">
         <div className="garden-left-panel">
           <div className="trophy-case-wrapper">
-            <h2>My Collection</h2>
+            <h2 className="section-title">내 컬렉션</h2>
             <div className="trophy-case">
               {Object.entries(SERVICE_CATEGORIES).map(([serviceId, serviceName]) => {
                 const rewardsForService = commonRewards.filter(
@@ -62,7 +63,19 @@ const GardenPage = () => {
                     <h3>{serviceName}</h3>
                     <div className="shelf-items">
                       {rewardsForService.map(item => {
-                        const size = 60 * Math.pow(1.2, item.stage - 1);
+                        const size = 70 * Math.pow(1.2, item.stage - 1);
+                        let cameraTargetY = (0.55 - (item.stage - 1) * 0.05).toFixed(2); // Dynamic Y based on stage
+
+                        // Exception for the first item of '이야기 시퀀서'
+                        if (serviceId === '2' && rewardsForService.indexOf(item) === 0) {
+                          cameraTargetY = (parseFloat(cameraTargetY) - 0.15).toFixed(2);
+                        }
+
+                        // Exception for the third item of '이야기 시퀀서'
+                        if (serviceId === '2' && rewardsForService.indexOf(item) === 2) {
+                          cameraTargetY = (parseFloat(cameraTargetY) + 0.25).toFixed(2);
+                        }
+
                         return (
                           <model-viewer
                             key={`${item.type}-${item.id}`}
@@ -71,7 +84,8 @@ const GardenPage = () => {
                             ar
                             ar-modes="webxr scene-viewer quick-look"
                             shadow-intensity="1"
-                            style={{ width: `${size}px`, height: `${size}px`, display: 'block' }}
+                            camera-target={`0m ${cameraTargetY}m 0m`} /* Adjust model vertical position */
+                            style={{ width: `${size}px`, height: `${size}px`, display: 'block' }} /* Added marginBottom */
                             onClick={() => handleModelClick(item)}
                           ></model-viewer>
                         );
@@ -85,7 +99,7 @@ const GardenPage = () => {
         </div>
 
         <div className="garden-right-panel">
-          <h2>Personalization Album</h2>
+          <h2 className="section-title">개인화 앨범</h2>
           <div className="personalization-album">
             {personalizationRewards.map((item) => (
               <GardenItem key={`${item.type}-${item.id}`} {...item} onClick={() => handleModelClick(item)} />
