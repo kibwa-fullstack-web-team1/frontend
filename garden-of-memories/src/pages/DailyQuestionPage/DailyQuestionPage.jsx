@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import ElderlyHeader from '../../components/ElderlyHeader';
+
 import './DailyQuestionPage.css';
 
 function DailyQuestionPage() {
@@ -18,9 +18,7 @@ function DailyQuestionPage() {
 
   return (
     <div className="daily-question-page">
-      <ElderlyHeader 
-        onBackClick={handleBackToHome}
-      />
+      
 
       <main className="daily-main-content">
         {/* Question Card */}

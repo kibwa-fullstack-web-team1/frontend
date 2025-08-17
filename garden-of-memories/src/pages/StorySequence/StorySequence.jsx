@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import ElderlyHeader from '../../components/ElderlyHeader';
+
 import './StorySequence.css';
 
 // API 기본 URL 변수
@@ -296,7 +296,7 @@ function StorySequence() {
   if (isLoading) {
     return (
       <div className="story-sequence-app">
-        <ElderlyHeader onBackClick={handleGoHome} />
+  
         <div className="story-sequence-main-container">
           <div className="story-sequence-loading">
             <div className="loading-spinner"></div>
@@ -311,7 +311,7 @@ function StorySequence() {
   if (error) {
     return (
       <div className="story-sequence-app">
-        <ElderlyHeader onBackClick={handleGoHome} />
+  
         <div className="story-sequence-main-container">
           <div className="story-sequence-error">
             <p>{error}</p>
@@ -339,7 +339,7 @@ function StorySequence() {
 
   return (
     <div className="story-sequence-app">
-      <ElderlyHeader onBackClick={handleGoHome} />
+
       
       <div className="story-sequence-main-container">
         <div className="story-sequence-card">
