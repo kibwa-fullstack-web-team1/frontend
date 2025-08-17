@@ -4,68 +4,7 @@
   font-family: 'Lexend', sans-serif;
 }
 
-/* Header */
-.login-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 40px;
-  border-bottom: 1px solid #E5E8EB;
-  background: #FFFFFF;
-}
-
-
-
-.login-logo {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.login-logo-icon {
-  width: 16px;
-  height: 16px;
-}
-
-.login-logo-text {
-  font-size: 18px;
-  font-weight: 700;
-  color: #171412;
-  margin: 0;
-}
-
-.login-nav {
-  display: flex;
-  align-items: center;
-  gap: 32px;
-}
-
-.login-nav-link {
-  font-size: 14px;
-  color: #171412;
-  text-decoration: none;
-  font-weight: 400;
-}
-
-.login-nav-link:hover {
-  color: #666666;
-}
-
-.login-sign-in-btn {
-  background: #F5F2F0;
-  border: none;
-  border-radius: 20px;
-  padding: 8px 16px;
-  font-size: 14px;
-  font-weight: 700;
-  color: #171412;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.login-sign-in-btn:hover {
-  background: #E8E4E0;
-}
+/* Header는 RegisterHeader 컴포넌트로 대체됨 */
 
 
 
@@ -73,7 +12,8 @@
 .login-main-content {
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh - 65px);
+  min-height: calc(100vh - 90px);
+  margin-top: 90px; /* RegisterHeader 높이만큼 여백 추가 */
 }
 
 .login-container {

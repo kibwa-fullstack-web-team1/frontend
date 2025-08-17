@@ -1,0 +1,126 @@
+/* RegisterHeader.css - 로그인/회원가입 페이지 공통 헤더 스타일 */
+
+.register-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 90px;
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #E5E8EB;
+  box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.08);
+  z-index: 100;
+}
+
+.register-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  padding: 0 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.register-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.register-logo:hover {
+  opacity: 0.8;
+}
+
+.register-logo-icon {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.register-logo-text {
+  font-size: 18px;
+  font-weight: 700;
+  color: #171412;
+  margin: 0;
+  font-family: 'Lexend', sans-serif;
+}
+
+.register-nav {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.register-nav-link {
+  font-size: 14px;
+  color: #171412;
+  text-decoration: none;
+  font-weight: 400;
+  font-family: 'Lexend', sans-serif;
+  transition: color 0.2s ease;
+}
+
+.register-nav-link:hover {
+  color: #8B5A3C;
+}
+
+.register-sign-in-btn {
+  padding: 10px 20px;
+  background-color: #171412;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Lexend', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.register-sign-in-btn:hover {
+  background-color: #2A2520;
+  transform: translateY(-1px);
+}
+
+.register-sign-in-btn:active {
+  transform: translateY(0);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .register-header-content {
+    padding: 0 16px;
+  }
+  
+  .register-nav {
+    gap: 16px;
+  }
+  
+  .register-nav-link {
+    font-size: 12px;
+  }
+  
+  .register-sign-in-btn {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+  
+  .register-logo-text {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .register-nav-link {
+    display: none;
+  }
+  
+  .register-nav {
+    gap: 0;
+  }
+}

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiEye, FiEyeOff, FiArrowRight, FiX } from 'react-icons/fi';
 import { loginUser, fetchUserInfo } from '../../services/api';
+import RegisterHeader from '../../components/RegisterHeader';
 import './LoginPage.css';
 
 function LoginPage() {
@@ -100,24 +101,10 @@ function LoginPage() {
   return (
     <div className="login-page">
       {/* Header */}
-      <header className="login-header">
-        <div className="login-header-content">
-          <div className="login-logo">
-            <div className="login-logo-icon">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M1.14 0.38L14.85 15.62" stroke="#171412" strokeWidth="1.5"/>
-              </svg>
-            </div>
-            <h1 className="login-logo-text">Garden of Memory</h1>
-          </div>
-          <nav className="login-nav">
-            <a href="#" className="login-nav-link">Games</a>
-            <a href="#" className="login-nav-link">About Us</a>
-            <a href="#" className="login-nav-link">Contact</a>
-            <button className="login-sign-in-btn">Sign In</button>
-          </nav>
-        </div>
-      </header>
+      <RegisterHeader 
+        onSignInClick={() => navigate('/signup')}
+        showSignInButton={false}
+      />
 
       {/* Main Content */}
       <main className="login-main-content">

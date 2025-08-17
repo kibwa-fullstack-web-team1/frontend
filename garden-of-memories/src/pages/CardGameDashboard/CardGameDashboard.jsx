@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FiUpload, FiPlus, FiArrowLeft, FiLogOut, FiEdit } from 'react-icons/fi';
+import { FiUpload, FiPlus, FiArrowLeft, FiLogOut } from 'react-icons/fi';
 import { logoutUser, uploadFamilyPhoto, fetchFamilyPhotos, getCurrentUser, fetchCaregiverGameResults } from '../../services/api';
 import FamilyHeader from '../../components/FamilyHeader';
 import './CardGameDashboard.css';
@@ -81,12 +81,28 @@ const CardGameDashboard = () => {
     
     setLoadingPhotos(true);
     try {
-      const photos = await fetchFamilyPhotos(currentUser.id || currentUser.user_id);
-      setFamilyPhotos(photos);
+      const userId = currentUser.id || currentUser.user_id;
+      console.log('가족 사진 로딩 시작, 사용자 ID:', userId);
+      
+      const photos = await fetchFamilyPhotos(userId);
+      
+      // 응답 데이터 확인
+      if (Array.isArray(photos)) {
+        console.log('가족 사진 로딩 성공:', photos.length, '개의 사진');
+        setFamilyPhotos(photos);
+      } else {
+        console.warn('가족 사진 응답이 배열이 아닙니다:', photos);
+        setFamilyPhotos([]);
+      }
     } catch (error) {
       console.error('가족 사진 로딩 실패:', error);
-      // 에러 발생 시 빈 배열로 설정
+      // 에러 발생 시 빈 배열로 설정하고 사용자에게 알림
       setFamilyPhotos([]);
+      
+      // 네트워크 에러가 아닌 경우에만 알림 표시 (사용자 경험 개선)
+      if (!error.message.includes('시간 초과') && !error.message.includes('Failed to fetch')) {
+        console.error('가족 사진을 불러오는 중 문제가 발생했습니다:', error.message);
+      }
     } finally {
       setLoadingPhotos(false);
     }
@@ -106,21 +122,50 @@ const CardGameDashboard = () => {
       return;
     }
 
-    // 사용자 ID 확인
+    // 사용자 ID 확인 및 로깅
     const userId = currentUser.id || currentUser.user_id;
     if (!userId) {
       alert('사용자 정보를 찾을 수 없습니다. 다시 로그인해주세요.');
       return;
     }
 
+    console.log('파일 업로드 시작 - 사용자 정보:', {
+      currentUser: currentUser,
+      userId: userId
+    });
+
     const files = Array.from(event.target.files);
     
     if (files.length === 0) return;
+    
+    // 파일 검증
+    const maxFileSize = 10 * 1024 * 1024; // 10MB
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+    
+    for (const file of files) {
+      console.log(`파일 검증: ${file.name}`, {
+        size: file.size,
+        type: file.type,
+        sizeMB: (file.size / 1024 / 1024).toFixed(2)
+      });
+      
+      if (file.size > maxFileSize) {
+        alert(`파일 "${file.name}"이 너무 큽니다. 10MB 이하의 파일만 업로드 가능합니다.`);
+        return;
+      }
+      
+      if (!allowedTypes.includes(file.type)) {
+        alert(`파일 "${file.name}"의 형식이 지원되지 않습니다. JPG, PNG 파일만 업로드 가능합니다.`);
+        return;
+      }
+    }
     
     setUploading(true);
     
     try {
       for (const file of files) {
+        console.log(`파일 업로드 중: ${file.name}, 크기: ${(file.size / 1024 / 1024).toFixed(2)}MB`);
+        
         const result = await uploadFamilyPhoto(file, userId);
         
         if (result.success) {
@@ -136,10 +181,10 @@ const CardGameDashboard = () => {
           // 중복 파일 메시지 표시
           if (result.message && result.message.includes('이미 업로드된 파일')) {
             console.log(result.message);
-            // 사용자에게 중복 파일 알림 (선택사항)
-            // alert(result.message);
+            alert(`파일 "${file.name}"은 이미 업로드된 파일입니다.`);
           } else {
             console.log('파일 업로드 성공:', result.message);
+            alert(`파일 "${file.name}" 업로드가 완료되었습니다.`);
           }
         }
       }
@@ -242,10 +287,6 @@ const CardGameDashboard = () => {
     navigate('/');
   };
 
-  const handleStoryRegistration = () => {
-    navigate('/story-game-dashboard');
-  };
-
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
@@ -324,15 +365,6 @@ const CardGameDashboard = () => {
                 <p className="card-dashboard-no-uploads">아직 업로드된 사진이 없습니다.</p>
               )}
             </div>
-          </section>
-
-          {/* 이야기 등록 */}
-          <section className="card-dashboard-story-registration-section">
-            <h3 className="card-dashboard-section-subtitle">이야기 관리</h3>
-            <button className="card-dashboard-story-registration-button" onClick={handleStoryRegistration}>
-              <FiEdit size={16} />
-              <span>이야기 등록</span>
-            </button>
           </section>
         </aside>
 
