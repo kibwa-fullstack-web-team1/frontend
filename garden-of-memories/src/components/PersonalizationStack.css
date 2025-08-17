@@ -1,0 +1,42 @@
+.personalization-stack-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1000px; /* For 3D effects */
+}
+
+.personalization-stack-card {
+  position: absolute;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  text-align: center;
+}
+
+.card-overlay {
+  background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
+  color: white;
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.card-overlay h3 {
+  margin: 0 0 5px 0;
+  font-size: 1em;
+}
+
+.card-overlay p {
+  margin: 0;
+  font-size: 0.8em;
+  opacity: 0.8;
+}

@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { GardenItem } from '../../components/GardenItem';
 import { useGarden } from '../../hooks/useGarden';
 import ModelViewerModal from '../../components/ModelViewerModal';
+import PersonalizationStack from '../../components/PersonalizationStack'; // New import
 import './GardenPage.css';
 import '../../components/SectionTitle.css';
 
@@ -100,11 +101,19 @@ const GardenPage = () => {
 
         <div className="garden-right-panel">
           <h2 className="section-title">개인화 앨범</h2>
-          <div className="personalization-album">
-            {personalizationRewards.map((item) => (
-              <GardenItem key={`${item.type}-${item.id}`} {...item} onClick={() => handleModelClick(item)} />
-            ))}
-          </div>
+          <PersonalizationStack
+            cardsData={personalizationRewards.map(item => ({
+              id: item.id,
+              imageUrl: item.imageUrl || item.generated_image_url, // Use generated_image_url for personalization
+              name: item.name,
+              description: item.description,
+              type: item.type, // Keep type for modal handling
+              // Add other properties needed by handleModelClick if any
+            }))}
+            onClick={handleModelClick}
+            cardDimensions={{ width: 200, height: 250 }} // Example dimensions, adjust as needed
+            autoFlipInterval={3000} // 3 seconds
+          />
         </div>
       </div>
       {showModal && (
