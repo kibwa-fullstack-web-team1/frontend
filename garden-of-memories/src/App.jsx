@@ -15,6 +15,7 @@ import StorySequence from './pages/StorySequence/StorySequence';
 import EnterPage from './pages/EnterPage/EnterPage';
 import NotificationPage from './pages/NotificationPage/NotificationPage';
 import WeeklyReportPage from './pages/WeeklyReportPage/WeeklyReportPage';
+import ReportDetailPage from './pages/ReportDetailPage/ReportDetailPage';
 
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
         <Route path="/enter" element={<EnterPage />} />
         <Route path="/notifications" element={<NotificationPage />} />
         <Route path="/reports" element={<WeeklyReportPage />} />
+        <Route path="/reports/:reportId" element={<ReportDetailPage />} />
       </Routes>
     </Router>
   );
