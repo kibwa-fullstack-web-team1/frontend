@@ -27,7 +27,7 @@ const PersonalizationStack = ({ cardsData, cardDimensions = { width: 150, height
   };
 
   return (
-    <div className="personalization-stack-container" style={{ width: cardDimensions.width, height: cardDimensions.height }}>
+    <div className="personalization-stack-container">
       <AnimatePresence initial={false}>
         {cards.length > 0 && (
           <motion.div

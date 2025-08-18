@@ -3,7 +3,8 @@
   flex-direction: column;
   height: 100vh;
   background-color: #F0EAD6;
-  overflow: hidden;
+  overflow-y: auto; /* Changed from hidden to auto */
+  overflow-x: hidden; /* Hide horizontal overflow */
 }
 
 .garden-header {
@@ -32,9 +33,10 @@
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   border: none;
   display: flex;
-  flex-direction: row; /* MODIFIED */
-  gap: 20px; /* MODIFIED */
+  flex-direction: row;
+  gap: 20px;
   padding: 20px;
+  min-height: 0; /* Allow shrinking */
 }
 
 .trophy-case-wrapper {
@@ -128,9 +130,14 @@
 .garden-right-panel {
   width: 50%; /* Each panel takes half width */
   padding: 10px;
-  overflow-y: auto;
+  overflow-y: auto; /* Keep for internal scrolling if needed */
   background: rgba(255, 255, 255, 0.5);
   border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-grow: 1; /* Allow panels to grow and shrink vertically */
+  min-height: 0; /* Allow panels to shrink below content height */
 }
 
 .personalization-album {
