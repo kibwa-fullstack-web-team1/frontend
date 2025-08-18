@@ -14,7 +14,6 @@ import DailyQuestionPage from './pages/DailyQuestionPage/DailyQuestionPage';
 import StorySequence from './pages/StorySequence/StorySequence';
 import HomePage from './pages/HomePage/HomePage';
 import NotificationPage from './pages/NotificationPage/NotificationPage';
-import EnterPage from './pages/EnterPage/EnterPage';
 
 function App() {
   return (
@@ -37,7 +36,6 @@ function App() {
         <Route path="/story-game-dashboard" element={<StoryGameDashboard />} />
         <Route path="/garden" element={<GardenPage />} />
         <Route path="/story-sequence" element={<StorySequence />} />
-        <Route path="/enter" element={<EnterPage />} />
         <Route path="/notifications" element={<NotificationPage />} />
       </Routes>
     </Router>
