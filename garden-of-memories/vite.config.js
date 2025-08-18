@@ -20,6 +20,12 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/reward-api/, '/api/v1'),
       },
+      // notification-service를 위한 프록시 설정
+      '/notifications-api': {
+        target: 'http://localhost:8002', // notification-service에 접근
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/notifications-api/, ''),
+      },
     },
   },
 })
