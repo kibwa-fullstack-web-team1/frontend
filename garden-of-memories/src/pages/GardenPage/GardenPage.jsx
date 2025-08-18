@@ -3,6 +3,7 @@ import { GardenItem } from '../../components/GardenItem';
 import { useGarden } from '../../hooks/useGarden';
 import ModelViewerModal from '../../components/ModelViewerModal';
 import PersonalizationStack from '../../components/PersonalizationStack'; // New import
+import ServiceLinksModal from '../../components/ServiceLinksModal';
 import './GardenPage.css';
 import '../../components/SectionTitle.css';
 
@@ -22,6 +23,8 @@ const GardenPage = () => {
   const [selectedModel, setSelectedModel] = useState(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [notification, setNotification] = useState(null);
+  const [showServiceModal, setShowServiceModal] = useState(false); // New
+  const [hasGeneratedReward, setHasGeneratedReward] = useState(false); // New
 
   useEffect(() => {
     const measureWidth = () => {
@@ -42,6 +45,11 @@ const GardenPage = () => {
   };
 
   const handleGenerateAiReward = async () => {
+    if (hasGeneratedReward) { // If a reward has already been generated
+      setShowServiceModal(true); // Show the service modal
+      return; // Exit the function
+    }
+
     setIsGenerating(true);
     setNotification(null);
     try {
@@ -61,6 +69,7 @@ const GardenPage = () => {
 
       const data = await response.json();
       setNotification({ type: 'success', message: data.message || 'AI 보상 생성 요청 성공!' });
+      setHasGeneratedReward(true); // Set to true on successful generation
       // Optionally, refresh garden data here if useGarden hook supports it
       // For now, user might need to refresh the page manually to see new rewards
     } catch (error) {
@@ -78,14 +87,10 @@ const GardenPage = () => {
     <div className="garden-page-container">
       <div className="garden-header">
         <h1>기억의 정원</h1>
-        <button className="generate-ai-reward-button" onClick={handleGenerateAiReward} disabled={isGenerating}>
-          {isGenerating ? '생성 중...' : 'AI 보상 생성 요청'}
+        <button className={`generate-ai-reward-button ${hasGeneratedReward ? 'button-generated' : ''}`} onClick={handleGenerateAiReward} disabled={isGenerating}>
+          {isGenerating ? '생성 중...' : '새 추억 앨범 만들기'}
         </button>
-        {notification && (
-          <div className={"notification " + notification.type}>
-            {notification.message}
-          </div>
-        )}
+        
       </div>
       <div ref={gardenRef} className="garden-background">
         <div className="garden-left-panel">
@@ -167,6 +172,9 @@ const GardenPage = () => {
           />
         </div>
       </div>
+      {showServiceModal && (
+        <ServiceLinksModal onClose={() => setShowServiceModal(false)} />
+      )}
       {showModal && (
         <ModelViewerModal
           model={selectedModel}
