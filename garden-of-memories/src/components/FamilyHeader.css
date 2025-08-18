@@ -65,6 +65,10 @@
   flex: 1;
   text-align: center;
   margin: 0 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .family-header-title {
@@ -99,7 +103,7 @@
 .family-user-avatar {
   width: 40px;
   height: 40px;
-  background-color: #4A90E2; /* 보호자용 파란색 */
+  background-color: #171412;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -132,8 +136,8 @@
 .family-user-role {
   font-size: 12px;
   font-weight: 400;
-  color: #4A90E2; /* 보호자용 파란색 */
-  opacity: 0.8;
+  color: #171412;
+  opacity: 0.6;
   line-height: 1.5;
 }
 

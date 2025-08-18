@@ -14,7 +14,7 @@ import DailyQuestionPage from './pages/DailyQuestionPage/DailyQuestionPage';
 import StorySequence from './pages/StorySequence/StorySequence';
 import HomePage from './pages/HomePage/HomePage';
 import NotificationPage from './pages/NotificationPage/NotificationPage';
-
+import EnterPage from './pages/EnterPage/EnterPage';
 
 function App() {
   return (
