@@ -161,8 +161,9 @@ const GardenPage = () => {
               // Add other properties needed by handleModelClick if any
             }))}
             onClick={handleModelClick}
-            cardDimensions={{ width: 350, height: 350 }} // Square dimensions
-            autoFlipInterval={3000} // 3 seconds
+            cardDimensions={{ width: 300, height: 300 }} // Square dimensions
+            autoFlipInterval={4000} // 1 second
+           // Enable random rotation
           />
         </div>
       </div>
