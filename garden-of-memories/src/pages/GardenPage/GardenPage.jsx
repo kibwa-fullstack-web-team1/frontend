@@ -102,43 +102,43 @@ const GardenPage = () => {
                 }
 
                 return (
-                  <div key={serviceId} className="service-shelf">
-                    <h3>{serviceName}</h3>
-                    <div className="shelf-items">
-                      {rewardsForService.map(item => {
-                        const size = 70 * Math.pow(1.2, item.stage - 1);
-                        let cameraTargetY = (1.1 - (item.stage - 1) * 0.05).toFixed(2); // Dynamic Y based on stage
+                  <div key={serviceId} className="service-shelf" data-service-name={serviceName}>
+                    <div className="shelf-display-area"> {/* New container for display area */}
+                      <div className="shelf-items">
+                        {rewardsForService.map(item => {
+                          const size = 70 * Math.pow(1.2, item.stage - 10);
+                          let cameraTargetY = (1.1 - (item.stage - 1) * 0.05).toFixed(2); // Dynamic Y based on stage
 
-                        // Exception for the first item of '이야기 시퀀서'
-                        if (serviceId === '2' && rewardsForService.indexOf(item) === 0) {
-                          cameraTargetY = (parseFloat(cameraTargetY) - 0.15).toFixed(2);
-                        }
+                          // Exception for the first item of '이야기 시퀀서'
+                          if (serviceId === '2' && rewardsForService.indexOf(item) === 0) {
+                            cameraTargetY = (parseFloat(cameraTargetY) - 0.5).toFixed(2);
+                          }
 
-                        // Exception for the third item of '이야기 시퀀서'
-                        if (serviceId === '2' && rewardsForService.indexOf(item) === 2) {
-                          cameraTargetY = (parseFloat(cameraTargetY) + 0.6).toFixed(2);
-                        }
+                          // Exception for the third item of '이야기 시퀀서'
+                          if (serviceId === '2' && rewardsForService.indexOf(item) === 2) {
+                            cameraTargetY = (parseFloat(cameraTargetY) + 0.6).toFixed(2);
+                          }
 
-                        return (
-                          <model-viewer
-                            key={`${item.type}-${item.id}`}
-                            src={(() => {
-                              const s3Domain = "https://kibwa-17.s3.ap-southeast-1.amazonaws.com/";
-                              const path = item.imageUrl.startsWith(s3Domain) ? item.imageUrl.substring(s3Domain.length) : item.imageUrl;
-                              return `https://${CLOUDFRONT_DOMAIN}/${path}`;
-                            })()}
-                            alt={item.name}
-                            ar
-                            ar-modes="webxr scene-viewer quick-look"
-                            shadow-intensity="1"
-                            camera-target={`0m ${cameraTargetY}m 0m`} /* Adjust model vertical position */
-                            style={{ width: `${size}px`, height: `${size}px`, display: 'block' }} /* Added marginBottom */
-                            onClick={() => handleModelClick(item)}
-                          ></model-viewer>
-                        );
-                      })}
+                          return (
+                            <model-viewer
+                              key={`${item.type}-${item.id}`}
+                              src={(() => {
+                                const s3Domain = "https://kibwa-17.s3.ap-southeast-1.amazonaws.com/";
+                                const path = item.imageUrl.startsWith(s3Domain) ? item.imageUrl.substring(s3Domain.length) : item.imageUrl;
+                                return `https://${CLOUDFRONT_DOMAIN}/${path}`;
+                              })()}n                              alt={item.name}
+                              ar
+                              ar-modes="webxr scene-viewer quick-look"
+                              shadow-intensity="5"
+                              camera-target="0m 0.1m 0m" /* Fixed for debugging */
+                              style={{ width: `100px`, height: `100px`, display: 'block' }} /* Fixed for debugging */
+                              onClick={() => handleModelClick(item)}
+                            ></model-viewer>
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
+                    </div>
                 );
               })}
             </div>
