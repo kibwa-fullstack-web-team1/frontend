@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import ElderlyHeader from '../../components/ElderlyHeader';
 
 import './StorySequence.css';
 
@@ -296,7 +297,11 @@ function StorySequence() {
   if (isLoading) {
     return (
       <div className="story-sequence-app">
-  
+        <ElderlyHeader 
+          title="이야기 순서 맞추기" 
+          subtitle="단어를 올바른 순서로 배치해보세요"
+          onBackClick={handleGoHome}
+        />
         <div className="story-sequence-main-container">
           <div className="story-sequence-loading">
             <div className="loading-spinner"></div>
@@ -311,7 +316,11 @@ function StorySequence() {
   if (error) {
     return (
       <div className="story-sequence-app">
-  
+        <ElderlyHeader 
+          title="이야기 순서 맞추기" 
+          subtitle="단어를 올바른 순서로 배치해보세요"
+          onBackClick={handleGoHome}
+        />
         <div className="story-sequence-main-container">
           <div className="story-sequence-error">
             <p>{error}</p>
@@ -339,12 +348,14 @@ function StorySequence() {
 
   return (
     <div className="story-sequence-app">
-
+      <ElderlyHeader 
+        title="이야기 순서 맞추기" 
+        subtitle="단어를 올바른 순서로 배치해보세요"
+        onBackClick={handleGoHome}
+      />
       
       <div className="story-sequence-main-container">
         <div className="story-sequence-card">
-          <h1 className="story-sequence-title">이야기 순서 맞추기</h1>
-          
           <div className="story-sequence-layout">
             {/* 왼쪽 패널 - 전체 문장 */}
             <div className="story-sequence-panel story-sequence-panel--left">

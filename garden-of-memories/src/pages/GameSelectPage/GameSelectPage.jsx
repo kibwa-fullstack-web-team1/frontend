@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import ElderlyHeader from '../../components/ElderlyHeader';
 
 import './GameSelectPage.css';
 
@@ -87,14 +88,13 @@ function GameSelectPage() {
 
   return (
     <div className="game-select-page">
-      
+      <ElderlyHeader 
+        title="기억의 정원" 
+        subtitle="게임을 선택하세요"
+        onBackClick={handleBackToHome}
+      />
 
       <main className="select-main-content">
-        <div className="select-hero-section">
-          <h1 className="select-hero-title">기억의 정원</h1>
-          <p className="select-hero-subtitle">게임을 선택하세요</p>
-        </div>
-
         <div className="select-games-grid">
           {games.map((game) => (
             <div key={game.id} className="select-game-card" onClick={() => handleGameSelect(game.id)}>

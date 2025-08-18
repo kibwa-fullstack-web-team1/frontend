@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useCardGame } from '../../hooks/useCardGame';
 import Card from '../../components/Card';
 import ResultPopup from '../../components/ResultPopup';
+import ElderlyHeader from '../../components/ElderlyHeader';
 
 import './CardGamePage.css';
 
@@ -51,7 +52,11 @@ function CardGamePage() {
 
   return (
     <div className="card-game-app">
-      
+      <ElderlyHeader 
+        title="추억 카드 짝 맞추기" 
+        subtitle="같은 그림의 카드를 찾아보세요"
+        onBackClick={handleBackClick}
+      />
       
       <div className="card-game-main-container">
         <div className="card-game-main-card">
@@ -65,8 +70,6 @@ function CardGamePage() {
             </button>
           )}
           
-          <h1 className="card-game-title">추억 카드 짝 맞추기</h1>
-
           {/* 게임 정보 섹션 */}
           <div className="card-game-info">
             <div className="card-game-info-item">

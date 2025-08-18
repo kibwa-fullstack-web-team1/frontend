@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCurrentUser, isAuthenticated } from '../services/api';
-import './FamilyHeader.css';
+import './ElderlyHeader.css';
 
-const FamilyHeader = ({ title = "기억의 정원", subtitle = "", onBackClick, showBackButton = true }) => {
+function ElderlyHeader({ title = "기억의 정원", subtitle = "", onBackClick, showBackButton = true }) {
   const navigate = useNavigate();
   
   // 로그인한 사용자 정보 가져오기
@@ -11,8 +11,8 @@ const FamilyHeader = ({ title = "기억의 정원", subtitle = "", onBackClick, 
   const isLoggedIn = isAuthenticated();
   
   // 사용자 이름과 역할 설정
-  const userName = currentUser?.username || currentUser?.nickname || '보호자';
-  const userRole = currentUser?.role === 'guardian' ? '가족' : '보호자';
+  const userName = currentUser?.username || currentUser?.nickname || '사용자님';
+  const userRole = currentUser?.role === 'elderly' ? '어르신' : '어르신';
 
   const handleBackClick = () => {
     if (onBackClick) {
@@ -23,11 +23,12 @@ const FamilyHeader = ({ title = "기억의 정원", subtitle = "", onBackClick, 
   };
 
   return (
-    <header className="family-header">
-      <div className="family-header-content">
+    <header className="elderly-header">
+      <div className="elderly-header-content">
+        {/* 뒤로가기 버튼 */}
         {showBackButton && (
-          <button className="family-back-button" onClick={handleBackClick}>
-            <div className="family-logo-icon">
+          <button className="elderly-back-button" onClick={handleBackClick}>
+            <div className="elderly-logo-icon">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                 <path 
                   d="M10 12L6 8L10 4" 
@@ -41,17 +42,17 @@ const FamilyHeader = ({ title = "기억의 정원", subtitle = "", onBackClick, 
             <span>뒤로가기</span>
           </button>
         )}
-        
+
         {/* 헤더 텍스트 */}
-        <div className="family-header-text">
-          <h1 className="family-header-title">{title}</h1>
-          {subtitle && <p className="family-header-subtitle">{subtitle}</p>}
+        <div className="elderly-header-text">
+          <h1 className="elderly-header-title">{title}</h1>
+          {subtitle && <p className="elderly-header-subtitle">{subtitle}</p>}
         </div>
-        
+
         {/* 우측 사용자 정보 */}
-        <div className="family-header-right">
-          <div className="family-user-info">
-            <div className="family-user-avatar">
+        <div className="elderly-header-right">
+          <div className="elderly-user-info">
+            <div className="elderly-user-avatar">
               <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
                 <path 
                   d="M14 14C17.3137 14 20 11.3137 20 8C20 4.68629 17.3137 2 14 2C10.6863 2 8 4.68629 8 8C8 11.3137 10.6863 14 14 14Z" 
@@ -63,16 +64,15 @@ const FamilyHeader = ({ title = "기억의 정원", subtitle = "", onBackClick, 
                 />
               </svg>
             </div>
-            <div className="family-user-details">
-              <div className="family-user-name">{userName}</div>
-              <div className="family-user-role">{userRole}</div>
+            <div className="elderly-user-details">
+              <div className="elderly-user-name">{userName}</div>
+              <div className="elderly-user-role">{userRole}</div>
             </div>
           </div>
         </div>
       </div>
     </header>
   );
-};
+}
 
-export default FamilyHeader;
-
+export default ElderlyHeader;

@@ -1,0 +1,131 @@
+/* HomeHeader 전용 스타일 */
+
+/* 공통 스타일 */
+.home-serif{ 
+  font-family: 'Georgia','Times New Roman',serif; 
+  letter-spacing:.2px; 
+}
+
+/* 헤더 기본 스타일 */
+.home-header-container{
+  display:flex; 
+  justify-content:space-between; 
+  align-items:center;
+  padding:16px 20px; 
+  position:fixed; 
+  inset:0 0 auto 0; 
+  z-index:1000;
+  border-bottom:1px solid var(--border);
+  background:transparent;
+}
+
+.home-header-frosted{ 
+  backdrop-filter:saturate(140%) blur(6px); 
+  background: #ffffff60; 
+}
+
+/* 로고 영역 */
+.home-header-logo{ 
+  display:flex; 
+  align-items:center; 
+  gap:14px; 
+}
+
+.home-header-logo-mark{
+  width:34px; 
+  height:34px; 
+  border-radius:999px; 
+  background:#1d1d1d; 
+  color:white;
+  display:grid; 
+  place-items:center; 
+  font-family: 'Georgia','Times New Roman',serif; 
+  font-size:11px; 
+  letter-spacing:.12em;
+}
+
+.home-header-brand{ 
+  font-size:20px; 
+  margin:0; 
+  color:#1e1e1e; 
+}
+
+.home-header-brand .home-header-of{ 
+  color:#8b8b8b; 
+  font-size:.9em; 
+  margin:0 .15em; 
+}
+
+/* 네비게이션 */
+.home-header-nav{ 
+  display:flex; 
+  gap:18px; 
+  align-items:center; 
+}
+
+.home-header-nav-link{ 
+  font-size:14px; 
+  color:var(--ink); 
+  text-decoration:none; 
+  opacity:.85;
+  transition: opacity 0.2s ease;
+}
+
+.home-header-nav-link:hover{ 
+  opacity:1; 
+}
+
+.home-header-login-btn{
+  padding:8px 14px; 
+  border-radius:12px; 
+  border:1px solid var(--border); 
+  background:#fff; 
+  color:var(--ink);
+  box-shadow:0 2px 6px rgba(0,0,0,.06);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.home-header-login-btn:hover{
+  background:#f9f9f9;
+  box-shadow:0 4px 12px rgba(0,0,0,.12);
+  transform: translateY(-1px);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .home-header-container {
+    padding: 12px 16px;
+  }
+  
+  .home-header-logo {
+    gap: 10px;
+  }
+  
+  .home-header-brand {
+    font-size: 16px;
+  }
+  
+  .home-header-nav {
+    gap: 12px;
+  }
+  
+  .home-header-nav-link {
+    font-size: 13px;
+  }
+  
+  .home-header-login-btn {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-header-nav-link {
+    display: none;
+  }
+  
+  .home-header-nav {
+    gap: 0;
+  }
+}

@@ -46,7 +46,7 @@
 .story-dashboard-content {
   display: flex;
   height: calc(100vh - 90px);
-  margin-top: 60px;
+  margin-top: 90px; /* 헤더 높이(90px) + 여백(30px) */
 }
 
 /* 사이드바 스타일 */
