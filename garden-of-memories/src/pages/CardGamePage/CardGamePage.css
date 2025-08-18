@@ -15,7 +15,7 @@
 .card-game-main-container {
   max-width: 1152px;
   margin: 0 auto;
-  padding: 122px 52px 0;
+  padding: 140px 52px 0; /* ElderlyHeader 높이(90px) + 여백(50px) */
   min-height: calc(100vh - 90px);
   box-sizing: border-box;
   position: relative;

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import ElderlyHeader from '../../components/ElderlyHeader';
 
 import './DailyQuestionPage.css';
 
@@ -18,15 +19,15 @@ function DailyQuestionPage() {
 
   return (
     <div className="daily-question-page">
-      
+      <ElderlyHeader 
+        title="오늘의 질문" 
+        subtitle="오늘의 질문에 답해보세요"
+        onBackClick={handleBackToHome}
+      />
 
       <main className="daily-main-content">
         {/* Question Card */}
         <div className="daily-question-card">
-          <h2 className="daily-question-title">오늘의 질문</h2>
-          
-          <div className="daily-divider"></div>
-          
           <div className="daily-question-content">
             <p className="daily-question-text">
               어린 시절 가장 기억에 남는 가족 여행은 어디였나요?

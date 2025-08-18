@@ -6,7 +6,7 @@
 
 .select-main-content {
   padding: 0 80px;
-  padding-top: 120px;
+  padding-top: 140px; /* ElderlyHeader 높이(90px) + 여백(50px) */
 }
 
 .select-hero-section {
