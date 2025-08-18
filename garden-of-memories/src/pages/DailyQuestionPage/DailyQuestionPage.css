@@ -11,7 +11,7 @@
 .daily-main-content {
   max-width: 1271px;
   margin: 0 auto;
-  padding: 80px 60px 40px;
+  padding: 140px 60px 40px; /* ElderlyHeader 높이(90px) + 여백(50px) */
   min-height: calc(100vh - 90px);
   display: flex;
   flex-direction: column;

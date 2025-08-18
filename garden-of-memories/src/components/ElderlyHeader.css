@@ -65,6 +65,10 @@
   flex: 1;
   text-align: center;
   margin: 0 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .elderly-header-title {
