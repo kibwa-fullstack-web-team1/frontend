@@ -6,6 +6,8 @@ import PersonalizationStack from '../../components/PersonalizationStack'; // New
 import './GardenPage.css';
 import '../../components/SectionTitle.css';
 
+const CLOUDFRONT_DOMAIN = 'd3dp1o6kjej6ik.cloudfront.net';
+
 // Define service categories to control rendering order and names
 const SERVICE_CATEGORIES = {
   1: '오늘의 질문',
@@ -105,7 +107,7 @@ const GardenPage = () => {
                     <div className="shelf-items">
                       {rewardsForService.map(item => {
                         const size = 70 * Math.pow(1.2, item.stage - 1);
-                        let cameraTargetY = (0.55 - (item.stage - 1) * 0.05).toFixed(2); // Dynamic Y based on stage
+                        let cameraTargetY = (0.85 - (item.stage - 1) * 0.05).toFixed(2); // Dynamic Y based on stage
 
                         // Exception for the first item of '이야기 시퀀서'
                         if (serviceId === '2' && rewardsForService.indexOf(item) === 0) {
@@ -114,13 +116,17 @@ const GardenPage = () => {
 
                         // Exception for the third item of '이야기 시퀀서'
                         if (serviceId === '2' && rewardsForService.indexOf(item) === 2) {
-                          cameraTargetY = (parseFloat(cameraTargetY) + 0.25).toFixed(2);
+                          cameraTargetY = (parseFloat(cameraTargetY) + 0.6).toFixed(2);
                         }
 
                         return (
                           <model-viewer
                             key={`${item.type}-${item.id}`}
-                            src={item.imageUrl}
+                            src={(() => {
+                              const s3Domain = "https://kibwa-17.s3.ap-southeast-1.amazonaws.com/";
+                              const path = item.imageUrl.startsWith(s3Domain) ? item.imageUrl.substring(s3Domain.length) : item.imageUrl;
+                              return `https://${CLOUDFRONT_DOMAIN}/${path}`;
+                            })()}
                             alt={item.name}
                             ar
                             ar-modes="webxr scene-viewer quick-look"
@@ -144,13 +150,18 @@ const GardenPage = () => {
           <PersonalizationStack
             cardsData={personalizationRewards.map(item => ({
               id: item.id,
-              imageUrl: item.imageUrl || item.generated_image_url, // Use generated_image_url for personalization
+              imageUrl: (() => {
+                const s3Domain = "https://kibwa-17.s3.ap-southeast-1.amazonaws.com/";
+                const sourceUrl = item.imageUrl || item.generated_image_url;
+                const path = sourceUrl.startsWith(s3Domain) ? sourceUrl.substring(s3Domain.length) : sourceUrl;
+                return `https://${CLOUDFRONT_DOMAIN}/${path}`;
+              })(), // Use generated_image_url for personalization
               description: item.description,
               type: item.type, // Keep type for modal handling
               // Add other properties needed by handleModelClick if any
             }))}
             onClick={handleModelClick}
-            cardDimensions={{ width: 200, height: 250 }} // Example dimensions, adjust as needed
+            cardDimensions={{ width: 350, height: 350 }} // Square dimensions
             autoFlipInterval={3000} // 3 seconds
           />
         </div>
