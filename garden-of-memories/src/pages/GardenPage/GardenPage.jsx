@@ -4,6 +4,7 @@ import { useGarden } from '../../hooks/useGarden';
 import ModelViewerModal from '../../components/ModelViewerModal';
 import PersonalizationStack from '../../components/PersonalizationStack'; // New import
 import ServiceLinksModal from '../../components/ServiceLinksModal';
+import ConfirmationModal from '../../components/ConfirmationModal';
 import './GardenPage.css';
 import '../../components/SectionTitle.css';
 
@@ -22,9 +23,12 @@ const GardenPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedModel, setSelectedModel] = useState(null);
   const [isGenerating, setIsGenerating] = useState(false);
-  const [notification, setNotification] = useState(null);
-  const [showServiceModal, setShowServiceModal] = useState(false); // New
-  const [hasGeneratedReward, setHasGeneratedReward] = useState(false); // New
+  const [showServiceModal, setShowServiceModal] = useState(false);
+  const [hasGeneratedReward, setHasGeneratedReward] = useState(false);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false); // New
+  const [newRewardImageUrl, setNewRewardImageUrl] = useState(null); // New
+  const [generatedRewardId, setGeneratedRewardId] = useState(null); // New
+  
 
   useEffect(() => {
     const measureWidth = () => {
@@ -36,6 +40,59 @@ const GardenPage = () => {
     window.addEventListener('resize', measureWidth);
     return () => window.removeEventListener('resize', measureWidth);
   }, []);
+
+  useEffect(() => {
+    if (!generatedRewardId) return;
+
+    let pollInterval;
+    let pollTimeout;
+    const POLLING_INTERVAL = 2000; // Poll every 2 seconds
+    const POLLING_TIMEOUT = 60000; // Stop polling after 60 seconds
+
+    const pollForImageUrl = async () => {
+      try {
+        const response = await fetch(`/reward-api/rewards/personalization/${generatedRewardId}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch personalization reward.');
+        }
+        const data = await response.json();
+        console.log('Polling Response Data:', data);
+
+        if (data.generated_image_url) {
+          clearInterval(pollInterval);
+          clearTimeout(pollTimeout);
+          setNewRewardImageUrl(data.generated_image_url);
+          setShowConfirmationModal(true);
+          setIsGenerating(false); // Generation complete
+          setGeneratedRewardId(null); // Reset for next generation
+        }
+      } catch (error) {
+        console.error('Polling error:', error);
+        clearInterval(pollInterval);
+        clearTimeout(pollTimeout);
+        setIsGenerating(false); // Stop generating state on error
+        setGeneratedRewardId(null); // Reset
+      }
+    };
+
+    // Start polling
+    pollInterval = setInterval(pollForImageUrl, POLLING_INTERVAL);
+
+    // Set timeout to stop polling after a certain period
+    pollTimeout = setTimeout(() => {
+      clearInterval(pollInterval);
+      console.log('Polling timed out. Image URL not received within 20 seconds.');
+      setIsGenerating(false); // Stop generating state on timeout
+      setGeneratedRewardId(null); // Reset
+      // Optionally, show an error message to the user
+    }, POLLING_TIMEOUT);
+
+    // Cleanup function
+    return () => {
+      clearInterval(pollInterval);
+      clearTimeout(pollTimeout);
+    };
+  }, [generatedRewardId]); // Rerun when generatedRewardId changes
 
   const { displayedRewards, personalizationConveyorWidth } = useGarden(1, gardenWidth);
 
@@ -51,7 +108,7 @@ const GardenPage = () => {
     }
 
     setIsGenerating(true);
-    setNotification(null);
+    
     try {
       const response = await fetch('/reward-api/rewards/request-ai-generation', {
         method: 'POST',
@@ -68,12 +125,16 @@ const GardenPage = () => {
       }
 
       const data = await response.json();
-      setNotification({ type: 'success', message: data.message || 'AI 보상 생성 요청 성공!' });
+      console.log('API Response Data:', data); // Log the full response data
+      
       setHasGeneratedReward(true); // Set to true on successful generation
+      setGeneratedRewardId(data.id); // Store the ID of the newly created reward
+
+      // The image URL will be polled later, so no need to extract here
       // Optionally, refresh garden data here if useGarden hook supports it
       // For now, user might need to refresh the page manually to see new rewards
     } catch (error) {
-      setNotification({ type: 'error', message: error.message || '알 수 없는 오류 발생' });
+      
       console.error('AI 보상 생성 요청 오류:', error);
     } finally {
       setIsGenerating(false);
@@ -172,6 +233,12 @@ const GardenPage = () => {
           />
         </div>
       </div>
+      {showConfirmationModal && (
+        <ConfirmationModal
+          imageUrl={newRewardImageUrl}
+          onClose={() => setShowConfirmationModal(false)}
+        />
+      )}
       {showServiceModal && (
         <ServiceLinksModal onClose={() => setShowServiceModal(false)} />
       )}
