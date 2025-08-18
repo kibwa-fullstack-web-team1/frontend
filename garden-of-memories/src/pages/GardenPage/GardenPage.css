@@ -218,3 +218,41 @@ model-viewer:hover {
 .garden-right-panel {
     background: radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, 0.5) 20%, transparent 52%), #F0EAD6; /* Dark shadow in center, more natural */
 }
+
+.generate-ai-reward-button {
+  position: absolute; /* Added */
+  top: 20px; /* Added */
+  right: 20px; /* Added */
+  background-color: #A58A66; /* A shade from the wood grain or complementary */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: 'Playfair Display', serif; /* Consistent with other text */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.generate-ai-reward-button:hover {
+  background-color: #8B725C; /* Slightly darker on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.generate-ai-reward-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.generate-ai-reward-button:active {
+  transform: translateY(1px); /* Simulate a slight press */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) inset; /* Inner shadow for pressed look */
+}
+
+.generate-ai-reward-button.button-generated {
+  opacity: 0.7; /* Visually indicate it's "disabled" */
+  cursor: pointer; /* Keep cursor as pointer to indicate clickability */
+  /* You might want to remove box-shadow or change background-color here */
+}
