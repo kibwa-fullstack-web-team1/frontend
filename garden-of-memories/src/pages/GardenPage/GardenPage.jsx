@@ -107,7 +107,7 @@ const GardenPage = () => {
                     <div className="shelf-items">
                       {rewardsForService.map(item => {
                         const size = 70 * Math.pow(1.2, item.stage - 1);
-                        let cameraTargetY = (0.85 - (item.stage - 1) * 0.05).toFixed(2); // Dynamic Y based on stage
+                        let cameraTargetY = (1.1 - (item.stage - 1) * 0.05).toFixed(2); // Dynamic Y based on stage
 
                         // Exception for the first item of '이야기 시퀀서'
                         if (serviceId === '2' && rewardsForService.indexOf(item) === 0) {
