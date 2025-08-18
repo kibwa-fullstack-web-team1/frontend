@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './WeeklyReportPage.css'; // Assuming a CSS file for styling
 
 const WeeklyReportPage = () => {
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchReports = async () => {
       try {
         // Assuming the API is proxied correctly via vite.config.js
-        const response = await fetch('/notifications/reports');
+        const response = await fetch('/notifications-api/notifications/reports');
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -26,6 +28,10 @@ const WeeklyReportPage = () => {
 
     fetchReports();
   }, []);
+
+  const handleReportClick = (reportId) => {
+    navigate(`/reports/${reportId}`);
+  };
 
   if (loading) {
     return <div className="weekly-report-container">로딩 중...</div>;
@@ -43,28 +49,10 @@ const WeeklyReportPage = () => {
       ) : (
         <div className="report-list">
           {reports.map((report) => (
-            <div key={report.id} className="report-card">
-              <h2>{report.report_data.username}님의 주간 리포트</h2>
-              <p>리포트 날짜: {new Date(report.report_date).toLocaleDateString()}</p>
-              <h3>요약</h3>
-              <ul>
-                <li>인지 점수 평균: {report.report_data.summary.avg_cognitive_score}</li>
-                <li>의미 점수 평균: {report.report_data.summary.avg_semantic_score}</li>
-              </ul>
-              <h3>상세 답변 내역</h3>
-              {report.report_data.answers && report.report_data.answers.length > 0 ? (
-                <ul>
-                  {report.report_data.answers.map((answer, index) => (
-                    <li key={index}>
-                      <strong>질문:</strong> {answer.question_content}<br />
-                      <strong>답변:</strong> {answer.text_content}<br />
-                      (인지: {answer.cognitive_score}, 의미: {answer.semantic_score})
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p>답변 내역이 없습니다.</p>
-              )}
+            <div key={report.id} className="report-card" onClick={() => handleReportClick(report.id)}>
+              <h2>{new Date(report.report_date).toLocaleDateString()} 주간 리포트</h2>
+              <p>인지 점수 평균: {report.report_data.summary.avg_cognitive_score}</p>
+              <p>의미 점수 평균: {report.report_data.summary.avg_semantic_score}</p>
             </div>
           ))}
         </div>
