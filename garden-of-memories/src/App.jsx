@@ -12,16 +12,22 @@ import StoryGameDashboard from './pages/StoryGameDashboard/StoryGameDashboard';
 import GardenPage from './pages/GardenPage/GardenPage';
 import DailyQuestionPage from './pages/DailyQuestionPage/DailyQuestionPage';
 import StorySequence from './pages/StorySequence/StorySequence';
-import EnterPage from './pages/EnterPage/EnterPage';
+import HomePage from './pages/HomePage/HomePage';
 
 
 function App() {
   return (
     <Router>
       <Routes>
+        {/* 홈 페이지 */}
+        <Route path="/" element={<HomePage />} />
+        <Route path="/home" element={<HomePage />} />
         
+        {/* 인증 페이지 */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
+        
+        {/* 게임 페이지들 */}
         <Route path="/card-game" element={<CardGamePage />} />
         <Route path="/game-select" element={<GameSelectPage />} />
         <Route path="/game-select-dashboard" element={<GameSelectDashboard />} />
