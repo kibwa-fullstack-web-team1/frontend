@@ -1,0 +1,52 @@
+/* /work/frontend/garden-of-memories/src/pages/WeeklyReportPage/WeeklyReportPage.css */
+.weekly-report-container {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+}
+
+.weekly-report-container h1 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.report-list {
+    display: grid;
+    gap: 20px;
+}
+
+.report-card {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.report-card h2 {
+    color: #0056b3;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.report-card h3 {
+    color: #007bff;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.report-card ul {
+    list-style: none;
+    padding: 0;
+}
+
+.report-card li {
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+.report-card strong {
+    color: #555;
+}

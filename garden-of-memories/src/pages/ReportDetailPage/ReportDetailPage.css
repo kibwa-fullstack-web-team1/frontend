@@ -1,0 +1,53 @@
+/* /work/frontend/garden-of-memories/src/pages/ReportDetailPage/ReportDetailPage.css */
+.report-detail-container {
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+}
+
+.report-detail-container h1 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.report-detail-container h2 {
+    color: #0056b3;
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+.report-detail-container h3 {
+    color: #007bff;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.report-detail-container ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.report-detail-container li {
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+.answers-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.answers-table th, .answers-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.answers-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
