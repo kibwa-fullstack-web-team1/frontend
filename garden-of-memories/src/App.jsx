@@ -14,6 +14,7 @@ import DailyQuestionPage from './pages/DailyQuestionPage/DailyQuestionPage';
 import StorySequence from './pages/StorySequence/StorySequence';
 import EnterPage from './pages/EnterPage/EnterPage';
 import NotificationPage from './pages/NotificationPage/NotificationPage';
+import WeeklyReportPage from './pages/WeeklyReportPage/WeeklyReportPage';
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
         <Route path="/story-sequence" element={<StorySequence />} />
         <Route path="/enter" element={<EnterPage />} />
         <Route path="/notifications" element={<NotificationPage />} />
+        <Route path="/reports" element={<WeeklyReportPage />} />
       </Routes>
     </Router>
   );
