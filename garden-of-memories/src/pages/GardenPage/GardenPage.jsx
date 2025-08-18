@@ -18,6 +18,8 @@ const GardenPage = () => {
   const [gardenWidth, setGardenWidth] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [selectedModel, setSelectedModel] = useState(null);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [notification, setNotification] = useState(null);
 
   useEffect(() => {
     const measureWidth = () => {
@@ -37,6 +39,36 @@ const GardenPage = () => {
     setShowModal(true);
   };
 
+  const handleGenerateAiReward = async () => {
+    setIsGenerating(true);
+    setNotification(null);
+    try {
+      const response = await fetch('/reward-api/rewards/request-ai-generation', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        // You might need to send user_id or other data here if the API requires it
+        body: JSON.stringify({ user_id: 1 }), // Assuming user_id 1 for testing
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || 'AI 보상 생성 요청 실패');
+      }
+
+      const data = await response.json();
+      setNotification({ type: 'success', message: data.message || 'AI 보상 생성 요청 성공!' });
+      // Optionally, refresh garden data here if useGarden hook supports it
+      // For now, user might need to refresh the page manually to see new rewards
+    } catch (error) {
+      setNotification({ type: 'error', message: error.message || '알 수 없는 오류 발생' });
+      console.error('AI 보상 생성 요청 오류:', error);
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
   const commonRewards = displayedRewards.filter(item => item.type === 'common');
   const personalizationRewards = displayedRewards.filter(item => item.type === 'personalization');
 
@@ -44,6 +76,14 @@ const GardenPage = () => {
     <div className="garden-page-container">
       <div className="garden-header">
         <h1>기억의 정원</h1>
+        <button className="generate-ai-reward-button" onClick={handleGenerateAiReward} disabled={isGenerating}>
+          {isGenerating ? '생성 중...' : 'AI 보상 생성 요청'}
+        </button>
+        {notification && (
+          <div className={"notification " + notification.type}>
+            {notification.message}
+          </div>
+        )}
       </div>
       <div ref={gardenRef} className="garden-background">
         <div className="garden-left-panel">
@@ -105,7 +145,6 @@ const GardenPage = () => {
             cardsData={personalizationRewards.map(item => ({
               id: item.id,
               imageUrl: item.imageUrl || item.generated_image_url, // Use generated_image_url for personalization
-              name: item.name,
               description: item.description,
               type: item.type, // Keep type for modal handling
               // Add other properties needed by handleModelClick if any
