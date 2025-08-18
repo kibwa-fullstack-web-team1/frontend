@@ -50,7 +50,16 @@ const WeeklyReportPage = () => {
         <div className="report-list">
           {reports.map((report) => (
             <div key={report.id} className="report-card" onClick={() => handleReportClick(report.id)}>
-              <h2>{new Date(report.report_date).toLocaleDateString()} 주간 리포트</h2>
+              {(() => {
+                const endDate = new Date(report.report_date);
+                const startDate = new Date(endDate);
+                startDate.setDate(endDate.getDate() - 6); // Assuming week starts 6 days before end date (Sunday)
+
+                const formattedStartDate = `${startDate.getMonth() + 1}.${startDate.getDate()}`;
+                const formattedEndDate = `${endDate.getMonth() + 1}.${endDate.getDate()}`;
+
+                return <h2>{formattedStartDate} ~ {formattedEndDate} 주간 리포트</h2>;
+              })()}
               <p>인지 점수 평균: {report.report_data.summary.avg_cognitive_score}</p>
               <p>의미 점수 평균: {report.report_data.summary.avg_semantic_score}</p>
             </div>

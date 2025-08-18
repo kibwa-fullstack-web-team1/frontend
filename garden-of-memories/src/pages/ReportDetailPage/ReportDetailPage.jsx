@@ -48,9 +48,13 @@ const ReportDetailPage = () => {
     return <div className="report-detail-container">보고서를 찾을 수 없습니다.</div>;
   }
 
+  const endDate = new Date(report.report_date);
+  const startDate = new Date(endDate);
+  startDate.setDate(endDate.getDate() - 6); // Assuming week starts 6 days before end date (Sunday)
+
   return (
     <div className="report-detail-container">
-      <h1>{new Date(report.report_date).toLocaleDateString()} 주간 리포트 상세</h1>
+      <h1>{`${startDate.getMonth() + 1}.${startDate.getDate()} ~ ${endDate.getMonth() + 1}.${endDate.getDate()}`} 주간 리포트 상세</h1>
       <h2>{report.report_data.username}님</h2>
       <h3>요약</h3>
       <ul>
