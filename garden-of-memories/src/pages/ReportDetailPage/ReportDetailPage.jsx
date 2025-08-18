@@ -52,14 +52,34 @@ const ReportDetailPage = () => {
   const startDate = new Date(endDate);
   startDate.setDate(endDate.getDate() - 6); // Assuming week starts 6 days before end date (Sunday)
 
+  const getScoreCategory = (score) => {
+    if (score >= 80) {
+      return { category: '좋음', color: 'green' };
+    } else if (score >= 50) {
+      return { category: '보통', color: 'orange' };
+    } else {
+      return { category: '개선 필요', color: 'red' };
+    }
+  };
+
   return (
     <div className="report-detail-container">
       <h1>{`${startDate.getMonth() + 1}.${startDate.getDate()} ~ ${endDate.getMonth() + 1}.${endDate.getDate()}`} 주간 리포트 상세</h1>
       <h2>{report.report_data.username}님</h2>
       <h3>요약</h3>
       <ul>
-        <li>인지 점수 평균: {report.report_data.summary.avg_cognitive_score}</li>
-        <li>의미 점수 평균: {report.report_data.summary.avg_semantic_score}</li>
+        <li>
+          인지 점수 평균: {report.report_data.summary.avg_cognitive_score}
+          <span style={{ color: getScoreCategory(parseFloat(report.report_data.summary.avg_cognitive_score)).color }}>
+            ({getScoreCategory(parseFloat(report.report_data.summary.avg_cognitive_score)).category})
+          </span>
+        </li>
+        <li>
+          의미 점수 평균: {report.report_data.summary.avg_semantic_score}
+          <span style={{ color: getScoreCategory(parseFloat(report.report_data.summary.avg_semantic_score)).color }}>
+            ({getScoreCategory(parseFloat(report.report_data.summary.avg_semantic_score)).category})
+          </span>
+        </li>
         <li>최저 인지 점수: {report.report_data.summary.min_cognitive_score}</li>
         <li>최고 인지 점수: {report.report_data.summary.max_cognitive_score}</li>
         <li>최저 의미 점수: {report.report_data.summary.min_semantic_score}</li>

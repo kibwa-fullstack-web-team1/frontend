@@ -33,6 +33,16 @@ const WeeklyReportPage = () => {
     navigate(`/reports/${reportId}`);
   };
 
+  const getScoreCategory = (score) => {
+    if (score >= 80) {
+      return { category: '좋음', color: 'green' };
+    } else if (score >= 50) {
+      return { category: '보통', color: 'orange' };
+    } else {
+      return { category: '개선 필요', color: 'red' };
+    }
+  };
+
   if (loading) {
     return <div className="weekly-report-container">로딩 중...</div>;
   }
@@ -60,8 +70,18 @@ const WeeklyReportPage = () => {
 
                 return <h2>{formattedStartDate} ~ {formattedEndDate} 주간 리포트</h2>;
               })()}
-              <p>인지 점수 평균: {report.report_data.summary.avg_cognitive_score}</p>
-              <p>의미 점수 평균: {report.report_data.summary.avg_semantic_score}</p>
+              <p>
+                인지 점수 평균: {report.report_data.summary.avg_cognitive_score}
+                <span style={{ color: getScoreCategory(parseFloat(report.report_data.summary.avg_cognitive_score)).color }}>
+                  ({getScoreCategory(parseFloat(report.report_data.summary.avg_cognitive_score)).category})
+                </span>
+              </p>
+              <p>
+                의미 점수 평균: {report.report_data.summary.avg_semantic_score}
+                <span style={{ color: getScoreCategory(parseFloat(report.report_data.summary.avg_semantic_score)).color }}>
+                  ({getScoreCategory(parseFloat(report.report_data.summary.avg_semantic_score)).category})
+                </span>
+              </p>
             </div>
           ))}
         </div>
