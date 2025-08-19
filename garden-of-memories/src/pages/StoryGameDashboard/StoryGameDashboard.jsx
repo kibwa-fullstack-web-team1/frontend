@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiLogOut, FiEye, FiEdit, FiTrash2, FiPlay } from 'react-icons/fi';
-import { logoutUser } from '../../services/api';
+import { logoutUser, createStory, getStories, updateStory, deleteStory } from '../../services/api';
 import FamilyHeader from '../../components/FamilyHeader';
 import './StoryGameDashboard.css';
 
@@ -13,6 +13,9 @@ const StoryGameDashboard = () => {
     content: ''
   });
   const [selectedStory, setSelectedStory] = useState(null);
+  const [registeredStories, setRegisteredStories] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   // 카테고리 옵션
   const categories = [
@@ -23,25 +26,21 @@ const StoryGameDashboard = () => {
     { value: 'memory', label: '추억' }
   ];
 
-  // 등록된 이야기 데이터
-  const registeredStories = [
-    {
-      id: 1,
-      title: '할머니와의 첫 만남',
-      category: '가족',
-      content: '할머니를 처음 만났을 때의 이야기입니다. 그때 할머니는 따뜻한 미소로 저를 맞아주셨어요.',
-      status: 'published', // published, draft, private
-      date: '2024-01-15'
-    },
-    {
-      id: 2,
-      title: '생일 파티 추억',
-      category: '기념일',
-      content: '할머니의 80번째 생일 파티를 준비했던 날의 이야기입니다. 온 가족이 모여서 축하해드렸어요.',
-      status: 'draft', // published, draft, private
-      date: '2024-01-10'
-    }
-  ];
+  useEffect(() => {
+    const fetchStories = async () => {
+      setIsLoading(true);
+      try {
+        const stories = await getStories();
+        setRegisteredStories(stories);
+      } catch (err) {
+        setError(err);
+        console.error('Error fetching stories:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchStories();
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -51,61 +50,71 @@ const StoryGameDashboard = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // TODO: 실제 백엔드 API와 연결 시 이야기 등록 API 호출
-    console.log('이야기 등록:', formData);
-    
-    // 임시로 등록된 이야기 목록에 추가
-    const newStory = {
-      id: Date.now(),
-      title: formData.title,
-      category: formData.category,
-      content: formData.content,
-      status: 'draft',
-      date: new Date().toISOString().split('T')[0]
-    };
-    
-    console.log('새 이야기 등록:', newStory);
-    
-    // 폼 초기화
-    setFormData({
-      title: '',
-      category: '',
-      content: ''
-    });
-    
-    alert('이야기가 등록되었습니다!');
+    setIsLoading(true);
+    try {
+      await createStory(formData);
+      alert('이야기가 등록되었습니다!');
+      // 등록 후 다시 데이터 로드
+      const stories = await getStories();
+      setRegisteredStories(stories);
+      
+      // 폼 초기화
+      setFormData({
+        title: '',
+        category: '',
+        content: ''
+      });
+    } catch (err) {
+      setError(err);
+      alert('이야기 등록 중 오류가 발생했습니다.');
+      console.error('Error creating story:', err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleStoryAction = (storyId, action) => {
+  const handleStoryAction = async (storyId, action) => {
     console.log(`이야기 ${action}:`, storyId);
     
-    switch (action) {
-      case 'preview':
-        setSelectedStory(registeredStories.find(story => story.id === storyId));
-        break;
-      case 'edit':
-        // TODO: 이야기 수정 모달 또는 페이지로 이동
-        alert('이야기 수정 기능은 준비 중입니다.');
-        break;
-      case 'publish':
-        // TODO: 이야기 게시 API 호출
-        alert('이야기가 게시되었습니다.');
-        break;
-      case 'private':
-        // TODO: 이야기 비공개 설정 API 호출
-        alert('이야기가 비공개로 설정되었습니다.');
-        break;
-      case 'delete':
-        if (window.confirm('정말로 이 이야기를 삭제하시겠습니까?')) {
-          // TODO: 이야기 삭제 API 호출
-          alert('이야기가 삭제되었습니다.');
-        }
-        break;
-      default:
-        break;
+    setIsLoading(true);
+    try {
+      switch (action) {
+        case 'preview':
+          setSelectedStory(registeredStories.find(story => story.id === storyId));
+          break;
+        case 'edit':
+          // TODO: 이야기 수정 모달 또는 페이지로 이동
+          alert('이야기 수정 기능은 준비 중입니다.');
+          break;
+        case 'publish':
+          await updateStory(storyId, { status: 'published' });
+          alert('이야기가 게시되었습니다.');
+          break;
+        case 'private':
+          await updateStory(storyId, { status: 'private' });
+          alert('이야기가 비공개로 설정되었습니다.');
+          break;
+        case 'delete':
+          if (window.confirm('정말로 이 이야기를 삭제하시겠습니까?')) {
+            await deleteStory(storyId);
+            alert('이야기가 삭제되었습니다.');
+            // 삭제 후 다시 데이터 로드
+            const stories = await getStories();
+            setRegisteredStories(stories);
+          }
+          break;
+        default:
+          break;
+      }
+    } catch (err) {
+      setError(err);
+      alert('이야기 작업 중 오류가 발생했습니다.');
+      console.error('Error performing story action:', err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -139,10 +148,25 @@ const StoryGameDashboard = () => {
     navigate('/card-game-dashboard');
   };
 
-  const handleLogout = () => {
-    logoutUser();
-    navigate('/');
+  const handleLogout = async () => {
+    if (window.confirm('로그아웃하시겠습니까?')) {
+      try {
+        await logoutUser();
+        navigate('/login');
+      } catch (error) {
+        console.error('로그아웃 중 오류:', error);
+        navigate('/login');
+      }
+    }
   };
+
+  if (isLoading) {
+    return <div className="loading-spinner">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="error-message">Error: {error.message}</div>;
+  }
 
   return (
     <div className="story-registration-page">

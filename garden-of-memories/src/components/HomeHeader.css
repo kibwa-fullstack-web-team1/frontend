@@ -92,6 +92,90 @@
   transform: translateY(-1px);
 }
 
+/* 사용자 정보 섹션 */
+.home-header-user-section {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.home-header-user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 12px;
+  transition: background-color 0.2s ease;
+}
+
+.home-header-user-info:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.home-header-user-avatar {
+  width: 32px;
+  height: 32px;
+  background-color: #1d1d1d;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  flex-shrink: 0;
+}
+
+.home-header-user-avatar svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+.home-header-user-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.home-header-user-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1e1e1e;
+  line-height: 1.2;
+}
+
+.home-header-user-role {
+  font-size: 11px;
+  font-weight: 400;
+  color: #8b8b8b;
+  line-height: 1.2;
+}
+
+/* 로그아웃 버튼 */
+.home-header-logout-btn {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #FECACA;
+  background: #FEF2F2;
+  color: #DC2626;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.home-header-logout-btn:hover {
+  background: #FEE2E2;
+  border-color: #FCA5A5;
+  color: #B91C1C;
+}
+
+.home-header-logout-btn:active {
+  transform: translateY(1px);
+}
+
 /* 반응형 디자인 */
 @media (max-width: 768px) {
   .home-header-container {
@@ -118,6 +202,15 @@
     padding: 6px 12px;
     font-size: 13px;
   }
+  
+  .home-header-user-details {
+    display: none;
+  }
+  
+  .home-header-logout-btn {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -127,5 +220,14 @@
   
   .home-header-nav {
     gap: 0;
+  }
+  
+  .home-header-user-info {
+    padding: 6px 8px;
+  }
+  
+  .home-header-logout-btn {
+    padding: 5px 8px;
+    font-size: 10px;
   }
 }

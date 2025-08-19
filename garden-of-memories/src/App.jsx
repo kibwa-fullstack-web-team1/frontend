@@ -16,7 +16,7 @@ import HomePage from './pages/HomePage/HomePage';
 import NotificationPage from './pages/NotificationPage/NotificationPage';
 import WeeklyReportPage from './pages/WeeklyReportPage/WeeklyReportPage';
 import ReportDetailPage from './pages/ReportDetailPage/ReportDetailPage';
-import EnterPage from './pages/EnterPage/EnterPage';
+import FamilyTestPage from './pages/FamilyTestPage';
 
 function App() {
   return (
@@ -39,18 +39,15 @@ function App() {
         <Route path="/story-game-dashboard" element={<StoryGameDashboard />} />
         <Route path="/garden" element={<GardenPage />} />
         <Route path="/story-sequence" element={<StorySequence />} />
-        <Route path="/enter" element={<EnterPage />} />
         <Route path="/notifications" element={<NotificationPage />} />
         <Route path="/reports" element={<WeeklyReportPage />} />
         <Route path="/reports/:reportId" element={<ReportDetailPage />} />
+        
+        {/* 테스트 페이지 */}
+        <Route path="/family-test" element={<FamilyTestPage />} />
       </Routes>
     </Router>
   );
 }
-
-// test
-// function App() {
-//   return <MyPage />;
-// }
 
 export default App;

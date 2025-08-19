@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { isAuthenticated, getCurrentUser, getAuthToken } from '../../services/api';
 import HomeHeader from '../../components/HomeHeader';
 import './HomePage.css';
 
@@ -11,9 +12,118 @@ gsap.registerPlugin(ScrollTrigger);
 function HomePage() {
   const navigate = useNavigate();
   const journeyStepsRef = useRef([]);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [showFamilyConnect, setShowFamilyConnect] = useState(false);
+  const [showFamilyInvite, setShowFamilyInvite] = useState(false);
+  const [invitationCode, setInvitationCode] = useState(null);
+  const [isGeneratingCode, setIsGeneratingCode] = useState(false);
+
+  // 현재 사용자 정보 확인
+  useEffect(() => {
+    if (isAuthenticated()) {
+      const user = getCurrentUser();
+      setCurrentUser(user);
+    }
+  }, []);
 
   const handleEnterGarden = () => {
-    navigate('/login');
+    if (isAuthenticated()) {
+      // 로그인된 사용자인 경우
+      if (currentUser?.role === 'guardian') {
+        // 보호자인 경우 가족 연결 상태 확인 후 정원으로 이동
+        navigate('/game-select-dashboard');
+      } else {
+        // 시니어인 경우 게임 선택 페이지로 이동
+        navigate('/game-select');
+      }
+    } else {
+      // 로그인되지 않은 경우 로그인 페이지로 이동
+      navigate('/login');
+    }
+  };
+
+  const handleFamilyConnect = () => {
+    setShowFamilyConnect(true);
+  };
+
+  const handleCloseFamilyConnect = () => {
+    setShowFamilyConnect(false);
+  };
+
+  const handleFamilyInvite = () => {
+    console.log('가족 초대 버튼 클릭됨!');
+    console.log('현재 사용자:', currentUser);
+    console.log('현재 showFamilyInvite 상태:', showFamilyInvite);
+    setShowFamilyInvite(true);
+    console.log('showFamilyInvite를 true로 설정함');
+  };
+
+  const handleCloseFamilyInvite = () => {
+    setShowFamilyInvite(false);
+    setInvitationCode(null);
+  };
+
+  const generateInvitationCode = async () => {
+    setIsGeneratingCode(true);
+    
+    try {
+      // JWT 토큰 가져오기
+      const authToken = getAuthToken();
+      if (!authToken) {
+        throw new Error('로그인이 필요합니다.');
+      }
+
+      const response = await fetch('http://localhost:8000/family/invite-code', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`
+        },
+        body: JSON.stringify({ 
+          invitee_email: 'test@example.com',
+          relationship_type_id: 5
+        })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || '초대코드 생성에 실패했습니다.');
+      }
+
+      const data = await response.json();
+      setInvitationCode({
+        code: data.code,
+        expires_at: data.expires_at,
+        created_at: data.created_at,
+        is_used: data.is_used
+      });
+    } catch (error) {
+      console.error('초대코드 생성 오류:', error);
+      alert(error.message);
+    } finally {
+      setIsGeneratingCode(false);
+    }
+  };
+
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(invitationCode.code);
+      alert('초대코드가 클립보드에 복사되었습니다!');
+    } catch (err) {
+      console.error('클립보드 복사 실패:', err);
+    }
+  };
+
+  const shareCode = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: '기억의 정원 초대코드',
+        text: `초대코드: ${invitationCode.code}`,
+        url: window.location.origin
+      });
+    } else {
+      copyToClipboard();
+    }
   };
 
   // GSAP ScrollTrigger를 사용한 순차적 카드 강조 애니메이션
@@ -266,7 +376,129 @@ function HomePage() {
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 5L12.5 10L7.5 15" stroke="#6f6048" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
             </div>
           </button>
+          
+          {/* 가족 연결 안내 - 보호자만 (로그인 후) */}
+          {isAuthenticated() && currentUser?.role === 'guardian' && (
+            <div className="home-family-connect-info">
+              <p className="home-family-connect-text">
+                💡 가족과 연결하여 시니어의 활동을 함께 지켜보세요
+              </p>
+              <button className="home-family-connect-btn" onClick={handleFamilyConnect}>
+                가족 연결하기
+              </button>
+            </div>
+          )}
+
+          {/* 시니어용 가족 초대 안내 - 시니어만 (로그인 후) */}
+          {isAuthenticated() && currentUser?.role === 'senior' && (
+            <div className="home-family-invite-info">
+              <p className="home-family-invite-text">
+                💡 가족을 초대하여 게임 결과와 추억을 함께 공유해보세요
+              </p>
+              <button className="home-family-invite-btn" onClick={handleFamilyInvite}>
+                가족 초대하기
+              </button>
+            </div>
+          )}
+
+          {/* 로그인하지 않은 경우 안내 메시지 */}
+          {!isAuthenticated() && (
+            <div className="home-login-required-info">
+              <p className="home-login-required-text">
+                💡 가족 기능을 사용하려면 먼저 로그인해주세요
+              </p>
+            </div>
+          )}
         </section>
+
+        {/* 가족 연결 모달 */}
+        {showFamilyConnect && (
+          <div className="home-family-connect-modal">
+            <div className="home-family-connect-modal-content">
+              <div className="home-family-connect-modal-header">
+                <h3>가족과 연결하기</h3>
+                <button className="home-family-connect-modal-close" onClick={handleCloseFamilyConnect}>
+                  ✕
+                </button>
+              </div>
+              <div className="home-family-connect-modal-body">
+                <div className="home-family-connect-step">
+                  <div className="home-family-connect-step-number">1</div>
+                  <div className="home-family-connect-step-content">
+                    <h4>시니어에게 초대코드 요청</h4>
+                    <p>시니어가 '가족 초대' 메뉴에서 생성한 초대코드를 받으세요.</p>
+                  </div>
+                </div>
+                <div className="home-family-connect-step">
+                  <div className="home-family-connect-step-number">2</div>
+                  <div className="home-family-connect-step-content">
+                    <h4>초대코드 입력</h4>
+                    <p>받은 초대코드를 입력하여 가족과 연결하세요.</p>
+                  </div>
+                </div>
+                <div className="home-family-connect-step">
+                  <div className="home-family-connect-step-number">3</div>
+                  <div className="home-family-connect-step-content">
+                    <h4>활동 공유</h4>
+                    <p>연결된 시니어의 게임 결과와 일일 질문 답변을 확인할 수 있습니다.</p>
+                  </div>
+                </div>
+              </div>
+              <div className="home-family-connect-modal-footer">
+                <button className="home-family-connect-modal-btn" onClick={handleCloseFamilyConnect}>
+                  확인
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* 가족 초대 모달 */}
+        {showFamilyInvite && (
+          <div className="home-family-invite-modal">
+            {console.log('가족 초대 모달 렌더링됨! showFamilyInvite:', showFamilyInvite)}
+            <div className="home-family-invite-modal-content">
+              <div className="home-family-invite-modal-header">
+                <h3>가족 초대</h3>
+                <button className="home-family-invite-modal-close" onClick={handleCloseFamilyInvite}>
+                  ✕
+                </button>
+              </div>
+              <div className="home-family-invite-modal-body">
+                <div className="home-family-invite-code-section">
+                  <h4>초대코드 생성</h4>
+                  <p>시니어에게 초대코드를 생성하여 공유해보세요.</p>
+                  <button 
+                    className="home-family-invite-generate-code-btn" 
+                    onClick={generateInvitationCode}
+                    disabled={isGeneratingCode}
+                  >
+                    {isGeneratingCode ? '초대코드 생성 중...' : '초대코드 생성하기'}
+                  </button>
+                  {invitationCode && (
+                    <div className="home-family-invite-code-details">
+                      <p>생성된 초대코드: <strong>{invitationCode.code}</strong></p>
+                      <p>만료일: <strong>{new Date(invitationCode.expires_at).toLocaleDateString()}</strong></p>
+                      <p>생성일: <strong>{new Date(invitationCode.created_at).toLocaleDateString()}</strong></p>
+                      <p>사용 여부: <strong>{invitationCode.is_used ? '사용됨' : '사용 안됨'}</strong></p>
+                      <button className="home-family-invite-copy-code-btn" onClick={copyToClipboard}>
+                        초대코드 복사
+                      </button>
+                      <button className="home-family-invite-share-code-btn" onClick={shareCode}>
+                        초대코드 공유
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="home-family-invite-modal-footer">
+                <button className="home-family-invite-modal-btn" onClick={handleCloseFamilyInvite}>
+                  닫기
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
 
 
