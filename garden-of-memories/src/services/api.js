@@ -181,15 +181,28 @@ export const fetchUserInfo = async () => {
  */
 export const getCurrentUser = () => {
   try {
-    const userInfo = localStorage.getItem('userInfo');
     const authToken = getAuthToken();
     
     // 토큰이 없으면 로그인하지 않은 상태
     if (!authToken) {
       return null;
     }
-    
-    return userInfo ? JSON.parse(userInfo) : null;
+
+    // JWT 토큰 디코딩하여 사용자 ID 추출
+    const tokenParts = authToken.split('.');
+    if (tokenParts.length !== 3) {
+      console.error('잘못된 JWT 토큰 형식입니다.');
+      return null;
+    }
+    const payload = JSON.parse(atob(tokenParts[1]));
+    const userId = payload.sub; // JWT의 sub 필드에서 사용자 ID 추출
+
+    // userInfo도 함께 반환 (기존 로직 유지)
+    const userInfo = localStorage.getItem('userInfo');
+    const parsedUserInfo = userInfo ? JSON.parse(userInfo) : {};
+
+    return { ...parsedUserInfo, user_id: userId };
+
   } catch (error) {
     console.error('사용자 정보 파싱 오류:', error);
     return null;
@@ -492,6 +505,42 @@ export const uploadFamilyPhoto = async (file, userId) => {
     console.error('에러 타입:', error.name);
     console.error('에러 메시지:', error.message);
     console.error('에러 스택:', error.stack);
+    throw error;
+  }
+};
+
+export const getDailyQuestion = async (userId) => {
+  try {
+    const response = await fetch(`/questions/daily-questions?user_id=${userId}`);
+    if (!response.ok) {
+      throw new Error('오늘의 질문을 가져오는데 실패했습니다.');
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('오늘의 질문 가져오기 실패:', error);
+    throw error;
+  }
+};
+
+export const submitVoiceAnswer = async (questionId, userId, audioBlob) => {
+  try {
+    const formData = new FormData();
+    formData.append('question_id', questionId);
+    formData.append('user_id', userId);
+    formData.append('audio_file', audioBlob, 'answer.wav');
+
+    const response = await fetch('/questions/voice-answers', {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error('음성 답변 제출에 실패했습니다.');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('음성 답변 제출 실패:', error);
     throw error;
   }
 };
