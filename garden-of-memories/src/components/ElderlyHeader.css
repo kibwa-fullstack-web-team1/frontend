@@ -6,7 +6,7 @@
   left: 0;
   right: 0;
   height: 90px;
-  background-color: #FFFFFF;
+  background-color: #EADFD7;
   border-bottom: 1px solid #E5E8EB;
   box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.08);
   z-index: 100;
@@ -40,24 +40,26 @@
 }
 
 .elderly-back-button:hover {
-  background-color: #F8F6F4;
+  background: linear-gradient(135deg, rgba(139, 157, 107, 0.1) 0%, rgba(164, 183, 122, 0.1) 100%);
 }
 
 .elderly-logo-icon {
   width: 32px;
   height: 32px;
-  border: 1px solid #E5E8EB;
+  border: 1px solid rgba(139, 157, 107, 0.3);
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #FFFFFF;
+  background: rgba(255, 255, 255, 0.9);
   flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(139, 157, 107, 0.1);
 }
 
 .elderly-logo-icon svg {
   width: 16px;
   height: 16px;
+  color: #8b9d6b;
 }
 
 /* 헤더 텍스트 */
@@ -103,7 +105,7 @@
 .elderly-user-avatar {
   width: 40px;
   height: 40px;
-  background-color: #171412;
+  background: linear-gradient(135deg, #8b9d6b 0%, #a4b77a 100%);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -111,12 +113,14 @@
   color: #FFFFFF;
   font-size: 16px;
   font-weight: 700;
+  box-shadow: 0 2px 8px rgba(139, 157, 107, 0.3);
 }
 
 .elderly-user-avatar svg {
-  width: 28px;
-  height: 28px;
+  width: 20px;
+  height: 20px;
   display: block;
+  color: #FFFFFF;
 }
 
 .elderly-user-details {
