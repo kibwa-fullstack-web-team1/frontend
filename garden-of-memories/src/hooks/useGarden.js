@@ -45,6 +45,8 @@ export const useGarden = (userId, gardenWidth) => {
         // Combine all positioned rewards
         setDisplayedRewards([...positionedCommonRewards, ...positionedPersonalizationRewards]);
 
+      }).catch(error => { // ADD CATCH BLOCK
+        console.error('Error fetching garden items:', error);
       });
     }
 
