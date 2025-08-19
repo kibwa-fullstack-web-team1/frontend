@@ -20,96 +20,13 @@
   color: var(--dq-text-primary);
 }
 
-/* 헤더 */
-.dq-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 25px 24px;
-  background-color: var(--dq-bg-secondary);
-  border-bottom: 1px solid var(--dq-border);
-  box-shadow: var(--dq-shadow);
-  height: 90px;
-  box-sizing: border-box;
-}
-
-.dq-logo {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.dq-logo-icon {
-  width: 40px;
-  height: 40px;
-  background-color: var(--dq-text-primary);
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.dq-brand-title {
-  font-size: 24px;
-  font-weight: 700;
-  color: var(--dq-text-primary);
-  margin: 0;
-  line-height: 1.5;
-}
-
-.dq-brand-subtitle {
-  font-size: 14px;
-  font-weight: 400;
-  color: var(--dq-text-primary);
-  margin: 0;
-  opacity: 0.6;
-  line-height: 1.5;
-}
-
-.dq-user-info {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.dq-user-avatar {
-  width: 40px;
-  height: 40px;
-  background-color: var(--dq-text-primary);
-  color: var(--dq-bg-secondary);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  font-weight: 700;
-}
-
-.dq-user-details {
-  text-align: right;
-}
-
-.dq-user-name {
-  font-size: 14px;
-  font-weight: 400;
-  color: var(--dq-text-primary);
-  margin: 0;
-  line-height: 1.5;
-}
-
-.dq-user-role {
-  font-size: 12px;
-  font-weight: 400;
-  color: var(--dq-text-primary);
-  margin: 0;
-  opacity: 0.6;
-  line-height: 1.5;
-}
+/* FamilyHeader와 호환성을 위한 스타일 조정 */
 
 /* 메인 컨테이너 */
 .dq-main-container {
   display: flex;
   min-height: calc(100vh - 90px);
+  margin-top: 90px; /* FamilyHeader 높이만큼 여백 추가 */
 }
 
 /* 사이드바 */
@@ -388,15 +305,11 @@
     border-bottom: 1px solid var(--dq-border);
   }
   
-  .dq-header {
-    padding: 20px 16px;
-    height: auto;
-    min-height: 80px;
+  .dq-main-container {
+    margin-top: 80px; /* 모바일에서 헤더 높이 조정 */
   }
   
-  .dq-brand-title {
-    font-size: 20px;
-  }
+
   
   .dq-content-title {
     font-size: 18px;
@@ -409,17 +322,8 @@
 }
 
 @media (max-width: 480px) {
-  .dq-header {
-    padding: 16px;
-  }
-  
-  .dq-logo-icon {
-    width: 32px;
-    height: 32px;
-  }
-  
-  .dq-brand-title {
-    font-size: 18px;
+  .dq-main-container {
+    margin-top: 70px; /* 작은 화면에서 헤더 높이 조정 */
   }
   
   .dq-sidebar {
@@ -444,4 +348,155 @@
     height: 40px;
     font-size: 13px;
   }
+}
+
+/* 로딩 상태 */
+.dq-loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  gap: 24px;
+}
+
+.dq-loading-spinner {
+  animation: dq-spin 2s linear infinite;
+}
+
+@keyframes dq-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.dq-loading-text {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--dq-text-primary);
+  opacity: 0.8;
+  margin: 0;
+}
+
+/* 에러 상태 */
+.dq-error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  gap: 24px;
+  text-align: center;
+  padding: 40px;
+}
+
+.dq-error-icon {
+  font-size: 48px;
+}
+
+.dq-error-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--dq-text-primary);
+  margin: 0;
+}
+
+.dq-error-message {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--dq-text-primary);
+  opacity: 0.7;
+  margin: 0;
+  max-width: 500px;
+  line-height: 1.6;
+}
+
+.dq-retry-button {
+  padding: 12px 24px;
+  background-color: var(--dq-text-primary);
+  color: var(--dq-bg-secondary);
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dq-retry-button:hover {
+  background-color: #0F0F0F;
+  transform: translateY(-1px);
+}
+
+/* 에러 배너 */
+.dq-error-banner {
+  background-color: #FEF3C7;
+  border: 1px solid #F59E0B;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.dq-error-banner-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+}
+
+.dq-error-banner-icon {
+  font-size: 16px;
+}
+
+.dq-error-banner-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: #92400E;
+}
+
+/* 빈 상태 */
+.dq-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  text-align: center;
+  gap: 16px;
+}
+
+.dq-empty-icon {
+  opacity: 0.4;
+}
+
+.dq-empty-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--dq-text-primary);
+  margin: 0;
+}
+
+.dq-empty-description {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--dq-text-primary);
+  opacity: 0.6;
+  margin: 0;
+}
+
+/* 점수 카테고리 */
+.dq-score-category {
+  margin-left: 8px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* 카드 호버 효과 */
+.dq-question-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.12);
+  border-color: #D1D5DB;
+  transition: all 0.2s ease;
 }

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FiEye, FiEyeOff, FiArrowRight, FiX, FiArrowLeft } from 'react-icons/fi';
+import { FiEye, FiEyeOff, FiArrowRight, FiArrowLeft, FiInstagram, FiTwitter, FiFacebook } from 'react-icons/fi';
+import { PiFlowerLotusLight } from 'react-icons/pi';
 import { signupUser } from '../../services/api';
 import RegisterHeader from '../../components/RegisterHeader';
 import './SignupPage.css';
@@ -115,6 +116,13 @@ function SignupPage() {
 
   return (
     <div className="signup-page">
+      {/* 식물 잎사귀 장식 */}
+      <div className="signup-leaf-decoration">
+        <div className="signup-leaf signup-leaf-top-right"></div>
+        <div className="signup-leaf signup-leaf-bottom-right"></div>
+        <div className="signup-leaf signup-leaf-bottom-left"></div>
+      </div>
+
       {/* Header */}
       <RegisterHeader 
         onSignInClick={handleBackToLogin}
@@ -220,7 +228,7 @@ function SignupPage() {
               <div className="signup-form-group">
                 <label className="signup-form-label">사용자 유형</label>
                 <div className="signup-role-selection">
-                  <label className="signup-role-option">
+                  <label className={`signup-role-option ${formData.role === 'senior' ? 'selected' : ''}`}>
                     <input
                       type="radio"
                       name="role"
@@ -231,7 +239,7 @@ function SignupPage() {
                     />
                     <span className="signup-role-text">어르신</span>
                   </label>
-                  <label className="signup-role-option">
+                  <label className={`signup-role-option ${formData.role === 'family' ? 'selected' : ''}`}>
                     <input
                       type="radio"
                       name="role"
@@ -291,14 +299,22 @@ function SignupPage() {
         <footer className="signup-footer">
           <div className="signup-footer-content">
             <div className="signup-footer-logo">
-              <FiX size={16} />
+              <PiFlowerLotusLight size={16} />
               <span>Garden of Memory</span>
             </div>
             <p className="signup-footer-description">
               소중한 기억들을 영원히 간직할 수 있는 디지털 정원입니다.
             </p>
             <div className="signup-social-links">
-              {/* 소셜 링크들 */}
+              <a href="#" className="signup-social-link">
+                <FiInstagram size={16} />
+              </a>
+              <a href="#" className="signup-social-link">
+                <FiTwitter size={16} />
+              </a>
+              <a href="#" className="signup-social-link">
+                <FiFacebook size={16} />
+              </a>
             </div>
           </div>
         </footer>

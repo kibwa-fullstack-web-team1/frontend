@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiLogOut, FiEye, FiEdit, FiTrash2, FiPlay } from 'react-icons/fi';
-import { logoutUser, createStory, getStories, updateStory, deleteStory } from '../../services/api';
+import { logoutUser, createStory, getStories, updateStory, deleteStory, getCurrentUser } from '../../services/api';
 import FamilyHeader from '../../components/FamilyHeader';
 import './StoryGameDashboard.css';
+
+// STORY API 기본 URL
+const STORY_API_BASE_URL = 'http://13.251.163.144:8011';
 
 const StoryGameDashboard = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: '',
-    category: '',
-    content: ''
+    content: '',
+    image_url: '',
+    category: '' // UI용으로만 유지, API 호출시 제외
   });
   const [selectedStory, setSelectedStory] = useState(null);
   const [registeredStories, setRegisteredStories] = useState([]);
@@ -60,7 +64,6 @@ const StoryGameDashboard = () => {
       // 등록 후 다시 데이터 로드
       const stories = await getStories();
       setRegisteredStories(stories);
-      
       // 폼 초기화
       setFormData({
         title: '',
@@ -80,6 +83,7 @@ const StoryGameDashboard = () => {
     console.log(`이야기 ${action}:`, storyId);
     
     setIsLoading(true);
+
     try {
       switch (action) {
         case 'preview':
@@ -196,25 +200,6 @@ const StoryGameDashboard = () => {
               </div>
 
               <div className="story-form-group">
-                <label htmlFor="category" className="story-form-label">카테고리</label>
-                <select
-                  id="category"
-                  name="category"
-                  value={formData.category}
-                  onChange={handleInputChange}
-                  className="story-form-select"
-                  required
-                >
-                  <option value="">카테고리를 선택하세요</option>
-                  {categories.map((category) => (
-                    <option key={category.value} value={category.value}>
-                      {category.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="story-form-group">
                 <label htmlFor="content" className="story-form-label">이야기 내용</label>
                 <textarea
                   id="content"
@@ -228,8 +213,39 @@ const StoryGameDashboard = () => {
                 />
               </div>
 
-              <button type="submit" className="story-submit-button">
-                이야기 등록
+              <div className="story-form-group">
+                <label htmlFor="image_url" className="story-form-label">이미지 URL (선택사항)</label>
+                <input
+                  type="url"
+                  id="image_url"
+                  name="image_url"
+                  value={formData.image_url}
+                  onChange={handleInputChange}
+                  className="story-form-input"
+                  placeholder="https://example.com/image.jpg"
+                />
+              </div>
+
+              <div className="story-form-group">
+                <label htmlFor="category" className="story-form-label">카테고리 (표시용)</label>
+                <select
+                  id="category"
+                  name="category"
+                  value={formData.category}
+                  onChange={handleInputChange}
+                  className="story-form-select"
+                >
+                  <option value="">카테고리를 선택하세요</option>
+                  {categories.map((category) => (
+                    <option key={category.value} value={category.value}>
+                      {category.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <button type="submit" className="story-submit-button" disabled={isLoading}>
+                {isLoading ? '등록 중...' : '이야기 등록'}
               </button>
             </form>
           </section>
@@ -240,63 +256,166 @@ const StoryGameDashboard = () => {
           <section className="story-registered-stories">
             <h2 className="story-section-title">등록된 이야기</h2>
             
+            {/* 에러 메시지 */}
+            {error && (
+              <div className="story-error-message">
+                <p>❌ {error}</p>
+                <button onClick={fetchStories} className="story-retry-button">
+                  다시 시도
+                </button>
+              </div>
+            )}
+            
+            {/* 로딩 상태 */}
+            {isLoading && (
+              <div className="story-loading">
+                <p>📚 이야기를 불러오는 중...</p>
+              </div>
+            )}
+            
             <div className="story-stories-list">
+              {!isLoading && !error && registeredStories.length === 0 && (
+                <div className="story-empty-state">
+                  <p>📝 등록된 이야기가 없습니다.</p>
+                  <p>왼쪽 폼을 사용해서 첫 번째 이야기를 등록해보세요!</p>
+                </div>
+              )}
               {registeredStories.map((story) => (
-                <div key={story.id} className="story-card">
-                  <div className="story-card-header">
-                    <h3 className="story-card-title">{story.title}</h3>
-                    <div 
-                      className="story-status-indicator"
-                      style={{ backgroundColor: getStatusColor(story.status) }}
-                    ></div>
-                  </div>
-                  
-                  <div className="story-card-meta">
-                    <span className="story-card-date">{story.date}</span>
-                    <span className="story-card-category">{story.category}</span>
-                  </div>
-                  
-                  <p className="story-card-content">{story.content}</p>
-                  
-                  <div className="story-card-actions">
-                    <button 
-                      className="story-action-button preview"
-                      onClick={() => handleStoryAction(story.id, 'preview')}
-                    >
-                      <FiEye size={14} />
-                      미리보기
-                    </button>
-                    <button 
-                      className="story-action-button edit"
-                      onClick={() => handleStoryAction(story.id, 'edit')}
-                    >
-                      <FiEdit size={14} />
-                      수정
-                    </button>
-                    {story.status === 'draft' ? (
-                      <button 
-                        className="story-action-button publish"
-                        onClick={() => handleStoryAction(story.id, 'publish')}
-                      >
-                        <FiPlay size={14} />
-                        게시
-                      </button>
-                    ) : (
-                      <button 
-                        className="story-action-button private"
-                        onClick={() => handleStoryAction(story.id, 'private')}
-                      >
-                        비공개
-                      </button>
-                    )}
-                    <button 
-                      className="story-action-button delete"
-                      onClick={() => handleStoryAction(story.id, 'delete')}
-                    >
-                      <FiTrash2 size={14} />
-                      삭제
-                    </button>
-                  </div>
+                <div key={story.id} className={`story-card ${editingStoryId === story.id ? 'editing' : ''}`}>
+                  {editingStoryId === story.id ? (
+                    // 편집 모드
+                    <div className="story-edit-form">
+                      <div className="story-edit-header">
+                        <input
+                          type="text"
+                          name="title"
+                          value={editFormData.title}
+                          onChange={handleEditInputChange}
+                          className="story-edit-title-input"
+                          placeholder="이야기 제목"
+                        />
+                        <div 
+                          className="story-status-indicator"
+                          style={{ backgroundColor: getStatusColor(story.status) }}
+                        ></div>
+                      </div>
+                      
+                      <div className="story-edit-meta">
+                        <span className="story-card-date">{story.date}</span>
+                        <select
+                          name="category"
+                          value={editFormData.category}
+                          onChange={handleEditInputChange}
+                          className="story-edit-category-select"
+                        >
+                          <option value="">카테고리 없음</option>
+                          {categories.map((category) => (
+                            <option key={category.value} value={category.value}>
+                              {category.label}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      
+                      <textarea
+                        name="content"
+                        value={editFormData.content}
+                        onChange={handleEditInputChange}
+                        className="story-edit-content-textarea"
+                        placeholder="이야기 내용"
+                        rows="4"
+                      />
+                      
+                      <input
+                        type="url"
+                        name="image_url"
+                        value={editFormData.image_url}
+                        onChange={handleEditInputChange}
+                        className="story-edit-image-input"
+                        placeholder="이미지 URL (선택사항)"
+                      />
+                      
+                      <div className="story-edit-actions">
+                        <button 
+                          className="story-edit-button save"
+                          onClick={() => saveEdit(story.id)}
+                          disabled={!editFormData.title.trim() || !editFormData.content.trim()}
+                        >
+                          저장
+                        </button>
+                        <button 
+                          className="story-edit-button cancel"
+                          onClick={cancelEditing}
+                        >
+                          취소
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    // 일반 모드
+                    <>
+                      <div className="story-card-header">
+                        <h3 className="story-card-title">{story.title}</h3>
+                        <div 
+                          className="story-status-indicator"
+                          style={{ backgroundColor: getStatusColor(story.status) }}
+                        ></div>
+                      </div>
+                      
+                      <div className="story-card-meta">
+                        <span className="story-card-date">{story.date}</span>
+                        {story.category && <span className="story-card-category">{story.category}</span>}
+                      </div>
+                      
+                      <p className="story-card-content">{story.content}</p>
+                      
+                      {story.image_url && (
+                        <div className="story-card-image">
+                          <img src={story.image_url} alt="이야기 이미지" className="story-image" />
+                        </div>
+                      )}
+                      
+                      <div className="story-card-actions">
+                        <button 
+                          className="story-action-button preview"
+                          onClick={() => handleStoryAction(story.id, 'preview')}
+                        >
+                          <FiEye size={14} />
+                          미리보기
+                        </button>
+                        <button 
+                          className="story-action-button edit"
+                          onClick={() => handleStoryAction(story.id, 'edit')}
+                        >
+                          <FiEdit size={14} />
+                          수정
+                        </button>
+                        {story.status === 'draft' ? (
+                          <button 
+                            className="story-action-button publish"
+                            onClick={() => handleStoryAction(story.id, 'publish')}
+                          >
+                            <FiPlay size={14} />
+                            게시
+                          </button>
+                        ) : (
+                          <button 
+                            className="story-action-button private"
+                            onClick={() => handleStoryAction(story.id, 'private')}
+                          >
+                            비공개
+                          </button>
+                        )}
+                        <button 
+                          className="story-action-button delete"
+                          onClick={() => handleStoryAction(story.id, 'delete')}
+                        >
+                          <FiTrash2 size={14} />
+                          삭제
+                        </button>
+                      </div>
+                    </>
+                  )}
                 </div>
               ))}
             </div>
@@ -313,8 +432,13 @@ const StoryGameDashboard = () => {
                 <div className="story-preview">
                   <h4 className="story-preview-story-title">{selectedStory.title}</h4>
                   <p className="story-preview-story-content">{selectedStory.content}</p>
+                  {selectedStory.image_url && (
+                    <div className="story-preview-image">
+                      <img src={selectedStory.image_url} alt="이야기 이미지" className="story-preview-img" />
+                    </div>
+                  )}
                   <div className="story-preview-story-meta">
-                    <span className="story-preview-category">{selectedStory.category}</span>
+                    {selectedStory.category && <span className="story-preview-category">{selectedStory.category}</span>}
                     <span className="story-preview-date">{selectedStory.date}</span>
                   </div>
                 </div>
@@ -337,4 +461,4 @@ const StoryGameDashboard = () => {
   );
 };
 
-export default StoryGameDashboard; 
+export default StoryGameDashboard;

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FiEye, FiEyeOff, FiArrowRight, FiX } from 'react-icons/fi';
-import { loginUser } from '../../services/api';
+import { FiEye, FiEyeOff, FiArrowRight, FiInstagram, FiTwitter, FiFacebook, FiX } from 'react-icons/fi';
+import { PiFlowerLotusLight } from 'react-icons/pi';
+import { loginUser, fetchUserInfo } from '../../services/api';
 import RegisterHeader from '../../components/RegisterHeader';
 import './LoginPage.css';
 
@@ -107,6 +108,13 @@ function LoginPage() {
 
   return (
     <div className="login-page">
+      {/* 식물 잎사귀 장식 */}
+      <div className="login-leaf-decoration">
+        <div className="login-leaf login-leaf-top-right"></div>
+        <div className="login-leaf login-leaf-bottom-right"></div>
+        <div className="login-leaf login-leaf-bottom-left"></div>
+      </div>
+
       {/* Header */}
       <RegisterHeader 
         onSignInClick={() => navigate('/signup')}
@@ -228,7 +236,7 @@ function LoginPage() {
         <footer className="login-footer">
           <div className="login-footer-content">
             <div className="login-footer-logo">
-              <FiX size={16} />
+              <PiFlowerLotusLight size={16} />
               <span>Garden of Memory</span>
             </div>
             <p className="login-footer-description">
@@ -236,19 +244,13 @@ function LoginPage() {
             </p>
             <div className="login-social-links">
               <a href="#" className="login-social-link">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M0 1.5L16 13.5" stroke="#171412" strokeWidth="1.5"/>
-                </svg>
+                <FiInstagram size={16} />
               </a>
               <a href="#" className="login-social-link">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M1.03 2.67L14.98 13.33" stroke="#171412" strokeWidth="1.5"/>
-                </svg>
+                <FiTwitter size={16} />
               </a>
               <a href="#" className="login-social-link">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M0 0L16 15.61" stroke="#171412" strokeWidth="1.5"/>
-                </svg>
+                <FiFacebook size={16} />
               </a>
             </div>
           </div>

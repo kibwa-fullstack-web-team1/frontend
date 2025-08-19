@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { PiFlowerLotusLight } from 'react-icons/pi';
 import './RegisterHeader.css';
 
 const RegisterHeader = ({ 
@@ -16,12 +17,12 @@ const RegisterHeader = ({
     <header className="register-header">
       <div className="register-header-content">
         <div className="register-logo" onClick={handleLogoClick}>
-          <div className="register-logo-icon">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M1.14 0.38L14.85 15.62" stroke="#171412" strokeWidth="1.5"/>
-            </svg>
+          <div className="register-logo-mark">
+            <PiFlowerLotusLight size={16} />
           </div>
-          <h1 className="register-logo-text">Garden of Memory</h1>
+          <h1 className="register-brand">
+            <span className="register-serif">GARDEN</span> <span className="register-of">of</span> <span className="register-serif">MEMORIES</span>
+          </h1>
         </div>
         <nav className="register-nav">
           <a href="#" className="register-nav-link">Games</a>

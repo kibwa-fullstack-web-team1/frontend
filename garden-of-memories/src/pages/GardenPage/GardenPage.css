@@ -3,7 +3,8 @@
   flex-direction: column;
   height: 100vh;
   background-color: #F0EAD6;
-  overflow: hidden;
+  overflow-y: auto; /* Changed from hidden to auto */
+  overflow-x: hidden; /* Hide horizontal overflow */
 }
 
 .garden-header {
@@ -26,31 +27,23 @@
 .garden-background {
   flex-grow: 1;
   position: relative;
-  background: #E0DDCF;
+  background:  #F0EAD6;
   margin: 20px;
-  border-radius: 15px;
+  border-radius: 0px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   border: none;
   display: flex;
-  flex-direction: row; /* MODIFIED */
-  gap: 20px; /* MODIFIED */
+  flex-direction: row;
+  gap: 20px;
   padding: 20px;
+  min-height: 0; /* Allow shrinking */
 }
 
-.trophy-case-wrapper {
-  width: 100%; /* Added */
-  max-height: 100%; /* Limit height to parent */
-  flex-shrink: 1; /* Allow shrinking */
-  overflow-y: auto;
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.5);
-  border-radius: 10px;
-}
 
 .trophy-case-wrapper h2 {
   width: 100%; /* Added */
   text-align: center;
-  color: #5C5B5B;
+  color:#5C5B5B;
   font-family: 'Playfair Display', serif;
   margin-bottom: 20px;
 }
@@ -59,24 +52,56 @@
     width: 100%; /* Added */
     display: flex;
     flex-direction: column;
-    gap: 15px; /* Space between shelves */
+    gap: 0; /* Removed space between shelves */
   }
 
 .service-shelf {
-  padding: 20px 20px 0px 20px; /* Removed bottom padding */
-  background: rgba(255, 255, 255, 0.7);
+  padding: 10px 10px 0px 10px; /* Adjusted padding, no bottom padding */
+  background: linear-gradient(to bottom, #C4AD92, #A58A66, #9A7E56, #A58A66, #C4AD92); /* Darker wood grain background */
+  box-shadow: inset 0 5px 10px -5px rgba(0,0,0,0.2), /* top */
+              inset 0 -5px 10px -5px rgba(0,0,0,0.2), /* bottom */
+              inset 5px 0 10px -5px rgba(0,0,0,0.2), /* left */
+              inset -5px 0 10px -5px rgba(0,0,0,0.2); /* right */
   border-radius: 8px;
   border-bottom-left-radius: 0; /* Straighten bottom corners */
   border-bottom-right-radius: 0; /* Straighten bottom corners */
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  border-bottom: 15px solid #8B4513; /* Added for shelf floor */
-  overflow-y: auto;
+  /* Wood grain effect using border-image */
+  border-style: solid;
+  border-width: 15px;
+  border-image-slice: 1;
+  border-image-source: linear-gradient(135deg, #5E2C04, #A0522D, #8B4513, #A0522D, #5E2C04);
+  display: flex; /* Use flexbox for layout */
+  flex-direction: column; /* Stack display area and floor vertically */
+  position: relative; /* Needed for absolute positioning of ::after */
+}
+
+.service-shelf + .service-shelf {
+  margin-top: -15px; /* Overlap shelves */
+}
+
+.service-shelf::after {
+  content: attr(data-service-name); /* Display content from data-attribute */
+  position: absolute;
+  bottom: -15px; /* Position it on the border-bottom */
+  left: 50%;
+  transform: translateX(-50%);
+  color: white; /* Text color on brown floor */
+  font-family: 'Playfair Display', serif; /* Added for elegant look */
+  font-size: 0.9em; /* Smaller font size */
+  font-weight: bold;
+  white-space: nowrap;
+  pointer-events: none;
+  display: flex; /* Use flexbox to center text */
+  justify-content: center; /* Center text horizontally */
+  align-items: center; /* Center text vertically */
+  height: 15px; /* Height of the border-bottom */
+  width: 100%; /* Span full width */
 }
 
 .service-shelf h3 {
   margin-top: 0;
   margin-bottom: 20px;
-  color: #4A4A4A;
+  color: w;
   font-family: 'Playfair Display', serif;
   border-bottom: 1px solid #D0C9B8;
   padding-bottom: 10px;
@@ -84,14 +109,13 @@
 
 .shelf-items {
   display: grid;
-  grid-template-columns: repeat(5, 1fr); /* 5 slots per row */
-  gap: 5px; /* Changed from 5px to 0 */
-  justify-items: center; /* Center items horizontally */
-  align-items: end; /* Align items to the bottom */
-  padding-bottom: 0; /* Remove bottom padding */
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5px; 
+  justify-items: center; 
+  padding-bottom: 0; 
 }
 
-.personalization-conveyor-wrapper {
+/* .personalization-conveyor-wrapper {
   width: 100%;
   height: 120px;
   overflow: hidden;
@@ -100,7 +124,7 @@
   display: flex;
   align-items: center;
   margin-top: 20px;
-}
+} */
 
 .personalization-conveyor {
   display: flex;
@@ -127,10 +151,15 @@
 .garden-left-panel,
 .garden-right-panel {
   width: 50%; /* Each panel takes half width */
-  padding: 10px;
-  overflow-y: auto;
-  background: rgba(255, 255, 255, 0.5);
+  padding: 20px;
+  /* Removed overflow-y: auto; */
+  background:  #F0EAD6; /* Dark shade of the page theme color */
   border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-grow: 1; /* Allow panels to grow and shrink vertically */
+  min-height: 0; /* Allow panels to shrink below content height */
 }
 
 .personalization-album {
@@ -140,12 +169,90 @@
   padding: 10px;
   justify-items: center; /* Center items horizontally */
   align-items: center; /* Center items vertically */
+  box-shadow: 0 0 50px 20px rgba(0, 0, 0, 0.8); /* Stronger shadow for the album container */
 }
 
 .personalization-album h2 {
   width: 100%; /* Added */
   text-align: center;
-  color: #5C5B5B;
+  color: white;
   font-family: 'Playfair Display', serif;
   margin-bottom: 20px;
+}
+
+/* Removed .service-name-text rule */
+
+.shelf-display-area {
+  flex-grow: 1; /* Allow it to take available space */
+  position: relative; /* For positioning items inside */
+  min-height: 100px; /* Ensure enough space for rewards */
+}
+
+/* Removed .shelf-floor rule and its pseudo-element */
+
+/* Reverse stacking order for shelves to make text visible */
+.service-shelf:nth-child(1) { z-index: 10; }
+.service-shelf:nth-child(2) { z-index: 9; }
+.service-shelf:nth-child(3) { z-index: 8; }
+.service-shelf:nth-child(4) { z-index: 7; }
+.service-shelf:nth-child(5) { z-index: 6; }
+.service-shelf:nth-child(6) { z-index: 5; }
+.service-shelf:nth-child(7) { z-index: 4; }
+.service-shelf:nth-child(8) { z-index: 3; }
+.service-shelf:nth-child(9) { z-index: 2; }
+.service-shelf:nth-child(10) { z-index: 1; }
+
+model-viewer {
+  filter: none; /* No default glow */
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+model-viewer:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.8))
+          drop-shadow(0 0 30px rgba(255, 255, 255, 0.6))
+          drop-shadow(0 0 50px #fff);
+  cursor: pointer;
+}
+
+.garden-right-panel {
+    background: radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, 0.5) 20%, transparent 52%), #F0EAD6; /* Dark shadow in center, more natural */
+}
+
+.generate-ai-reward-button {
+  position: absolute; /* Added */
+  top: 20px; /* Added */
+  right: 20px; /* Added */
+  background-color: #A58A66; /* A shade from the wood grain or complementary */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: 'Playfair Display', serif; /* Consistent with other text */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.generate-ai-reward-button:hover {
+  background-color: #8B725C; /* Slightly darker on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.generate-ai-reward-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.generate-ai-reward-button:active {
+  transform: translateY(1px); /* Simulate a slight press */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) inset; /* Inner shadow for pressed look */
+}
+
+.generate-ai-reward-button.button-generated {
+  opacity: 0.7; /* Visually indicate it's "disabled" */
+  cursor: pointer; /* Keep cursor as pointer to indicate clickability */
+  /* You might want to remove box-shadow or change background-color here */
 }

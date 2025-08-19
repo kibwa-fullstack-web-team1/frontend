@@ -329,41 +329,104 @@ function HomePage() {
           </div>
         </section>
 
-        {/* Top services (3 카드) */}
-        <section className="home-services-section">
-          <div className="home-services-grid">
-            {/* 추억 저장 */}
-            <div className="home-service-card home-glass">
-              <div className="home-service-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <rect x="4" y="3" width="16" height="18" rx="2" stroke="#6f6048" strokeWidth="2"/>
-                  <path d="M8 7H16M8 11H16M8 15H12" stroke="#6f6048" strokeWidth="2"/>
+        {/* Game Categories - 피그마 디자인 스타일 */}
+        <section className="home-game-categories-section">
+          <h3 className="home-section-title home-serif">GAME CATEGORIES</h3>
+          
+          <div className="home-game-categories-grid">
+            {/* Memory Game */}
+            <div className="home-game-category-card home-glass" onClick={() => navigate('/card-game')}>
+              <div className="home-game-category-icon">
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                  <circle cx="24" cy="20" r="8" stroke="#6f6048" strokeWidth="2" fill="none"/>
+                  <path d="M16 20c0-4 3-8 8-8s8 4 8 8" stroke="#6f6048" strokeWidth="2" fill="none"/>
+                  <path d="M12 32c0-6 5-12 12-12s12 6 12 12" stroke="#6f6048" strokeWidth="2" fill="none"/>
+                  <circle cx="18" cy="26" r="2" fill="#6f6048"/>
+                  <circle cx="30" cy="26" r="2" fill="#6f6048"/>
                 </svg>
               </div>
-              <h4 className="home-service-title">추억 저장</h4>
-              <p className="home-service-description">소중한 순간들을 안전하게 보관하세요</p>
+              <div className="home-game-category-content">
+                <h4 className="home-game-category-title">MEMORY</h4>
+                <p className="home-game-category-subtitle">기억력 향상을 위한 카드 매칭 게임으로<br/>추억을 되살려보세요</p>
+              </div>
             </div>
 
-            {/* 기억 공유 */}
-            <div className="home-service-card home-glass">
-              <div className="home-service-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <path d="M7 7a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm10 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM2 21c0-3 3-5 5-5s5 2 5 5v1H2v-1Zm10 1v-1c0-3 3-5 5-5s5 2 5 5v1h-10Z" stroke="#6f6048" strokeWidth="2"/>
+            {/* Story Sequence Game */}
+            <div className="home-game-category-card home-glass" onClick={() => navigate('/story-sequence')}>
+              <div className="home-game-category-icon">
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                  <path d="M12 16c0-2 2-4 4-4h16c2 0 4 2 4 4v16c0 2-2 4-4 4H16c-2 0-4-2-4-4V16z" stroke="#6f6048" strokeWidth="2" fill="none"/>
+                  <path d="M20 20h8M20 24h8M20 28h6" stroke="#6f6048" strokeWidth="2"/>
+                  <circle cx="16" cy="20" r="2" fill="#6f6048"/>
                 </svg>
               </div>
-              <h4 className="home-service-title">기억 공유</h4>
-              <p className="home-service-description">가족과 친구들과 함께 나누세요</p>
+              <div className="home-game-category-content">
+                <h4 className="home-game-category-title">STORY</h4>
+                <p className="home-game-category-subtitle">이야기 순서를 맞추며<br/>시간의 흐름을 되짚어보세요</p>
+              </div>
             </div>
 
-            {/* 특별한 순간 */}
-            <div className="home-service-card home-glass">
-              <div className="home-service-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <path d="M12 3l3.1 5.3 5.9.7-4.4 4.2 1.2 5.8-5.8-3.2-5.8 3.2 1.2-5.8L3 9l5.9-.7L12 3Z" stroke="#6f6048" strokeWidth="2"/>
+            {/* Puzzle Game */}
+            <div className="home-game-category-card home-glass" onClick={() => navigate('/puzzle-game')}>
+              <div className="home-game-category-icon">
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                  <path d="M12 12h10v10H12zM26 12h10v10H26zM12 26h10v10H12zM26 26h10v10H26z" stroke="#6f6048" strokeWidth="2" fill="none"/>
+                  <path d="M22 17h4v6h-4zM17 22h6v4h-6z" stroke="#6f6048" strokeWidth="2" fill="none"/>
                 </svg>
               </div>
-              <h4 className="home-service-title">특별한 순간</h4>
-              <p className="home-service-description">인생의 소중한 이정표를 기록하세요</p>
+              <div className="home-game-category-content">
+                <h4 className="home-game-category-title">PUZZLE</h4>
+                <p className="home-game-category-subtitle">조각을 맞추며 완성해가는<br/>성취감을 경험하세요</p>
+              </div>
+            </div>
+
+            {/* Daily Questions */}
+            <div className="home-game-category-card home-glass home-featured" onClick={() => navigate('/daily-question')}>
+              <div className="home-game-category-icon">
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                  <circle cx="24" cy="24" r="16" stroke="#ffffff" strokeWidth="2" fill="none"/>
+                  <path d="M24 16v8l6 6" stroke="#ffffff" strokeWidth="2"/>
+                  <circle cx="24" cy="12" r="2" fill="#ffffff"/>
+                </svg>
+              </div>
+              <div className="home-game-category-content">
+                <h4 className="home-game-category-title">TODAY'S QUESTION</h4>
+                <p className="home-game-category-subtitle">매일 새로운 질문으로<br/>소중한 기억을 나누세요</p>
+              </div>
+              <div className="home-featured-badge">
+                <span>오늘의 추천</span>
+              </div>
+            </div>
+
+            {/* Memory Training */}
+            <div className="home-game-category-card home-glass" onClick={() => navigate('/memory-training')}>
+              <div className="home-game-category-icon">
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                  <path d="M24 8c8 0 16 6 16 16s-8 16-16 16S8 32 8 24 16 8 24 8z" stroke="#6f6048" strokeWidth="2" fill="none"/>
+                  <path d="M24 16v8l6 4" stroke="#6f6048" strokeWidth="2"/>
+                  <circle cx="24" cy="24" r="2" fill="#6f6048"/>
+                </svg>
+              </div>
+              <div className="home-game-category-content">
+                <h4 className="home-game-category-title">TRAINING</h4>
+                <p className="home-game-category-subtitle">체계적인 기억력 훈련으로<br/>인지능력을 향상시키세요</p>
+              </div>
+            </div>
+
+            {/* Relaxation */}
+            <div className="home-game-category-card home-glass" onClick={() => navigate('/relaxation')}>
+              <div className="home-game-category-icon">
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                  <path d="M24 8c0 4-4 8-8 8s-8-4-8-8c0 4 4 8 8 8s8-4 8-8z" stroke="#6f6048" strokeWidth="2" fill="none"/>
+                  <path d="M40 8c0 4-4 8-8 8s-8-4-8-8c0 4 4 8 8 8s8-4 8-8z" stroke="#6f6048" strokeWidth="2" fill="none"/>
+                  <path d="M32 24c0 4-4 8-8 8s-8-4-8-8c0 4 4 8 8 8s8-4 8-8z" stroke="#6f6048" strokeWidth="2" fill="none"/>
+                  <path d="M16 32v8M24 32v8M32 32v8" stroke="#6f6048" strokeWidth="2"/>
+                </svg>
+              </div>
+              <div className="home-game-category-content">
+                <h4 className="home-game-category-title">RELAXATION</h4>
+                <p className="home-game-category-subtitle">마음의 평안을 찾는<br/>힐링 콘텐츠를 즐기세요</p>
+              </div>
             </div>
           </div>
         </section>
@@ -506,20 +569,21 @@ function HomePage() {
 
 
 
-        {/* 사용자 여정 */}
+        {/* 웹사이트 사용 가이드 */}
         <section className="home-journey-section">
-          <h3 className="home-section-title serif">사용자 여정</h3>
+          <h3 className="home-section-title serif">사용 가이드</h3>
           <div className="home-journey-container">
             <div className="home-journey-line" />
+            
             <div className="home-journey-step" ref={el => journeyStepsRef.current[0] = el}>
               <div className="home-journey-number">1</div>
               <div className="home-journey-content home-glass">
-                <h4 className="home-journey-title">1. 회원가입 & 로그인</h4>
-                <p className="home-journey-description">어르신 또는 가족 계정으로 시작하여 개인 맞춤 서비스를 받아보세요.</p>
+                <h4 className="home-journey-title">시작하기 - 회원가입 & 로그인</h4>
+                <p className="home-journey-description">기억의 정원에 첫 발을 내딛어보세요. 어르신 또는 보호자 계정을 선택하여 맞춤형 서비스를 시작하실 수 있습니다.</p>
                 <div className="home-journey-features">
-                  <div className="home-journey-feature"><div className="home-journey-feature-dot"/><span>역할별 회원가입</span></div>
-                  <div className="home-journey-feature"><div className="home-journey-feature-dot"/><span>안전한 로그인</span></div>
-                  <div className="home-journey-feature"><div className="home-journey-feature-dot"/><span>개인 맞춤 설정</span></div>
+                  <div className="home-journey-feature"><div className="home-journey-feature-dot"/><span>어르신 / 보호자 역할 선택</span></div>
+                  <div className="home-journey-feature"><div className="home-journey-feature-dot"/><span>간편한 회원가입 절차</span></div>
+                  <div className="home-journey-feature"><div className="home-journey-feature-dot"/><span>안전한 개인정보 보호</span></div>
                 </div>
               </div>
             </div>
@@ -527,12 +591,12 @@ function HomePage() {
             <div className="home-journey-step" ref={el => journeyStepsRef.current[1] = el}>
               <div className="home-journey-number">2</div>
               <div className="home-journey-content home-glass">
-                <h4 className="home-journey-title">2. 가족사진 업로드</h4>
-                <p className="home-journey-description">소중한 가족사진을 업로드하여 개인화된 기억 게임을 만들어보세요.</p>
+                <h4 className="home-journey-title">게임 카테고리 둘러보기</h4>
+                <p className="home-journey-description">다양한 인지 훈련 게임들을 살펴보세요. 기억력, 이야기 순서, 퍼즐 등 재미있는 활동들이 준비되어 있습니다.</p>
                 <div className="home-journey-features">
-                  <div className="home-journey-feature"><div className="home-journey-feature-dot"/><span>사진 업로드</span></div>
-                  <div className="home-journey-feature"><div className="home-journey-feature-dot"/><span>갤러리 관리</span></div>
-                  <div className="home-journey-feature"><div className="home-journey-feature-dot"/><span>자동 분류</span></div>
+                  <div className="home-journey-feature"><div className="home-journey-feature-dot"/><span>3가지 게임 카테고리</span></div>
+                  <div className="home-journey-feature"><div className="home-journey-feature-dot"/><span>난이도별 게임 선택</span></div>
+                  <div className="home-journey-feature"><div className="home-journey-feature-dot"/><span>개인 맞춤 추천</span></div>
                 </div>
               </div>
             </div>
@@ -540,12 +604,12 @@ function HomePage() {
             <div className="home-journey-step" ref={el => journeyStepsRef.current[2] = el}>
               <div className="home-journey-number">3</div>
               <div className="home-journey-content home-glass">
-                <h4 className="home-journey-title">3. 기억 게임 플레이</h4>
-                <p className="home-journey-description">가족사진으로 만든 카드 매칭 게임과 스토리 순서 맞추기로 기억력을 훈련하세요.</p>
+                <h4 className="home-journey-title">게임 플레이 & 기록</h4>
+                <p className="home-journey-description">선택한 게임을 플레이하고 결과를 기록해보세요. 매일 조금씩 도전하여 인지 능력을 향상시킬 수 있습니다.</p>
                 <div className="home-journey-features">
-                  <div className="home-journey-feature"><div className="home-journey-feature-dot"/><span>카드 매칭 게임</span></div>
-                  <div className="home-journey-feature"><div className="home-journey-feature-dot"/><span>스토리 순서 게임</span></div>
-                  <div className="home-journey-feature"><div className="home-journey-feature-dot"/><span>난이도 선택</span></div>
+                  <div className="home-journey-feature"><div className="home-journey-feature-dot"/><span>실시간 점수 기록</span></div>
+                  <div className="home-journey-feature"><div className="home-journey-feature-dot"/><span>진행 상황 저장</span></div>
+                  <div className="home-journey-feature"><div className="home-journey-feature-dot"/><span>성취도 분석</span></div>
                 </div>
               </div>
             </div>
@@ -553,12 +617,12 @@ function HomePage() {
             <div className="home-journey-step" ref={el => journeyStepsRef.current[3] = el}>
               <div className="home-journey-number">4</div>
               <div className="home-journey-content home-glass">
-                <h4 className="home-journey-title">4. 일일 질문 답변</h4>
-                <p className="home-journey-description">매일 새로운 질문에 답변하며 소중한 추억을 기록하고 공유하세요.</p>
+                <h4 className="home-journey-title">오늘의 질문 참여</h4>
+                <p className="home-journey-description">매일 새로운 질문에 답변하며 소중한 추억을 기록하고 나누세요. 음성이나 텍스트로 자유롭게 표현할 수 있습니다.</p>
                 <div className="home-journey-features">
-                  <div className="home-journey-feature"><div className="home-journey-feature-dot"/><span>음성 녹음</span></div>
-                  <div className="home-journey-feature"><div className="home-journey-feature-dot"/><span>텍스트 답변</span></div>
-                  <div className="home-journey-feature"><div className="home-journey-feature-dot"/><span>추억 아카이브</span></div>
+                  <div className="home-journey-feature"><div className="home-journey-feature-dot"/><span>일일 질문 알림</span></div>
+                  <div className="home-journey-feature"><div className="home-journey-feature-dot"/><span>음성/텍스트 답변</span></div>
+                  <div className="home-journey-feature"><div className="home-journey-feature-dot"/><span>추억 아카이브 구축</span></div>
                 </div>
               </div>
             </div>
@@ -566,16 +630,15 @@ function HomePage() {
             <div className="home-journey-step" ref={el => journeyStepsRef.current[4] = el}>
               <div className="home-journey-number">5</div>
               <div className="home-journey-content home-glass">
-                <h4 className="home-journey-title">5. 게임 결과 관리</h4>
-                <p className="home-journey-description">게임 성과를 확인하고 가족과 함께 진전 상황을 공유해보세요.</p>
+                <h4 className="home-journey-title">결과 확인 & 가족과 공유</h4>
+                <p className="home-journey-description">대시보드에서 활동 내역과 성과를 확인하고, 가족들과 함께 진전 상황을 공유해보세요. 함께하는 기쁨이 더욱 커집니다.</p>
                 <div className="home-journey-features">
-                  <div className="home-journey-feature"><div className="home-journey-feature-dot"/><span>성과 대시보드</span></div>
-                  <div className="home-journey-feature"><div className="home-journey-feature-dot"/><span>진전 추적</span></div>
-                  <div className="home-journey-feature"><div className="home-journey-feature-dot"/><span>가족 공유</span></div>
+                  <div className="home-journey-feature"><div className="home-journey-feature-dot"/><span>상세한 활동 리포트</span></div>
+                  <div className="home-journey-feature"><div className="home-journey-feature-dot"/><span>가족 계정 연동</span></div>
+                  <div className="home-journey-feature"><div className="home-journey-feature-dot"/><span>문자메세지 연동</span></div>
                 </div>
               </div>
             </div>
-
 
           </div>
         </section>

@@ -1,209 +1,492 @@
-.game-select-page {
+/* 기본 페이지 설정 */
+.select-game-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #F8F6F4 0%, #FFFFFF 50%, #F5F2F0 100%);
+  background: 
+    linear-gradient(180deg, 
+      #EADFD7 0%, 
+      #EFE9E4 42%, 
+      #F2F1EE 60%, 
+      #D9DEE3 100%
+    );
   font-family: 'Lexend', sans-serif;
+  position: relative;
+  overflow-x: hidden;
 }
 
-.select-main-content {
-  padding: 0 80px;
-  padding-top: 140px; /* ElderlyHeader 높이(90px) + 여백(50px) */
+/* 배경 장식 효과 제거 - 단색 배경 사용 */
+/* .select-game-page::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 15% 20%, rgba(244, 194, 161, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 85% 30%, rgba(242, 184, 148, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 25% 70%, rgba(246, 202, 167, 0.25) 0%, transparent 50%),
+    radial-gradient(circle at 75% 80%, rgba(240, 176, 136, 0.2) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 1;
+  animation: float-petals 20s ease-in-out infinite;
+} */
+
+/* @keyframes float-petals {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-10px) rotate(1deg); }
+  66% { transform: translateY(5px) rotate(-1deg); }
+} */
+
+/* 메인 컨텐츠 */
+.select-carousel-main-content {
+  padding: 0 40px;
+  padding-top: 120px;
+  position: relative;
+  z-index: 2;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: calc(100vh - 120px);
 }
 
-.select-hero-section {
-  margin-bottom: 60px;
-  margin-top: 20px;
+/* 캐러셀 컨테이너 */
+.select-carousel-container {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 100px;
+  margin-bottom: 40px;
 }
 
-.select-hero-title {
-  font-size: 48px;
+/* 캐러셀 래퍼 */
+.select-carousel-wrapper {
+  width: 100%;
+  max-width: 800px;
+  height: 600px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 32px;
+  perspective: 1000px;
+}
+
+/* 캐러셀 카드 컨테이너 */
+.select-select-carousel-cards {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* 개별 캐러셀 카드 */
+.select-carousel-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.95) 0%, 
+      rgba(255, 255, 255, 0.85) 100%
+    );
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 32px;
+  padding: 50px;
+  box-shadow: 
+    0px 20px 60px rgba(139, 157, 107, 0.2),
+    0px 8px 24px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(20px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.8) translateX(100%);
+  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  overflow: hidden;
+  z-index: 1;
+}
+
+.select-carousel-card.active {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1) translateX(0%);
+  z-index: 2;
+}
+
+/* 카드 배경 */
+.select-card-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--card-color, rgba(244, 194, 161, 0.2));
+  opacity: 0.3;
+  z-index: 0;
+  border-radius: 32px;
+  transition: all 0.3s ease;
+}
+
+.select-carousel-card:hover .select-card-background {
+  opacity: 0.5;
+  transform: scale(1.02);
+}
+
+/* 카드 헤더 */
+.select-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 30px;
+  position: relative;
+  z-index: 1;
+}
+
+/* 카드 아이콘 */
+.select-card-icon {
+  width: 100px;
+  height: 100px;
+  background: 
+    linear-gradient(135deg, 
+      rgba(139, 157, 107, 0.15) 0%, 
+      rgba(164, 183, 122, 0.2) 100%
+    );
+  border: 2px solid rgba(139, 157, 107, 0.3);
+  border-radius: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 
+    0px 8px 24px rgba(139, 157, 107, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.select-card-icon svg {
+  width: 45px;
+  height: 45px;
+  color: #8b9d6b;
+  transition: all 0.3s ease;
+}
+
+.select-carousel-card:hover .select-card-icon {
+  transform: scale(1.1) rotate(5deg);
+  background: 
+    linear-gradient(135deg, 
+      rgba(139, 157, 107, 0.2) 0%, 
+      rgba(164, 183, 122, 0.25) 100%
+    );
+  box-shadow: 
+    0px 12px 32px rgba(139, 157, 107, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.select-carousel-card:hover .select-card-icon svg {
+  color: #7a8c5a;
+  transform: scale(1.15);
+}
+
+/* 카드 난이도 */
+.select-card-difficulty {
+  background: linear-gradient(135deg, #8b9d6b 0%, #a4b77a 100%);
+  color: #FFFFFF;
+  padding: 12px 20px;
+  border-radius: 16px;
+  font-size: 14px;
   font-weight: 700;
   line-height: 1.2;
-  color: #171412;
-  margin: 0 0 16px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  box-shadow: 
+    0 6px 20px rgba(139, 157, 107, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transition: all 0.3s ease;
 }
 
-.select-hero-subtitle {
-  font-size: 20px;
+.select-carousel-card:hover .select-card-difficulty {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 
+    0 8px 24px rgba(139, 157, 107, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+/* 카드 콘텐츠 */
+.select-card-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.select-card-title {
+  font-size: 56px;
+  font-weight: 800;
+  line-height: 1.2;
+  color: #2d2d2d;
+  margin: 0 0 24px 0;
+  letter-spacing: -0.02em;
+  transition: all 0.4s ease;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.select-carousel-card:hover .select-card-title {
+  color: #1a1a1a;
+  transform: translateY(-4px) scale(1.02);
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.select-card-description {
+  font-size: 24px;
   font-weight: 400;
   line-height: 1.6;
-  color: #171412;
+  color: #666;
   margin: 0;
-  opacity: 0.8;
-  text-align: center;
+  opacity: 0.9;
+  transition: all 0.3s ease;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
-.select-games-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 40px;
-  margin-bottom: 60px;
+.select-carousel-card:hover .select-card-description {
+  opacity: 1;
+  color: #555;
+  transform: translateY(-2px);
 }
 
-.select-game-card {
-  background: #FFFFFF;
-  border: 1px solid #E5E8EB;
-  border-radius: 20px;
-  padding: 33px;
-  box-shadow: 0px 8px 32px 0px rgba(0, 0, 0, 0.12);
+/* 카드 시작 버튼 */
+.select-card-start-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #8b9d6b 0%, #a4b77a 100%);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 28px;
+  padding: 24px 40px;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.4;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  z-index: 1;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  overflow: hidden;
+  box-shadow: 
+    0 8px 32px rgba(139, 157, 107, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  margin-top: 40px;
+}
+
+.select-card-start-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.25), 
+    transparent
+  );
+  transition: left 0.6s ease;
+}
+
+.select-card-start-btn:hover::before {
+  left: 100%;
+}
+
+.select-card-start-btn:hover {
+  background: linear-gradient(135deg, #7a8c5a 0%, #93a669 100%);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 
+    0 12px 40px rgba(139, 157, 107, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.select-card-start-btn svg {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease;
+}
+
+.select-card-start-btn:hover svg {
+  transform: translateX(6px) scale(1.1);
+}
+
+/* 네비게이션 버튼 */
+.select-carousel-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 60px;
+  height: 60px;
+  background: 
+    linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.95) 0%, 
+      rgba(255, 255, 255, 0.85) 100%
+    );
+  border: 2px solid rgba(139, 157, 107, 0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(15px);
+  box-shadow: 
+    0 8px 24px rgba(139, 157, 107, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  z-index: 10;
+}
+
+.select-carousel-nav:hover {
+  background: 
+    linear-gradient(135deg, 
+      rgba(139, 157, 107, 0.15) 0%, 
+      rgba(164, 183, 122, 0.1) 100%
+    );
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 
+    0 12px 32px rgba(139, 157, 107, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.select-carousel-nav:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: translateY(-50%) scale(0.95);
+}
+
+.select-carousel-nav-prev {
+  left: -100px;
+}
+
+.select-carousel-nav-next {
+  right: -100px;
+}
+
+.select-carousel-nav svg {
+  width: 24px;
+  height: 24px;
+  color: #8b9d6b;
+  transition: all 0.3s ease;
+}
+
+.select-carousel-nav:hover svg {
+  color: #7a8c5a;
+  transform: scale(1.2);
+}
+
+/* 인디케이터 */
+.select-carousel-indicators {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.select-indicator {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid rgba(139, 157, 107, 0.3);
+  background: transparent;
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
 }
 
-.select-game-card::before {
+.select-indicator::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, #FFFFFF 0%, #F8F6F4 100%);
-  opacity: 0.5;
-  z-index: 0;
-}
-
-.select-game-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0px 12px 40px 0px rgba(0, 0, 0, 0.15);
-}
-
-.select-game-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 20px;
-  position: relative;
-  z-index: 1;
-}
-
-.select-game-icon {
-  width: 48px;
-  height: 48px;
-  background: #FFFFFF;
-  border: 1px solid #E5E8EB;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.08);
-}
-
-.select-game-icon svg {
-  width: 20px;
-  height: 20px;
-}
-
-.select-game-difficulty {
-  background: #171412;
-  color: #FFFFFF;
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 1.4;
-}
-
-.select-game-content {
-  position: relative;
-  z-index: 1;
-  margin-bottom: 30px;
-}
-
-.select-game-title {
-  font-size: 28px;
-  font-weight: 700;
-  line-height: 1.4;
-  color: #171412;
-  margin: 0 0 16px 0;
-}
-
-.select-game-description {
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 1.6;
-  color: #171412;
-  margin: 0 0 20px 0;
-  opacity: 0.8;
-}
-
-.select-game-meta {
-  display: flex;
-  gap: 20px;
-  align-items: center;
-}
-
-.select-meta-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #171412;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1.4;
-  opacity: 0.6;
-}
-
-.select-meta-item svg {
-  width: 18px;
-  height: 18px;
-}
-
-.select-game-start-btn {
-  width: 100%;
-  background: #171412;
-  color: #FFFFFF;
-  border: none;
-  border-radius: 16px;
-  padding: 16px 24px;
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 1.4;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: linear-gradient(135deg, #8b9d6b 0%, #a4b77a 100%);
+  border-radius: 50%;
   transition: all 0.3s ease;
-  position: relative;
-  z-index: 1;
+  transform: translate(-50%, -50%);
 }
 
-.select-game-start-btn:hover {
-  background: #2D2A26;
-  transform: translateY(-2px);
+.select-indicator.active {
+  border-color: #8b9d6b;
+  transform: scale(1.2);
 }
 
-.select-game-start-btn svg {
-  width: 20px;
-  height: 20px;
+.select-indicator.active::before {
+  width: 100%;
+  height: 100%;
 }
 
-.select-footer {
+.select-indicator:hover {
+  border-color: #7a8c5a;
+  transform: scale(1.1);
+}
+
+.select-indicator:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 푸터 */
+.select-carousel-footer {
   display: flex;
   justify-content: center;
-  margin-top: 40px;
+  margin-top: auto;
+  padding-bottom: 40px;
 }
 
-.select-footer-content {
-  background: #FFFFFF;
-  border: 1px solid #E5E8EB;
+.select-carousel-footer-content {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(139, 157, 107, 0.2);
   border-radius: 24px;
-  padding: 15px 24px;
+  padding: 20px 32px;
   display: flex;
   align-items: center;
-  gap: 12px;
-  box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.08);
+  gap: 16px;
+  box-shadow: 
+    0px 8px 24px rgba(139, 157, 107, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(15px);
+  transition: all 0.3s ease;
 }
 
-.select-footer-content svg {
-  width: 16px;
-  height: 16px;
+.select-carousel-footer-content:hover {
+  transform: translateY(-3px);
+  box-shadow: 
+    0px 12px 32px rgba(139, 157, 107, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
-.select-footer-content span {
-  color: #171412;
-  font-size: 14px;
+.select-carousel-footer-content svg {
+  width: 20px;
+  height: 20px;
+  color: #8b9d6b;
+  transition: all 0.3s ease;
+}
+
+.select-carousel-footer-content:hover svg {
+  color: #7a8c5a;
+  transform: scale(1.15);
+}
+
+.select-carousel-footer-content span {
+  color: #2d2d2d;
+  font-size: 16px;
   font-weight: 600;
   line-height: 1.4;
 }
@@ -668,69 +951,130 @@
 
 /* 반응형 디자인 */
 @media (max-width: 1400px) {
-  .select-games-grid {
-    grid-template-columns: repeat(2, minmax(500px, 1fr));
-    gap: 30px;
+  .select-carousel-container {
+    max-width: 1000px;
   }
   
-  .select-game-card {
-    padding: 28px;
+  .select-carousel-wrapper {
+    max-width: 700px;
+    height: 550px;
+  }
+  
+  .select-carousel-nav-prev {
+    left: -80px;
+  }
+  
+  .select-carousel-nav-next {
+    right: -80px;
   }
 }
 
 @media (max-width: 1200px) {
-  .select-main-content {
-    padding: 0 60px;
-    padding-top: 110px;
+  .select-carousel-nav-prev {
+    left: -60px;
   }
   
-  .select-games-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
-  }
-  
-  .select-hero-title {
-    font-size: 42px;
+  .select-carousel-nav-next {
+    right: -60px;
   }
 }
 
 @media (max-width: 1000px) {
-  .select-games-grid {
-    grid-template-columns: 1fr;
+  .select-carousel-main-content {
+    padding: 0 20px;
+    padding-top: 100px;
+  }
+
+  .select-carousel-wrapper {
     max-width: 600px;
-    margin: 0 auto 60px auto;
+    height: 500px;
+  }
+
+  .select-carousel-card {
+    padding: 40px;
+  }
+
+  .select-card-title {
+    font-size: 48px;
+  }
+
+  .select-card-description {
+    font-size: 22px;
+  }
+
+  .select-select-card-icon {
+    width: 80px;
+    height: 80px;
+  }
+
+  .select-select-card-icon svg {
+    width: 36px;
+    height: 36px;
+  }
+
+  .select-carousel-nav {
+    width: 50px;
+    height: 50px;
+  }
+
+  .select-carousel-nav svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .select-carousel-nav-prev {
+    left: -40px;
   }
   
-  .select-main-content {
-    padding: 0 40px;
-    padding-top: 100px;
+  .select-carousel-nav-next {
+    right: -40px;
   }
 }
 
 @media (max-width: 768px) {
-  .select-main-content {
-    padding: 0 20px;
+  .select-carousel-main-content {
     padding-top: 90px;
   }
-  
-  .select-hero-title {
-    font-size: 36px;
+
+  .select-carousel-wrapper {
+    max-width: 400px;
+    height: 400px;
   }
-  
-  .select-hero-subtitle {
-    font-size: 18px;
-  }
-  
-  .select-game-card {
+
+  .select-carousel-card {
     padding: 24px;
   }
-  
-  .select-game-title {
-    font-size: 24px;
+
+  .select-select-card-icon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .select-select-card-icon svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .select-card-title {
+    font-size: 32px;
+    margin-bottom: 16px;
+  }
+
+  .select-card-description {
+    font-size: 16px;
+  }
+
+  .select-card-start-btn {
+    padding: 16px 24px;
+    font-size: 16px;
+  }
+
+  .select-carousel-nav-prev {
+    left: -30px;
   }
   
-  .select-game-description {
-    font-size: 14px;
+  .select-carousel-nav-next {
+    right: -30px;
   }
 
   .select-family-connect-content {
@@ -753,26 +1097,75 @@
 }
 
 @media (max-width: 480px) {
-  .select-main-content {
+  .select-carousel-main-content {
     padding: 0 16px;
     padding-top: 80px;
   }
-  
-  .select-hero-title {
-    font-size: 32px;
+
+  .select-carousel-wrapper {
+    max-width: 320px;
+    height: 350px;
   }
-  
-  .select-hero-subtitle {
-    font-size: 16px;
-  }
-  
-  .select-game-card {
+
+  .select-carousel-card {
     padding: 20px;
   }
+
+  .select-card-title {
+    font-size: 28px;
+  }
+
+  .select-card-description {
+    font-size: 14px;
+  }
+
+  .select-card-difficulty {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+
+  .select-carousel-nav {
+    width: 40px;
+    height: 40px;
+  }
+
+  .select-carousel-nav svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .select-carousel-nav-prev {
+    left: -20px;
+  }
   
-  .select-game-meta {
-    flex-direction: column;
-    align-items: flex-start;
+  .select-carousel-nav-next {
+    right: -20px;
+  }
+
+  .select-indicator {
+    width: 12px;
+    height: 12px;
+  }
+
+  .select-carousel-indicators {
     gap: 12px;
   }
-} 
+}
+
+/* 접근성 및 키보드 네비게이션 */
+.select-carousel-nav:focus,
+.select-indicator:focus,
+.select-card-start-btn:focus {
+  outline: 2px solid #8b9d6b;
+  outline-offset: 2px;
+}
+
+/* 애니메이션 성능 최적화 */
+.select-carousel-card,
+.select-select-card-background,
+.select-select-card-icon,
+.select-carousel-nav,
+.select-indicator {
+  will-change: transform;
+}
+

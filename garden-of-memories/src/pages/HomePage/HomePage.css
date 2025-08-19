@@ -14,7 +14,7 @@
 
 .home-gom-theme{ color:var(--ink); font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
 .home-serif{ 
-  font-family: 'Seoul Namsan','Noto Sans KR', 'Playfair Display', 'Georgia', serif; 
+  font-family: sans-serif; 
   letter-spacing:.2px; 
   font-weight: 600;
 }
@@ -225,19 +225,153 @@
 .home-hero-description{ display:flex; flex-direction:column; gap:10px; }
 .home-description-text{ font-size:18px; color:var(--muted); margin:0; }
 
-/* -------- 서비스 카드 (3개) -------- */
-.home-services-section{ padding:52px 20px 84px; }
-.home-services-grid{
-  display:grid; grid-template-columns: repeat(3,1fr); gap:20px; max-width:1040px; margin:0 auto;
+/* -------- Game Categories (피그마 디자인 스타일) -------- */
+.home-game-categories-section{ 
+  padding: 80px 20px 100px; 
 }
-.home-service-card{ border-radius:18px; padding:24px; text-align:center; transition:transform .25s ease, box-shadow .25s ease; }
-.home-service-card:hover{ transform:translateY(-4px); box-shadow:0 16px 40px rgba(0,0,0,.12); }
-.home-service-icon{
-  width:56px; height:56px; border-radius:16px; margin:0 auto 14px; background:#f0e7da;
-  display:flex; align-items:center; justify-content:center;
+
+.home-game-categories-grid{
+  display: grid; 
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 24px; 
+  max-width: 1200px; 
+  margin: 48px auto 0;
 }
-.home-service-title{ font-weight:700; margin:0 0 8px; }
-.home-service-description{ font-size:14px; color:var(--muted); margin:0; }
+
+.home-game-category-card{ 
+  border-radius: 20px; 
+  padding: 32px 28px; 
+  text-align: center; 
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(111, 96, 72, 0.1);
+}
+
+.home-game-category-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, 
+    rgba(247, 201, 183, 0.1) 0%, 
+    rgba(240, 169, 147, 0.1) 50%, 
+    rgba(231, 140, 116, 0.1) 100%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.home-game-category-card:hover{ 
+  transform: translateY(-8px) scale(1.02); 
+  box-shadow: 0 25px 60px rgba(111, 96, 72, 0.15);
+  border-color: rgba(111, 96, 72, 0.2);
+}
+
+.home-game-category-card:hover::before {
+  opacity: 1;
+}
+
+.home-game-category-icon{
+  width: 80px; 
+  height: 80px; 
+  border-radius: 20px; 
+  margin: 0 auto 24px; 
+  background: linear-gradient(135deg, #f7ede4 0%, #ede4d8 100%);
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  transition: all 0.4s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.home-game-category-card:hover .home-game-category-icon {
+  transform: scale(1.1);
+  background: linear-gradient(135deg, #f2e8db 0%, #e8ddd1 100%);
+}
+
+.home-game-category-content {
+  position: relative;
+  z-index: 2;
+}
+
+.home-game-category-title{ 
+  font-weight: 700; 
+  font-size: 16px;
+  margin: 0 0 12px; 
+  color: var(--ink);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.home-game-category-subtitle{ 
+  font-size: 14px; 
+  color: var(--muted); 
+  margin: 0; 
+  line-height: 1.5;
+}
+
+/* Featured Card (오늘의 추천) */
+.home-game-category-card.home-featured {
+  background: linear-gradient(135deg, #6f6048 0%, #8b6d4a 100%);
+  color: white;
+  position: relative;
+}
+
+.home-game-category-card.home-featured .home-game-category-icon {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+}
+
+.home-game-category-card.home-featured .home-game-category-title {
+  color: white;
+}
+
+.home-game-category-card.home-featured .home-game-category-subtitle {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.home-featured-badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  z-index: 3;
+}
+
+/* Decorative elements */
+.home-game-category-card::after {
+  content: '';
+  position: absolute;
+  bottom: -50px;
+  right: -50px;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, rgba(111, 96, 72, 0.05) 0%, transparent 70%);
+  border-radius: 50%;
+  transition: all 0.4s ease;
+}
+
+.home-game-category-card:hover::after {
+  bottom: -30px;
+  right: -30px;
+  opacity: 0.8;
+}
 
 /* -------- CTA -------- */
 .home-cta-section{ padding:14px 20px 60px; text-align:center; }
@@ -252,7 +386,7 @@
 /* -------- 섹션 타이틀/디스크립션 -------- */
 .home-journey-section{ padding:96px 20px; }
 
-.home-section-title{ font-size:38px; text-align:center; margin:0 0 18px; color:#2a2a2a; }
+.home-section-title{ font-size:38px; text-align:center; margin:-20px 0 30px; color:#2a2a2a; }
 .home-section-description{ text-align:center; color:var(--muted); max-width:760px; margin:0 auto 64px; }
 
 
@@ -308,7 +442,26 @@
 @media (max-width:768px){
   .home-nav{ display:none; }
   .home-hero-title{ font-size:40px; }
-  .home-services-grid{ grid-template-columns:1fr; }
+  
+  /* Game Categories 반응형 */
+  .home-game-categories-section{ 
+    padding: 60px 20px 80px; 
+  }
+  .home-game-categories-grid{ 
+    grid-template-columns: 1fr; 
+    gap: 20px;
+    max-width: 400px;
+  }
+  .home-game-category-card{ 
+    min-height: 240px;
+    padding: 24px 20px;
+  }
+  .home-game-category-icon{
+    width: 64px; 
+    height: 64px; 
+    margin: 0 auto 20px;
+  }
+  
   .home-section-title{ font-size:32px; }
   .home-journey-line{ display:none; }
   .home-journey-step{ 
@@ -325,6 +478,48 @@
 @media (max-width:480px){
   .home-hero-title{ font-size:30px; }
   .home-cta-button{ padding:14px 22px; font-size:14px; }
+  
+  /* Game Categories 작은 화면 */
+  .home-game-categories-section{ 
+    padding: 40px 16px 60px; 
+  }
+  .home-game-categories-grid{ 
+    gap: 16px;
+    max-width: 320px;
+  }
+  .home-game-category-card{ 
+    min-height: 200px;
+    padding: 20px 16px;
+  }
+  .home-game-category-icon{
+    width: 56px; 
+    height: 56px; 
+    margin: 0 auto 16px;
+  }
+  .home-game-category-title{ 
+    font-size: 14px;
+  }
+  .home-game-category-subtitle{ 
+    font-size: 13px;
+  }
+  .home-featured-badge {
+    top: 12px;
+    right: 12px;
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+}
+
+/* 태블릿 가로 모드 */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .home-game-categories-grid{ 
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 20px;
+    max-width: 800px;
+  }
+  .home-game-category-card{ 
+    min-height: 260px;
+  }
 }
 
 /* 가족 연결 안내 */
