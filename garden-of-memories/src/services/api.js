@@ -1,10 +1,10 @@
 // src/services/api.js
 
 // 카드 게임 관련 API (기존 서버)
-const CARD_GAME_BASE_URL = "http://13.251.163.144:8020";
+const CARD_GAME_BASE_URL = import.meta.env.VITE_DAILY_QUESTION_API_BASE_URL;
 
 // 로그인 관련 API (FastAPI 서버)
-const AUTH_API_BASE_URL = import.meta.env.VITE_AUTH_API_BASE_URL || "http://13.251.163.144:8000";
+const AUTH_API_BASE_URL = import.meta.env.VITE_AUTH_API_BASE_URL;
 const API_TIMEOUT = import.meta.env.VITE_API_TIMEOUT || 10000;
 
 /**
