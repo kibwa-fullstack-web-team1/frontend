@@ -60,27 +60,6 @@ function GameSelectDashboard() {
           <path d="M12 2L15.09 8.26L22 9L15.09 9.74L12 16L8.91 9.74L2 9L8.91 8.26L12 2Z" stroke="#000000" strokeWidth="2"/>
         </svg>
       )
-    },
-    {
-      id: 'puzzle-solving',
-      title: '퍼즐 맞추기',
-      description: '다양한 퍼즐을 맞추며 공간 인지력과 문제 해결 능력을 향상시킵니다.',
-      difficulty: '보통',
-      difficultyColor: '#8B5CF6',
-      iconColor: 'rgba(139, 92, 246, 0.13)',
-      duration: '20-25분',
-      recentScore: '78점',
-      lastPlayed: '1월 13일',
-      effects: ['공간 인지력 향상', '문제 해결 능력', '논리적 사고력'],
-      icon: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M4 4H20V20H4V4Z" stroke="#000000" strokeWidth="2"/>
-          <path d="M4 12H20" stroke="#000000" strokeWidth="2"/>
-          <path d="M12 4V20" stroke="#000000" strokeWidth="2"/>
-          <path d="M8 8H16" stroke="#000000" strokeWidth="2"/>
-          <path d="M8 16H16" stroke="#000000" strokeWidth="2"/>
-        </svg>
-      )
     }
   ];
 
