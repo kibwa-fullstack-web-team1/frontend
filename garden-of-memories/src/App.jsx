@@ -17,7 +17,6 @@ import NotificationPage from './pages/NotificationPage/NotificationPage';
 import WeeklyReportPage from './pages/WeeklyReportPage/WeeklyReportPage';
 import ReportDetailPage from './pages/ReportDetailPage/ReportDetailPage';
 
-
 function App() {
   return (
     <Router>
@@ -39,7 +38,6 @@ function App() {
         <Route path="/story-game-dashboard" element={<StoryGameDashboard />} />
         <Route path="/garden" element={<GardenPage />} />
         <Route path="/story-sequence" element={<StorySequence />} />
-        
         <Route path="/notifications" element={<NotificationPage />} />
         <Route path="/reports" element={<WeeklyReportPage />} />
         <Route path="/reports/:reportId" element={<ReportDetailPage />} />
