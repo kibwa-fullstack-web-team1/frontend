@@ -5,8 +5,9 @@ import react from '@vitejs/plugin-react-swc'
 export default defineConfig({
   plugins: [react()],
   server: {
-    host: '0.0.0.0',
+    host: '0.0.0.0', 
     port: 5173,
+    allowedHosts: ['kibwa-1team-alb-1678050163.ap-southeast-1.elb.amazonaws.com', 'www.hwichan.shop'],
     proxy: {
       // 기존 /api 프록시는 그대로 둡니다.
       '/api': {
@@ -25,6 +26,24 @@ export default defineConfig({
         target: process.env.VITE_NOTIFICATION_API_BASE_URL, // notification-service에 접근
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/notifications-api/, ''),
+      },
+      // user-service (인증)를 위한 프록시 설정 추가
+      '/auth': {
+        target: process.env.VITE_AUTH_API_BASE_URL, // user-service에 접근
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/auth/, '/auth'), // 백엔드도 /auth로 시작하므로 그대로 유지
+      },
+      // memory-flip-card-service를 위한 프록시 설정 추가
+      '/memory-flip-card-api': {
+        target: 'http://100.74.13.49:8020', // memory-flip-card-service에 접근
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/memory-flip-card-api/, ''),
+      },
+      // 스토리 시퀀서 서비스 (story-sequencer)를 위한 프록시 설정 추가
+      '/story-sequencer-api': {
+        target: process.env.VITE_STORY_SEQUENCER_API_BASE_URL, // story-sequencer-service에 접근
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/story-sequencer-api/, ''),
       },
     },
   },

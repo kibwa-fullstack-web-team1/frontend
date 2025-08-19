@@ -4,7 +4,7 @@
 const CARD_GAME_BASE_URL = import.meta.env.VITE_DAILY_QUESTION_API_BASE_URL;
 
 // 로그인 관련 API (FastAPI 서버)
-const AUTH_API_BASE_URL = import.meta.env.VITE_AUTH_API_BASE_URL;
+const AUTH_API_BASE_URL = ""; // <-- 이 부분을 빈 문자열로 변경합니다.
 const API_TIMEOUT = import.meta.env.VITE_API_TIMEOUT || 10000;
 
 /**
@@ -87,7 +87,10 @@ export const signupUser = async (email, password, username, phone, role) => {
       role: role === 'senior' ? 'senior' : role === 'family' ? 'guardian' : role // senior→senior, family→guardian 매핑
     };
 
-    const response = await fetch(`${AUTH_API_BASE_URL}/auth/signup`, {
+    console.log('AUTH_API_BASE_URL:', AUTH_API_BASE_URL); // ADD THIS LOG
+    console.log('Signup Request URL:', `${AUTH_API_BASE_URL}/auth/register`); // ADD THIS LOG
+
+    const response = await fetch(`${AUTH_API_BASE_URL}/auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -217,7 +220,7 @@ export const getAuthToken = () => {
  */
 export const fetchCardImages = async (userId) => {
   try {
-    const response = await fetch(`/api/list/family-photos?user_id=${userId}`);
+    const response = await fetch(`/memory-flip-card-api/list/family-photos?user_id=${userId}`);
     if (!response.ok) {
       throw new Error('카드 이미지 요청 실패');
     }
