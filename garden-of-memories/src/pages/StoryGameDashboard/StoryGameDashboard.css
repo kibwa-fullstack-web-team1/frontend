@@ -5,6 +5,213 @@
   font-family: 'Lexend', sans-serif;
 }
 
+/* 에러 메시지 스타일 */
+.story-error-message {
+  background-color: #FEF2F2;
+  border: 1px solid #FECACA;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.story-error-message p {
+  color: #DC2626;
+  margin: 0 0 12px 0;
+  font-size: 14px;
+}
+
+.story-retry-button {
+  background-color: #DC2626;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.story-retry-button:hover {
+  background-color: #B91C1C;
+}
+
+/* 로딩 상태 스타일 */
+.story-loading {
+  background-color: #F0F9FF;
+  border: 1px solid #BAE6FD;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.story-loading p {
+  color: #0369A1;
+  margin: 0;
+  font-size: 14px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* 빈 상태 스타일 */
+.story-empty-state {
+  background-color: #F9FAFB;
+  border: 2px dashed #D1D5DB;
+  border-radius: 12px;
+  padding: 40px 20px;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.story-empty-state p {
+  color: #6B7280;
+  margin: 8px 0;
+  font-size: 14px;
+}
+
+.story-empty-state p:first-child {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+/* 인라인 편집 모드 스타일 */
+.story-card.editing {
+  border: 2px solid #3B82F6;
+  background-color: #F8FAFC;
+}
+
+.story-edit-form {
+  padding: 4px;
+}
+
+.story-edit-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.story-edit-title-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #D1D5DB;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: #FFFFFF;
+  margin-right: 12px;
+}
+
+.story-edit-title-input:focus {
+  outline: none;
+  border-color: #3B82F6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.story-edit-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.story-edit-category-select {
+  padding: 6px 10px;
+  border: 1px solid #D1D5DB;
+  border-radius: 6px;
+  font-size: 12px;
+  background-color: #FFFFFF;
+  cursor: pointer;
+}
+
+.story-edit-category-select:focus {
+  outline: none;
+  border-color: #3B82F6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.story-edit-content-textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #D1D5DB;
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 1.5;
+  background-color: #FFFFFF;
+  resize: vertical;
+  min-height: 100px;
+  margin-bottom: 12px;
+  font-family: inherit;
+}
+
+.story-edit-content-textarea:focus {
+  outline: none;
+  border-color: #3B82F6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* 편집 모드 이미지 URL 입력 필드 */
+.story-edit-image-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #D1D5DB;
+  border-radius: 6px;
+  font-size: 13px;
+  background-color: #FFFFFF;
+  margin-bottom: 12px;
+  font-family: inherit;
+}
+
+.story-edit-image-input:focus {
+  outline: none;
+  border-color: #3B82F6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.story-edit-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.story-edit-button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.story-edit-button.save {
+  background-color: #10B981;
+  color: #FFFFFF;
+}
+
+.story-edit-button.save:hover:not(:disabled) {
+  background-color: #059669;
+}
+
+.story-edit-button.save:disabled {
+  background-color: #9CA3AF;
+  cursor: not-allowed;
+}
+
+.story-edit-button.cancel {
+  background-color: #6B7280;
+  color: #FFFFFF;
+}
+
+.story-edit-button.cancel:hover {
+  background-color: #4B5563;
+}
+
 /* 헤더 스타일 제거 - FamilyHeader 컴포넌트 사용 */
 
 .story-user-name {
@@ -132,8 +339,13 @@
   transition: background-color 0.3s ease;
 }
 
-.story-submit-button:hover {
+.story-submit-button:hover:not(:disabled) {
   background-color: #333333;
+}
+
+.story-submit-button:disabled {
+  background-color: #9CA3AF;
+  cursor: not-allowed;
 }
 
 /* 메인 콘텐츠 */
@@ -213,6 +425,20 @@
   color: #171412;
   margin: 0 0 16px 0;
   line-height: 1.5;
+}
+
+/* 이야기 카드 이미지 스타일 */
+.story-card-image {
+  margin: 12px 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.story-image {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  display: block;
 }
 
 .story-card-actions {
@@ -355,6 +581,20 @@
   line-height: 1.6;
 }
 
+/* 미리보기 이미지 스타일 */
+.story-preview-image {
+  margin: 12px 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.story-preview-img {
+  width: 100%;
+  max-height: 150px;
+  object-fit: cover;
+  display: block;
+}
+
 .story-preview-story-meta {
   display: flex;
   justify-content: space-between;
@@ -420,6 +660,15 @@
   
   .story-action-button {
     justify-content: center;
+  }
+  
+  /* 모바일에서 이미지 크기 조정 */
+  .story-image {
+    max-height: 150px;
+  }
+  
+  .story-preview-img {
+    max-height: 120px;
   }
 } 
 
@@ -492,4 +741,4 @@
   display: flex;
   align-items: center;
   gap: 16px;
-} 
+}
