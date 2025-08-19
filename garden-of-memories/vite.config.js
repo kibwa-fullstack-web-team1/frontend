@@ -10,7 +10,7 @@ export default defineConfig({
     proxy: {
       // 기존 /api 프록시는 그대로 둡니다.
       '/api': {
-        target: 'http://13.251.163.144:8020',
+        target: process.env.VITE_CARD_GAME_BASE_URL || 'http://13.251.163.144:8020',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },

@@ -405,3 +405,247 @@
     padding: 20px 16px;
   }
 }
+
+/* 가족 연결 안내 */
+.dashboard-select-family-connect-info {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 20px;
+  padding: 30px;
+  margin: 30px 0;
+  border: 2px solid #007bff;
+  box-shadow: 0 8px 25px rgba(0, 123, 255, 0.1);
+}
+
+.dashboard-select-family-connect-content {
+  text-align: center;
+}
+
+.dashboard-select-family-connect-content h3 {
+  color: #007bff;
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 15px 0;
+}
+
+.dashboard-select-family-connect-content p {
+  color: #666;
+  font-size: 16px;
+  margin: 0 0 20px 0;
+  line-height: 1.5;
+}
+
+.dashboard-select-family-connect-btn {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+}
+
+.dashboard-select-family-connect-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+}
+
+/* 가족 연결 모달 */
+.dashboard-select-family-connect-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.dashboard-select-family-connect-modal-content {
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.dashboard-select-family-connect-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.dashboard-select-family-connect-modal-header h3 {
+  color: #6f6048;
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.dashboard-select-family-connect-modal-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #999;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.dashboard-select-family-connect-modal-close:hover {
+  background: #f0f0f0;
+  color: #666;
+}
+
+.dashboard-select-family-connect-modal-body {
+  margin-bottom: 25px;
+}
+
+.dashboard-select-family-connect-code-input-section {
+  text-align: center;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 15px;
+  border: 2px solid #007bff;
+}
+
+.dashboard-select-family-connect-code-input-section label {
+  display: block;
+  color: #007bff;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.dashboard-select-family-connect-code-input-section input {
+  width: 100%;
+  padding: 15px;
+  border: 2px solid #007bff;
+  border-radius: 10px;
+  font-size: 18px;
+  text-align: center;
+  letter-spacing: 2px;
+  font-family: 'Courier New', monospace;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}
+
+.dashboard-select-family-connect-code-input-section input:focus {
+  outline: none;
+  border-color: #0056b3;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.dashboard-select-family-connect-connect-btn {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+}
+
+.dashboard-select-family-connect-connect-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+}
+
+.dashboard-select-family-connect-connect-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.dashboard-select-family-connect-result {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.dashboard-select-family-connect-result.success {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.dashboard-select-family-connect-result.error {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.dashboard-select-family-connect-result p {
+  margin: 8px 0 0 0;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.dashboard-select-family-connect-reset-btn {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 15px;
+}
+
+.dashboard-select-family-connect-reset-btn:hover {
+  background: #5a6268;
+  transform: translateY(-1px);
+}
+
+.dashboard-select-family-connect-modal-footer {
+  text-align: center;
+  padding-top: 20px;
+  border-top: 2px solid #f0f0f0;
+}
+
+.dashboard-select-family-connect-modal-btn {
+  background: #6f6048;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dashboard-select-family-connect-modal-btn:hover {
+  background: #8B5A00;
+}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getCurrentUser, isAuthenticated } from '../services/api';
+import { getCurrentUser, isAuthenticated, logoutUser } from '../services/api';
 import { FaChevronLeft, FaUser } from 'react-icons/fa';
 import './ElderlyHeader.css';
 
@@ -20,6 +20,20 @@ function ElderlyHeader({ title = "기억의 정원", subtitle = "", onBackClick,
       onBackClick();
     } else {
       navigate('/');
+    }
+  };
+
+  const handleLogout = async () => {
+    if (window.confirm('로그아웃하시겠습니까?')) {
+      try {
+        await logoutUser();
+        alert('로그아웃되었습니다.');
+        navigate('/login'); // 로그인 페이지로 이동
+      } catch (error) {
+        console.error('로그아웃 중 오류:', error);
+        // 오류가 있어도 로그인 페이지로 이동
+        navigate('/login');
+      }
     }
   };
 
@@ -53,6 +67,13 @@ function ElderlyHeader({ title = "기억의 정원", subtitle = "", onBackClick,
               <div className="elderly-user-role">{userRole}</div>
             </div>
           </div>
+          
+          {/* 로그아웃 버튼 */}
+          {isLoggedIn && (
+            <button className="elderly-logout-button" onClick={handleLogout}>
+              로그아웃
+            </button>
+          )}
         </div>
       </div>
     </header>

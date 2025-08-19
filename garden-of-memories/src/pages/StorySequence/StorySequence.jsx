@@ -4,12 +4,25 @@ import ElderlyHeader from '../../components/ElderlyHeader';
 
 import './StorySequence.css';
 
-// API 기본 URL 변수
-const STORY_GAME_BASE_URL = 'http://13.251.163.144:8011';
+// API 기본 URL 변수 - 환경변수에서 가져오기
+const STORY_GAME_BASE_URL = import.meta.env.VITE_STORY_API_BASE_URL || 'http://localhost:8011';
 
 function StorySequence() {
   const navigate = useNavigate();
-  const [gameData, setGameData] = useState(null);
+  // 게임 데이터 상태
+  const [gameData, setGameData] = useState({
+    // WORD_SEQUENCE용
+    segment: '',
+    words: [],
+    shuffled: [],
+    segmentId: null,
+    storyId: null,
+    // SENTENCE_SEQUENCE용
+    segments: [],
+    totalSegments: 0,
+    // 공통
+    gameMode: 'sentence'
+  });
   const [currentOrder, setCurrentOrder] = useState([]);
   const [attempts, setAttempts] = useState(0);
   const [startTime, setStartTime] = useState(null);
@@ -19,6 +32,7 @@ function StorySequence() {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [gameMode, setGameMode] = useState('sentence'); // 'word' 또는 'sentence'
 
   // 임시로 user2 사용 (실제로는 로그인한 사용자 정보 사용)
   const userId = 'user2';
@@ -44,9 +58,66 @@ function StorySequence() {
     }
   }, [startTime, showSuccessModal]);
 
+  // 게임 시작 시 난이도 정보를 가져오고 게임 유형 결정
+  const difficultyFetchedRef = useRef(false);
+  
+  useEffect(() => {
+    const fetchDifficultyInfo = async () => {
+      try {
+        const authToken = localStorage.getItem('authToken');
+        if (!authToken) return;
+
+        const response = await fetch(`${import.meta.env.VITE_STORY_API_BASE_URL}/api/v0/difficulty/recommendation`, {
+          headers: {
+            'Authorization': `Bearer ${authToken}`
+          }
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log('현재 난이도 정보:', data);
+          
+          // 추천된 게임 유형에 따라 게임 모드 설정
+          if (data.results && data.results.recommended_game_type) {
+            const recommendedType = data.results.recommended_game_type;
+            console.log('추천된 게임 유형:', recommendedType);
+            
+            // 게임 유형에 따라 UI 모드 설정
+            if (recommendedType === 'WORD_SEQUENCE') {
+              // 단어 순서 맞추기 모드
+              setGameMode('word');
+            } else {
+              // 문장 순서 맞추기 모드 (기본값)
+              setGameMode('sentence');
+            }
+          }
+        }
+      } catch (error) {
+        console.error('난이도 정보 조회 실패:', error);
+        // 기본값으로 문장 순서 맞추기 설정
+        setGameMode('sentence');
+      }
+    };
+
+    // 이미 실행되었는지 확인 (useRef 사용)
+    if (!difficultyFetchedRef.current) {
+      difficultyFetchedRef.current = true;
+      fetchDifficultyInfo();
+    }
+  }, []);
+
   // 게임 초기화 함수
+  const gameInitializedRef = useRef(false);
+  
   const initializeGame = async () => {
+    // 이미 초기화되었는지 확인
+    if (gameInitializedRef.current) {
+      console.log('게임이 이미 초기화되었습니다.');
+      return;
+    }
+    
     try {
+      gameInitializedRef.current = true;
       setIsLoading(true);
       setError(null);
       
@@ -56,8 +127,19 @@ function StorySequence() {
         throw new Error('로그인 토큰이 없습니다. 다시 로그인해주세요.');
       }
       
+      // 게임 모드에 따라 다른 API 엔드포인트 사용
+      let apiEndpoint;
+      if (gameMode === 'word') {
+        // WORD_SEQUENCE: 단어 단위로 나누어진 데이터
+        // 먼저 랜덤 스토리를 가져온 후 단어 단위로 분리
+        apiEndpoint = `${STORY_GAME_BASE_URL}/api/v0/stories/segments/random`;
+      } else {
+        // SENTENCE_SEQUENCE: 문장 단위로 나누어진 데이터
+        apiEndpoint = `${STORY_GAME_BASE_URL}/api/v0/stories/segments/sentence/random`;
+      }
+      
       // 실제 story-sequencer API 호출
-      const response = await fetch(`${STORY_GAME_BASE_URL}/api/v0/stories/segments/random`, {
+      const response = await fetch(apiEndpoint, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -69,29 +151,68 @@ function StorySequence() {
         throw new Error(`API 호출 실패: ${response.status}`);
       }
     
-      const data = await response.json();      console.log('API 응답:', data);
+      const data = await response.json();
+      console.log('API 응답:', data);
       
-      if (!data.results || !data.results.segment_text) {
-        throw new Error('유효한 세그먼트 데이터를 받지 못했습니다.');
+      if (!data.results) {
+        throw new Error('유효한 데이터를 받지 못했습니다.');
       }
 
-      const segment = data.results;
-      const words = segment.segment_text.split(/\s+/).filter(word => word.length > 0);
-      const shuffledWords = shuffleArray([...words]);
+      if (gameMode === 'word') {
+        // WORD_SEQUENCE: 단어 단위로 나누어진 데이터
+        if (!data.results.segment_text) {
+          throw new Error('유효한 세그먼트 데이터를 받지 못했습니다.');
+        }
+
+        const segment = data.results;
+        // 단어 단위로 분리 (띄어쓰기 기준)
+        const words = segment.segment_text.split(/\s+/).filter(word => word.length > 0);
+        const shuffledWords = shuffleArray([...words]);
+        
+        setGameData(prev => ({
+          ...prev,
+          segment: segment.segment_text,
+          words: words,
+          shuffled: shuffledWords,
+          segmentId: segment.id,
+          storyId: segment.story_id,
+          totalSegments: words.length,
+          gameMode: 'word'
+        }));
+        
+        setCurrentOrder(Array(words.length).fill(null));
+      } else {
+        // SENTENCE_SEQUENCE: 문장 단위로 나누어진 데이터
+        if (!data.results.segments || !Array.isArray(data.results.segments)) {
+          throw new Error('유효한 문장 세그먼트 데이터를 받지 못했습니다.');
+        }
+
+        const segments = data.results.segments;
+        const shuffledSegments = shuffleArray([...segments]);
+        
+        setGameData(prev => ({
+          ...prev,
+          segments: segments,
+          shuffled: shuffledSegments,
+          storyId: data.results.story_id,
+          totalSegments: data.results.total_segments,
+          gameMode: 'sentence'
+        }));
+        
+        setCurrentOrder(Array(segments.length).fill(null));
+      }
       
-      setGameData({
-        segment: segment.segment_text,
-        words: words,
-        shuffled: shuffledWords,
-        segmentId: segment.id,
-        storyId: segment.story_id
-      });
-      
-      setCurrentOrder(Array(words.length).fill(null));
       setStartTime(Date.now());
       setElapsedTime(0);
       setAttempts(0);
-      setFeedbackMessage('단어를 드래그하여 올바른 순서로 배치해 보세요!');
+      
+      // 게임 모드에 따라 다른 메시지 설정
+      if (gameMode === 'word') {
+        setFeedbackMessage('단어를 드래그하여 올바른 순서로 배치해 보세요!');
+      } else {
+        setFeedbackMessage('문장을 드래그하여 올바른 순서로 배치해 보세요!');
+      }
+      
       setShowSuccessModal(false);
       
     } catch (err) {
@@ -168,32 +289,64 @@ function StorySequence() {
     e.currentTarget.classList.remove('drag-over');
     
     const wordIndex = parseInt(e.dataTransfer.getData('text/plain'), 10);
-    const word = gameData.shuffled[wordIndex];
     
-    // 이미 배치된 단어 제거
-    const newOrder = [...currentOrder];
-    const prevPosition = newOrder.indexOf(word);
-    if (prevPosition !== -1) {
-      newOrder[prevPosition] = null;
+    if (gameMode === 'word') {
+      const word = gameData.shuffled[wordIndex];
+      
+      // 이미 배치된 단어 제거
+      const newOrder = [...currentOrder];
+      const prevPosition = newOrder.indexOf(word);
+      if (prevPosition !== -1) {
+        newOrder[prevPosition] = null;
+      }
+      
+      // 새 위치에 단어 배치 (문자열로 저장)
+      newOrder[position] = word;
+      setCurrentOrder(newOrder);
+      
+      // 진행률 업데이트
+      updateProgress(newOrder);
+    } else {
+      const segment = gameData.shuffled[wordIndex];
+      
+      // 이미 배치된 문장 제거
+      const newOrder = [...currentOrder];
+      const prevPosition = newOrder.indexOf(segment.segment_text);
+      if (prevPosition !== -1) {
+        newOrder[prevPosition] = null;
+      }
+      
+      // 새 위치에 문장 배치
+      newOrder[position] = segment.segment_text;
+      setCurrentOrder(newOrder);
+      
+      // 진행률 업데이트
+      updateProgress(newOrder);
     }
-    
-    // 새 위치에 단어 배치
-    newOrder[position] = word;
-    setCurrentOrder(newOrder);
-    
-    // 진행률 업데이트
-    updateProgress(newOrder);
   };
 
   // 진행률 업데이트
   const updateProgress = (order) => {
-    const filled = order.filter(word => word !== null).length;
-    const total = gameData.words.length;
+    const filled = order.filter(item => item !== null).length;
     
-    if (filled === total) {
-      setFeedbackMessage('모든 단어를 배치했습니다! 순서를 확인해보세요.');
+    if (gameMode === 'word') {
+      const total = gameData.totalSegments || 0;
+      if (total === 0) return;
+      
+      if (filled === total) {
+        setFeedbackMessage('모든 단어를 배치했습니다! 순서를 확인해보세요.');
+      } else {
+        setFeedbackMessage(`${filled}/${total} 단어 배치됨`);
+      }
     } else {
-      setFeedbackMessage(`${filled}/${total} 단어 배치됨`);
+      const total = gameData.totalSegments || 0;
+      if (total === 0) return;
+      
+      if (filled === total) {
+        setFeedbackMessage('모든 문장을 배치했습니다! 순서를 확인해보세요.');
+      } else {
+        setFeedbackMessage(`${filled}/${total} 문장 배치됨`);
+      }
     }
   };
 
@@ -202,7 +355,19 @@ function StorySequence() {
     const newAttempts = attempts + 1;
     setAttempts(newAttempts);
     
-    if (JSON.stringify(currentOrder) === JSON.stringify(gameData.words)) {
+    let isCorrect = false;
+    
+    if (gameMode === 'word') {
+      // WORD_SEQUENCE: 원본 단어 순서와 비교
+      const correctOrder = gameData.words || [];
+      isCorrect = JSON.stringify(currentOrder) === JSON.stringify(correctOrder);
+    } else {
+      // SENTENCE_SEQUENCE: segments의 segment_text 순서와 비교
+      const correctOrder = gameData.segments?.map(seg => seg.segment_text) || [];
+      isCorrect = JSON.stringify(currentOrder) === JSON.stringify(correctOrder);
+    }
+    
+    if (isCorrect) {
       setFeedbackMessage('정답입니다! 🎉');
       setShowSuccessModal(true);
       if (timerInterval) {
@@ -237,16 +402,86 @@ function StorySequence() {
         return;
       }
 
-      const gameResult = {
-        game_type: 'word_sequence',
-        story_id: gameData.storyId || 1,
-        is_correct: isCorrect,
-        response_time: elapsedTime,
-        score: isCorrect ? Math.floor((gameData.words.length / elapsedTime) * 100) : 0,
-        user_id: parseInt(userId.replace('user', '')) || 1
-      };
+      // JWT 토큰 디버깅
+      console.log('JWT 토큰 확인:', authToken.substring(0, 20) + '...');
 
-      const response = await fetch(`${STORY_GAME_BASE_URL}/api/v0/game-results/submit-result`, {
+      // JWT 토큰에서 사용자 ID 추출
+      let actualUserId = 1; // 기본값
+      
+      try {
+        // JWT 토큰 디코딩
+        const tokenParts = authToken.split('.');
+        if (tokenParts.length === 3) {
+          const payload = JSON.parse(atob(tokenParts[1]));
+          console.log('JWT 페이로드:', payload);
+          
+          // JWT의 sub 필드에서 사용자 ID 추출
+          actualUserId = parseInt(payload.sub) || 1;
+          console.log('JWT에서 추출한 사용자 ID:', actualUserId);
+        } else {
+          console.warn('JWT 토큰 형식이 올바르지 않습니다.');
+        }
+      } catch (e) {
+        console.warn('JWT 디코딩 실패:', e);
+        
+        // localStorage에서 사용자 정보 확인
+        const userInfo = localStorage.getItem('userInfo');
+        if (userInfo) {
+          try {
+            const user = JSON.parse(userInfo);
+            actualUserId = parseInt(user.id) || 1;
+            console.log('localStorage에서 추출한 사용자 ID:', actualUserId);
+          } catch (parseError) {
+            console.warn('localStorage 사용자 정보 파싱 실패:', parseError);
+          }
+        }
+      }
+
+      // 게임 모드에 따른 데이터 준비
+      let gameResult;
+      
+      if (gameMode === 'word') {
+        // WORD_SEQUENCE: 단어 단위 데이터
+        gameResult = {
+          game_type: 'WORD_SEQUENCE',
+          story_id: parseInt(gameData.storyId) || 1,
+          is_correct: Boolean(isCorrect),
+          response_time: parseFloat(elapsedTime.toFixed(2)),
+          score: isCorrect ? Math.floor((gameData.words?.length || 0) / elapsedTime * 100) : 0,
+          user_id: parseInt(actualUserId) || 1
+        };
+      } else {
+        // SENTENCE_SEQUENCE: 문장 단위 데이터
+        gameResult = {
+          game_type: 'SENTENCE_SEQUENCE',
+          story_id: parseInt(gameData.storyId) || 1,
+          is_correct: Boolean(isCorrect),
+          response_time: parseFloat(elapsedTime.toFixed(2)),
+          score: isCorrect ? Math.floor((gameData.totalSegments || 0) / elapsedTime * 100) : 0,
+          user_id: parseInt(actualUserId) || 1
+        };
+      }
+
+      // 데이터 검증
+      if (!gameResult.story_id || gameResult.story_id < 1) {
+        console.warn('유효하지 않은 story_id:', gameResult.story_id);
+        gameResult.story_id = 1;
+      }
+      
+      if (!gameResult.response_time || gameResult.response_time <= 0) {
+        console.warn('유효하지 않은 response_time:', gameResult.response_time);
+        gameResult.response_time = 1.0;
+      }
+      
+      if (!gameResult.user_id || gameResult.user_id < 1) {
+        console.warn('유효하지 않은 user_id:', gameResult.user_id);
+        gameResult.user_id = 1;
+      }
+
+      console.log('게임 결과 저장 요청:', gameResult);
+
+      // 게임 결과 저장 (난이도 조절 포함)
+      const response = await fetch(`${import.meta.env.VITE_STORY_API_BASE_URL}/api/v0/difficulty/submit-result-with-difficulty`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -256,35 +491,49 @@ function StorySequence() {
       });
 
       if (!response.ok) {
-        throw new Error(`게임 결과 저장 실패: ${response.status}`);
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.detail || `게임 결과 저장 실패: ${response.status}`);
       }
 
       const result = await response.json();
       console.log('게임 결과 저장 성공:', result);
       
+      // 난이도 변화가 있다면 사용자에게 알림
+      if (result.difficulty_info && result.difficulty_info.difficulty_changed) {
+        console.log('난이도 변화:', result.difficulty_info.reason);
+        // 여기서 사용자에게 난이도 변화를 알릴 수 있습니다
+      }
+      
     } catch (error) {
       console.error('게임 결과 저장 중 오류:', error);
-      // 개발 환경에서는 에러를 무시하고 계속 진행
-      if (process.env.NODE_ENV !== 'development') {
-        throw error;
-      }
+      // 에러가 있어도 게임은 계속 진행
+      console.warn('게임 결과 저장에 실패했지만 게임은 계속됩니다.');
     }
   };
 
   // 힌트 보기
   const handleShowHint = () => {
-    const firstWord = gameData.words[0];
-    setFeedbackMessage(`첫 단어는: ${firstWord}`);
+    if (gameMode === 'word') {
+      const firstWord = gameData.words?.[0];
+      setFeedbackMessage(`첫 단어는: ${firstWord}`);
+    } else {
+      const firstSegment = gameData.segments?.[0];
+      setFeedbackMessage(`첫 문장은: ${firstSegment?.segment_text}`);
+    }
   };
 
   // 게임 재시작
   const handleResetGame = () => {
+    // 게임 초기화 상태 리셋
+    gameInitializedRef.current = false;
     initializeGame();
   };
 
   // 다시 하기
   const handlePlayAgain = () => {
     setShowSuccessModal(false);
+    // 게임 초기화 상태 리셋
+    gameInitializedRef.current = false;
     initializeGame();
   };
 
@@ -299,7 +548,7 @@ function StorySequence() {
       <div className="story-sequence-app">
         <ElderlyHeader 
           title="이야기 순서 맞추기" 
-          subtitle="단어를 올바른 순서로 배치해보세요"
+          subtitle={gameMode === 'word' ? "단어를 올바른 순서로 배치해보세요" : "문장을 올바른 순서로 배치해보세요"}
           onBackClick={handleGoHome}
         />
         <div className="story-sequence-main-container">
@@ -318,7 +567,7 @@ function StorySequence() {
       <div className="story-sequence-app">
         <ElderlyHeader 
           title="이야기 순서 맞추기" 
-          subtitle="단어를 올바른 순서로 배치해보세요"
+          subtitle={gameMode === 'word' ? "단어를 올바른 순서로 배치해보세요" : "문장을 올바른 순서로 배치해보세요"}
           onBackClick={handleGoHome}
         />
         <div className="story-sequence-main-container">
@@ -334,8 +583,22 @@ function StorySequence() {
   }
 
   // 게임 데이터가 없으면 초기화
-  if (!gameData) {
-    return null;
+  if (!gameData || (!gameData.words?.length && !gameData.segments?.length)) {
+    return (
+      <div className="story-sequence-app">
+        <ElderlyHeader 
+          title="이야기 순서 맞추기" 
+          subtitle="게임을 준비하고 있습니다..."
+          onBackClick={handleGoHome}
+        />
+        <div className="story-sequence-main-container">
+          <div className="story-sequence-loading">
+            <div className="loading-spinner"></div>
+            <p>게임 데이터를 불러오는 중...</p>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   const formatTime = (seconds) => {
@@ -344,13 +607,14 @@ function StorySequence() {
     return `${min}:${sec}`;
   };
 
-  const progressPercentage = (currentOrder.filter(word => word !== null).length / gameData.words.length) * 100;
+  const progressPercentage = (currentOrder.filter(item => item !== null).length / 
+    (gameMode === 'word' ? (gameData.totalSegments || 1) : (gameData.totalSegments || 1))) * 100;
 
   return (
     <div className="story-sequence-app">
       <ElderlyHeader 
         title="이야기 순서 맞추기" 
-        subtitle="단어를 올바른 순서로 배치해보세요"
+        subtitle={gameMode === 'word' ? "단어를 올바른 순서로 배치해보세요" : "문장을 올바른 순서로 배치해보세요"}
         onBackClick={handleGoHome}
       />
       
@@ -360,9 +624,10 @@ function StorySequence() {
             {/* 왼쪽 패널 - 전체 문장 */}
             <div className="story-sequence-panel story-sequence-panel--left">
               <div className="story-sequence-section">
-                <h3 className="story-sequence-section-title">전체 문장</h3>
+                <h3 className="story-sequence-section-title">전체 이야기</h3>
                 <div className="story-sequence-full-sentence">
-                  {gameData.segment}
+                  {gameMode === 'word' ? gameData.segment : 
+                    gameData.segments?.map(seg => seg.segment_text).join(' ')}
                 </div>
               </div>
             </div>
@@ -370,21 +635,23 @@ function StorySequence() {
             {/* 중앙 패널 - 게임 영역 */}
             <div className="story-sequence-panel story-sequence-panel--center">
               <div className="story-sequence-activity-area">
-                {/* 섞인 단어들 */}
+                {/* 섞인 요소들 */}
                 <div className="story-sequence-section">
-                  <h3 className="story-sequence-section-title">섞인 단어 조각들</h3>
+                  <h3 className="story-sequence-section-title">
+                    {gameMode === 'word' ? "섞인 단어 조각들" : "섞인 문장 조각들"}
+                  </h3>
                   <div className="story-sequence-word-fragments">
-                    {gameData.shuffled.map((word, index) => (
+                    {(gameMode === 'word' ? gameData.shuffled : gameData.shuffled)?.map((item, index) => (
                       <div
                         key={index}
                         className={`story-sequence-word-fragment ${
-                          currentOrder.includes(word) ? 'placed' : ''
+                          currentOrder.includes(gameMode === 'word' ? item : item.segment_text) ? 'placed' : ''
                         }`}
-                        draggable={!currentOrder.includes(word)}
+                        draggable={!currentOrder.includes(gameMode === 'word' ? item : item.segment_text)}
                         onDragStart={(e) => handleDragStart(e, index)}
                         onDragEnd={handleDragEnd}
                       >
-                        {word}
+                        {gameMode === 'word' ? item : item.segment_text}
                       </div>
                     ))}
                   </div>
@@ -394,7 +661,7 @@ function StorySequence() {
                 <div className="story-sequence-section">
                   <h3 className="story-sequence-section-title">올바른 순서</h3>
                   <div className="story-sequence-word-sequence">
-                    {Array.from({ length: gameData.words.length }, (_, index) => (
+                    {Array.from({ length: gameMode === 'word' ? gameData.totalSegments : gameData.totalSegments }, (_, index) => (
                       <div
                         key={index}
                         className={`story-sequence-drop-zone ${
@@ -406,9 +673,27 @@ function StorySequence() {
                       >
                         <span className="story-sequence-drop-zone-label">{index + 1}번</span>
                         {currentOrder[index] ? (
-                          <div className="story-sequence-placed-word">{currentOrder[index]}</div>
+                          <div className="story-sequence-placed-word">
+                            {(() => {
+                              const item = currentOrder[index];
+                              if (gameMode === 'word') {
+                                // WORD_SEQUENCE: 문자열만 표시
+                                return typeof item === 'string' ? item : '';
+                              } else {
+                                // SENTENCE_SEQUENCE: 문자열 또는 객체의 segment_text
+                                if (typeof item === 'string') {
+                                  return item;
+                                } else if (item && typeof item === 'object' && item.segment_text) {
+                                  return item.segment_text;
+                                }
+                                return '';
+                              }
+                            })()}
+                          </div>
                         ) : (
-                          <span className="story-sequence-drop-zone-text">여기에 단어를 놓으세요</span>
+                          <span className="story-sequence-drop-zone-text">
+                            {gameMode === 'word' ? "여기에 단어를 놓으세요" : "여기에 문장을 놓으세요"}
+                          </span>
                         )}
                       </div>
                     ))}
@@ -453,7 +738,8 @@ function StorySequence() {
                     ></div>
                   </div>
                   <p className="story-sequence-progress-text">
-                    {currentOrder.filter(word => word !== null).length}/{gameData.words.length} 단어 배치됨
+                    {currentOrder.filter(item => item !== null).length}/{gameMode === 'word' ? gameData.totalSegments : gameData.totalSegments} 
+                    {gameMode === 'word' ? '단어' : '문장'} 배치됨
                   </p>
                 </div>
 
@@ -485,7 +771,7 @@ function StorySequence() {
               <h2>축하합니다! 🎉</h2>
             </div>
             <div className="story-sequence-modal-body">
-              <p>단어 순서를 정확히 맞추셨습니다!</p>
+              <p>{gameMode === 'word' ? '단어 순서를 정확히 맞추셨습니다!' : '문장 순서를 정확히 맞추셨습니다!'}</p>
               <div className="story-sequence-completion-stats">
                 <p>소요 시간: <span>{formatTime(elapsedTime)}</span></p>
                 <p>시도 횟수: <span>{attempts}</span>회</p>

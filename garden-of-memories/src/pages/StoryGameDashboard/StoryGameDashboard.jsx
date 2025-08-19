@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiLogOut, FiEye, FiEdit, FiTrash2, FiPlay } from 'react-icons/fi';
-import { logoutUser, getCurrentUser } from '../../services/api';
+import { logoutUser, createStory, getStories, updateStory, deleteStory, getCurrentUser } from '../../services/api';
 import FamilyHeader from '../../components/FamilyHeader';
 import './StoryGameDashboard.css';
 
@@ -20,13 +20,6 @@ const StoryGameDashboard = () => {
   const [registeredStories, setRegisteredStories] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [editingStoryId, setEditingStoryId] = useState(null);
-  const [editFormData, setEditFormData] = useState({
-    title: '',
-    content: '',
-    image_url: '',
-    category: '' // UI용으로만 유지
-  });
 
   // 카테고리 옵션
   const categories = [
@@ -37,103 +30,19 @@ const StoryGameDashboard = () => {
     { value: 'memory', label: '추억' }
   ];
 
-  // API 함수들
-  
-  // 이야기 목록 조회
-  const fetchStories = async () => {
-    try {
-      setIsLoading(true);
-      setError(null);
-      
-      const authToken = localStorage.getItem('authToken');
-      if (!authToken) {
-        throw new Error('로그인 토큰이 없습니다. 다시 로그인해주세요.');
-      }
-
-      // 현재 사용자 정보 가져오기
-      const currentUser = getCurrentUser();
-      const userRole = currentUser?.role || 'guardian';
-      
-      console.log('사용자 정보:', currentUser);
-      console.log('사용자 역할:', userRole);
-      console.log('API 요청 시작...');
-      
-      const response = await fetch(`${STORY_API_BASE_URL}/api/v0/stories/`, {        
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${authToken}`,
-          'X-User-Role': userRole // 커스텀 헤더로 사용자 역할 전달
-        }
-      });
-      
-      console.log('API 응답 상태:', response.status, response.statusText);
-      console.log('요청 헤더에 포함된 역할:', userRole);
-      
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.log('에러 응답 내용:', errorText);
-        
-        // 404 에러인 경우 User Service 문제일 가능성이 높으므로 빈 배열로 처리
-        if (response.status === 404) {
-          console.warn('404 에러 - 빈 이야기 목록으로 처리');
-          setRegisteredStories([]);
-          return;
-        }
-        
-        throw new Error(`이야기 목록을 불러오는데 실패했습니다: ${response.status} - ${errorText}`);
-      }
-      
-      const data = await response.json();
-      console.log('이야기 목록 API 응답:', data);
-      
-      // API 응답 구조에 맞게 데이터 매핑
-      const stories = data.results || data || [];
-      setRegisteredStories(stories.map(story => ({
-        id: story.id,
-        title: story.title,
-        content: story.content,
-        image_url: story.image_url || '',
-        category: story.category || '일반', // UI 표시용
-        status: story.status || 'draft',
-        date: story.created_at ? story.created_at.split('T')[0] : new Date().toISOString().split('T')[0]
-      })));
-      
-    } catch (err) {
-      console.error('이야기 목록 조회 실패:', err);
-      setError(err.message);
-      
-      // 개발 환경에서는 임시 데이터 사용
-      if (process.env.NODE_ENV === 'development') {
-        console.warn('API 호출 실패, 임시 데이터 사용');
-        setRegisteredStories([
-          {
-            id: 1,
-            title: '할머니와의 첫 만남',
-            content: '할머니를 처음 만났을 때의 이야기입니다. 그때 할머니는 따뜻한 미소로 저를 맞아주셨어요.',
-            image_url: '',
-            category: '가족',
-            status: 'published',
-            date: '2024-01-15'
-          },
-          {
-            id: 2,
-            title: '생일 파티 추억',
-            content: '할머니의 80번째 생일 파티를 준비했던 날의 이야기입니다. 온 가족이 모여서 축하해드렸어요.',
-            image_url: '',
-            category: '기념일',
-            status: 'draft',
-            date: '2024-01-10'
-          }
-        ]);
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  // 컴포넌트 마운트 시 이야기 목록 로드
   useEffect(() => {
+    const fetchStories = async () => {
+      setIsLoading(true);
+      try {
+        const stories = await getStories();
+        setRegisteredStories(stories);
+      } catch (err) {
+        setError(err);
+        console.error('Error fetching stories:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
     fetchStories();
   }, []);
 
@@ -145,281 +54,71 @@ const StoryGameDashboard = () => {
     }));
   };
 
-  // 인라인 편집을 위한 함수들
-  const handleEditInputChange = (e) => {
-    const { name, value } = e.target;
-    setEditFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  const startEditing = (story) => {
-    setEditingStoryId(story.id);
-    setEditFormData({
-      title: story.title,
-      content: story.content,
-      image_url: story.image_url || '',
-      category: story.category
-    });
-  };
-
-  const cancelEditing = () => {
-    setEditingStoryId(null);
-    setEditFormData({
-      title: '',
-      content: '',
-      image_url: '',
-      category: ''
-    });
-  };
-
-  const saveEdit = async (storyId) => {
-    try {
-      // API 스펙에 맞는 데이터만 전송
-      const apiData = {
-        title: editFormData.title.trim(),
-        content: editFormData.content.trim()
-      };
-      
-      // image_url이 있으면 추가
-      if (editFormData.image_url && editFormData.image_url.trim()) {
-        apiData.image_url = editFormData.image_url.trim();
-      }
-      
-      await updateStory(storyId, apiData);
-      setEditingStoryId(null);
-      setEditFormData({
-        title: '',
-        content: '',
-        image_url: '',
-        category: ''
-      });
-      alert('이야기가 수정되었습니다.');
-    } catch (err) {
-      alert(`이야기 수정에 실패했습니다: ${err.message}`);
-    }
-  };
-
-  // 이야기 등록
-  const createStory = async (storyData) => {
-    try {
-      setIsLoading(true);
-      
-      const authToken = localStorage.getItem('authToken');
-      if (!authToken) {
-        throw new Error('로그인 토큰이 없습니다. 다시 로그인해주세요.');
-      }
-
-      // 현재 사용자 정보 가져오기
-      const currentUser = getCurrentUser();
-      const userRole = currentUser?.role || 'guardian';
-      
-      // API 스펙에 맞는 데이터만 전송
-      const apiData = {
-        title: storyData.title,
-        content: storyData.content
-      };
-      
-      // image_url이 있으면 추가
-      if (storyData.image_url && storyData.image_url.trim()) {
-        apiData.image_url = storyData.image_url.trim();
-      }
-
-      console.log('이야기 등록 시도 - 전송 데이터:', apiData);
-      console.log('사용자 역할:', userRole);
-      console.log('JWT Token:', authToken.substring(0, 20) + '...');
-      
-      const response = await fetch(`${STORY_API_BASE_URL}/api/v0/stories/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${authToken}`,
-          'X-User-Role': userRole // 커스텀 헤더로 사용자 역할 전달
-        },
-        body: JSON.stringify(apiData)
-      });
-      
-      console.log('이야기 등록 응답 상태:', response.status, response.statusText);
-      
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.log('이야기 등록 에러 응답:', errorText);
-        throw new Error(`이야기 등록에 실패했습니다: ${response.status} - ${errorText}`);
-      }
-      
-      const result = await response.json();
-      console.log('이야기 등록 성공:', result);
-      
-      // 목록 새로고침
-      await fetchStories();
-      
-      return result;
-      
-    } catch (err) {
-      console.error('이야기 등록 실패:', err);
-      throw err;
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    setIsLoading(true);
     try {
       await createStory(formData);
-      
+      alert('이야기가 등록되었습니다!');
+      // 등록 후 다시 데이터 로드
+      const stories = await getStories();
+      setRegisteredStories(stories);
       // 폼 초기화
       setFormData({
         title: '',
-        content: '',
-        image_url: '',
-        category: ''
+        category: '',
+        content: ''
       });
-      
-      alert('이야기가 등록되었습니다!');
-      
     } catch (err) {
-      alert(`이야기 등록에 실패했습니다: ${err.message}`);
-    }
-  };
-
-  // 이야기 수정
-  const updateStory = async (storyId, updateData) => {
-    try {
-      setIsLoading(true);
-      
-      const authToken = localStorage.getItem('authToken');
-      if (!authToken) {
-        throw new Error('로그인 토큰이 없습니다. 다시 로그인해주세요.');
-      }
-
-      // 현재 사용자 정보 가져오기
-      const currentUser = getCurrentUser();
-      const userRole = currentUser?.role || 'guardian';
-      
-      const response = await fetch(`${STORY_API_BASE_URL}/api/v0/stories/${storyId}/`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${authToken}`,
-          'X-User-Role': userRole // 커스텀 헤더로 사용자 역할 전달
-        },
-        body: JSON.stringify(updateData)
-      });
-      
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.log('이야기 수정 에러 응답:', errorText);
-        throw new Error(`이야기 수정에 실패했습니다: ${response.status} - ${errorText}`);
-      }
-      
-      const result = await response.json();
-      console.log('이야기 수정 성공:', result);
-      
-      // 목록 새로고침
-      await fetchStories();
-      
-      return result;
-      
-    } catch (err) {
-      console.error('이야기 수정 실패:', err);
-      throw err;
+      setError(err);
+      alert('이야기 등록 중 오류가 발생했습니다.');
+      console.error('Error creating story:', err);
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  // 이야기 삭제
-  const deleteStory = async (storyId) => {
-    try {
-      setIsLoading(true);
-      
-      const authToken = localStorage.getItem('authToken');
-      if (!authToken) {
-        throw new Error('로그인 토큰이 없습니다. 다시 로그인해주세요.');
-      }
-
-      // 현재 사용자 정보 가져오기
-      const currentUser = getCurrentUser();
-      const userRole = currentUser?.role || 'guardian';
-      
-      const response = await fetch(`${STORY_API_BASE_URL}/api/v0/stories/${storyId}/`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${authToken}`,
-          'X-User-Role': userRole // 커스텀 헤더로 사용자 역할 전달
-        }
-      });
-      
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.log('이야기 삭제 에러 응답:', errorText);
-        throw new Error(`이야기 삭제에 실패했습니다: ${response.status} - ${errorText}`);
-      }
-      
-      console.log('이야기 삭제 성공');
-      
-      // 목록 새로고침
-      await fetchStories();
-      
-    } catch (err) {
-      console.error('이야기 삭제 실패:', err);
-      throw err;
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  // 이야기 상태 변경 (API에서 지원하지 않을 수 있으므로 주석 처리)
-  const updateStoryStatus = async (storyId, status) => {
-    try {
-      // 상태 변경은 API 스펙에 없으므로 일단 기본 업데이트로 처리
-      console.warn('상태 변경 기능은 현재 API에서 지원하지 않습니다.');
-      alert('상태 변경 기능은 준비 중입니다.');
-    } catch (err) {
-      throw err;
     }
   };
 
   const handleStoryAction = async (storyId, action) => {
     console.log(`이야기 ${action}:`, storyId);
     
+    setIsLoading(true);
+
     try {
       switch (action) {
         case 'preview':
           setSelectedStory(registeredStories.find(story => story.id === storyId));
           break;
         case 'edit':
-          // 인라인 편집 모드로 전환
-          const storyToEdit = registeredStories.find(story => story.id === storyId);
-          if (storyToEdit) {
-            startEditing(storyToEdit);
-          }
+          // TODO: 이야기 수정 모달 또는 페이지로 이동
+          alert('이야기 수정 기능은 준비 중입니다.');
           break;
         case 'publish':
-          await updateStoryStatus(storyId, 'published');
+          await updateStory(storyId, { status: 'published' });
+          alert('이야기가 게시되었습니다.');
           break;
         case 'private':
-          await updateStoryStatus(storyId, 'private');
+          await updateStory(storyId, { status: 'private' });
+          alert('이야기가 비공개로 설정되었습니다.');
           break;
         case 'delete':
           if (window.confirm('정말로 이 이야기를 삭제하시겠습니까?')) {
             await deleteStory(storyId);
             alert('이야기가 삭제되었습니다.');
-            // 선택된 이야기가 삭제된 경우 선택 해제
-            if (selectedStory && selectedStory.id === storyId) {
-              setSelectedStory(null);
-            }
+            // 삭제 후 다시 데이터 로드
+            const stories = await getStories();
+            setRegisteredStories(stories);
           }
           break;
         default:
           break;
       }
     } catch (err) {
-      alert(`작업 실행에 실패했습니다: ${err.message}`);
+      setError(err);
+      alert('이야기 작업 중 오류가 발생했습니다.');
+      console.error('Error performing story action:', err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -453,10 +152,25 @@ const StoryGameDashboard = () => {
     navigate('/card-game-dashboard');
   };
 
-  const handleLogout = () => {
-    logoutUser();
-    navigate('/');
+  const handleLogout = async () => {
+    if (window.confirm('로그아웃하시겠습니까?')) {
+      try {
+        await logoutUser();
+        navigate('/login');
+      } catch (error) {
+        console.error('로그아웃 중 오류:', error);
+        navigate('/login');
+      }
+    }
   };
+
+  if (isLoading) {
+    return <div className="loading-spinner">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="error-message">Error: {error.message}</div>;
+  }
 
   return (
     <div className="story-registration-page">

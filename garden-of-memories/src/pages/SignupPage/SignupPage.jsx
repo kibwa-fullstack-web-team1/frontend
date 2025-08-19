@@ -45,56 +45,64 @@ function SignupPage() {
       return;
     }
 
-    if (formData.password.length < 6) {
-      setError('비밀번호는 최소 6자 이상이어야 합니다.');
+    // 백엔드 비밀번호 정책과 일치하도록 수정
+    if (formData.password.length < 8) {
+      setError('비밀번호는 최소 8자 이상이어야 합니다.');
+      return;
+    }
+    
+    if (!/(?=.*[a-z])/.test(formData.password)) {
+      setError('비밀번호는 소문자를 포함해야 합니다.');
+      return;
+    }
+    
+    if (!/(?=.*[A-Z])/.test(formData.password)) {
+      setError('비밀번호는 대문자를 포함해야 합니다.');
+      return;
+    }
+    
+    if (!/(?=.*\d)/.test(formData.password)) {
+      setError('비밀번호는 숫자를 포함해야 합니다.');
       return;
     }
 
+    // 전화번호 형식 검증 (한국 전화번호)
+    const phonePattern = /^01[0-9]-\d{3,4}-\d{4}$/;
+    if (!phonePattern.test(formData.phone)) {
+      setError('전화번호 형식이 올바르지 않습니다. (예: 010-1234-5678)');
+      return;
+    }
 
+    if (!formData.agreeToTerms) {
+      setError('이용약관에 동의해주세요.');
+      return;
+    }
 
     setIsLoading(true);
     setError('');
 
     try {
-      // TODO: 실제 백엔드 API와 연결 시 signupUser 함수 호출
-      // const response = await signupUser(
-      //   formData.email,
-      //   formData.password,
-      //   formData.nickname,
-      //   formData.phone,
-      //   formData.role
-      // );
+      // 실제 백엔드 API 호출
+      const response = await signupUser(
+        formData.email,
+        formData.password,
+        formData.nickname,
+        formData.phone,
+        formData.role
+      );
       
-      // 임시 회원가입 로직 (백엔드 API 연결 전까지 사용)
-      console.log('임시 회원가입 데이터:', {
-        email: formData.email,
-        password: formData.password,
-        nickname: formData.nickname,
-        phone: formData.phone,
-        role: formData.role
-      });
+      console.log('회원가입 성공:', response);
       
-      // 임시 지연 (API 호출 시뮬레이션)
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // 임시 성공 응답 (실제로는 백엔드에서 받아올 데이터)
-      const response = {
-        success: true,
-        message: '회원가입이 완료되었습니다.',
-        user: {
-          id: 'temp_' + Date.now(),
-          email: formData.email,
-          nickname: formData.nickname,
-          role: formData.role
-        }
-      };
-      
-      console.log('임시 회원가입 성공:', response);
-      alert('회원가입이 완료되었습니다! 로그인 페이지로 이동합니다.');
-      navigate('/login');
+      if (response.access_token) {
+        // 회원가입 성공 시 자동 로그인 처리
+        alert('회원가입이 완료되었습니다! 메인 페이지로 이동합니다.');
+        navigate('/home'); // 또는 대시보드 페이지
+      } else {
+        throw new Error('토큰 정보를 받지 못했습니다.');
+      }
     } catch (err) {
       console.error('회원가입 오류:', err);
-      setError('회원가입에 실패했습니다. 다시 시도해주세요.');
+      setError(err.message || '회원가입에 실패했습니다. 다시 시도해주세요.');
     } finally {
       setIsLoading(false);
     }
@@ -166,7 +174,7 @@ function SignupPage() {
                   value={formData.phone} 
                   onChange={handleInputChange} 
                   className="signup-form-input" 
-                  placeholder="전화번호를 입력하세요" 
+                  placeholder="010-1234-5678" 
                   required 
                 />
               </div>
@@ -235,12 +243,12 @@ function SignupPage() {
                     <input
                       type="radio"
                       name="role"
-                      value="family"
-                      checked={formData.role === 'family'}
+                      value="guardian"
+                      checked={formData.role === 'guardian'}
                       onChange={handleInputChange}
                       className="signup-role-radio"
                     />
-                    <span className="signup-role-text">가족</span>
+                    <span className="signup-role-text">보호자</span>
                   </label>
                 </div>
               </div>

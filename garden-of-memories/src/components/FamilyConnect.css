@@ -1,0 +1,293 @@
+.family-connect {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.connect-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.connect-header h3 {
+  color: #333;
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.connect-header p {
+  color: #666;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.connect-form {
+  margin-bottom: 2rem;
+}
+
+.input-group {
+  margin-bottom: 1.5rem;
+}
+
+.input-group label {
+  display: block;
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.code-input-container {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.code-input-container input {
+  flex: 1;
+  padding: 1rem;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: 1px;
+  font-family: 'Courier New', monospace;
+  transition: all 0.3s ease;
+}
+
+.code-input-container input:focus {
+  outline: none;
+  border-color: #ffd54f;
+  box-shadow: 0 0 0 3px rgba(255, 213, 79, 0.1);
+}
+
+.code-input-container input.error {
+  border-color: #e74c3c;
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+}
+
+.code-input-container input::placeholder {
+  color: #adb5bd;
+  font-weight: 400;
+}
+
+.connect-btn {
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  color: white;
+  border: none;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+  white-space: nowrap;
+}
+
+.connect-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.6);
+}
+
+.connect-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.error-message {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #fee;
+  border: 1px solid #fcc;
+  border-radius: 5px;
+  color: #c33;
+}
+
+.error-message p {
+  margin: 0 0 10px 0;
+  font-weight: 500;
+}
+
+.reset-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.reset-btn:hover {
+  background-color: #0056b3;
+}
+
+.help-text {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.help-text p {
+  color: #666;
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.help-text p:first-child {
+  margin-top: 0;
+}
+
+.help-text p:last-child {
+  margin-bottom: 0;
+}
+
+.connection-result {
+  text-align: center;
+  padding: 2rem;
+  border-radius: 12px;
+  margin-top: 1.5rem;
+}
+
+.connection-result.success {
+  background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+  border: 2px solid #28a745;
+}
+
+.result-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.connection-result h4 {
+  color: #155724;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.senior-name {
+  color: #155724;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.result-message {
+  color: #155724;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 2rem;
+}
+
+.result-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.continue-btn, .new-connection-btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  min-width: 140px;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.continue-btn.primary {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+}
+
+.continue-btn.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.6);
+}
+
+.new-connection-btn.secondary {
+  background: white;
+  color: #6c757d;
+  border: 2px solid #6c757d;
+}
+
+.new-connection-btn.secondary:hover {
+  background: #6c757d;
+  color: white;
+  transform: translateY(-1px);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .family-connect {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+  
+  .code-input-container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .code-input-container input {
+    width: 100%;
+    font-size: 1rem;
+  }
+  
+  .connect-btn {
+    width: 100%;
+    padding: 1rem;
+  }
+  
+  .result-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .continue-btn, .new-connection-btn {
+    width: 100%;
+    max-width: 200px;
+  }
+}
+
+/* 애니메이션 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.connection-result {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* 포커스 스타일 */
+.code-input-container input:focus {
+  transform: scale(1.02);
+}
+
+/* 호버 효과 */
+.help-text:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}

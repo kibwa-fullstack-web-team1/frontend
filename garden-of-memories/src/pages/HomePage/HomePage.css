@@ -521,3 +521,400 @@
     min-height: 260px;
   }
 }
+
+/* 가족 연결 안내 */
+.home-family-connect-info {
+  margin-top: 20px;
+  text-align: center;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.home-family-connect-text {
+  color: #6f6048;
+  font-size: 16px;
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
+.home-family-connect-btn {
+  background: linear-gradient(135deg, #6f6048 0%, #8B5A00 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(111, 96, 72, 0.3);
+}
+
+.home-family-connect-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(111, 96, 72, 0.4);
+}
+
+/* 시니어용 가족 초대 안내 */
+.home-family-invite-info {
+  margin-top: 20px;
+  text-align: center;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.home-family-invite-text {
+  color: #6f6048;
+  font-size: 16px;
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
+.home-family-invite-btn {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
+
+.home-family-invite-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+}
+
+/* 가족 연결 모달 */
+.home-family-connect-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.home-family-connect-modal-content {
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.home-family-connect-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.home-family-connect-modal-header h3 {
+  color: #6f6048;
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.home-family-connect-modal-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #999;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.home-family-connect-modal-close:hover {
+  background: #f0f0f0;
+  color: #666;
+}
+
+.home-family-connect-modal-body {
+  margin-bottom: 25px;
+}
+
+.home-family-connect-step {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 25px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 15px;
+  border-left: 4px solid #6f6048;
+}
+
+.home-family-connect-step-number {
+  background: linear-gradient(135deg, #6f6048 0%, #8B5A00 100%);
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  margin-right: 20px;
+  flex-shrink: 0;
+}
+
+.home-family-connect-step-content h4 {
+  color: #6f6048;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+}
+
+.home-family-connect-step-content p {
+  color: #666;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.home-family-connect-modal-footer {
+  text-align: center;
+  padding-top: 20px;
+  border-top: 2px solid #f0f0f0;
+}
+
+.home-family-connect-modal-btn {
+  background: linear-gradient(135deg, #6f6048 0%, #8B5A00 100%);
+  color: white;
+  border: none;
+  padding: 15px 40px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(111, 96, 72, 0.3);
+}
+
+.home-family-connect-modal-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(111, 96, 72, 0.4);
+}
+
+/* 가족 초대 모달 */
+.home-family-invite-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.home-family-invite-modal-content {
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  max-width: 600px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+.home-family-invite-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.home-family-invite-modal-header h3 {
+  color: #6f6048;
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.home-family-invite-modal-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #999;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.home-family-invite-modal-close:hover {
+  background: #f0f0f0;
+  color: #666;
+}
+
+.home-family-invite-modal-body {
+  margin-bottom: 25px;
+}
+
+.home-family-invite-code-section {
+  text-align: center;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 15px;
+  border: 2px solid #28a745;
+}
+
+.home-family-invite-code-section h4 {
+  color: #28a745;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 10px 0;
+}
+
+.home-family-invite-code-section p {
+  color: #666;
+  font-size: 16px;
+  margin: 0 0 20px 0;
+  line-height: 1.5;
+}
+
+.home-family-invite-generate-code-btn {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+  margin-bottom: 20px;
+}
+
+.home-family-invite-generate-code-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+}
+
+.home-family-invite-generate-code-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.home-family-invite-code-details {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #e9ecef;
+  margin-top: 20px;
+}
+
+.home-family-invite-code-details p {
+  margin: 8px 0;
+  font-size: 14px;
+}
+
+.home-family-invite-code-details strong {
+  color: #28a745;
+  font-weight: 600;
+}
+
+.home-family-invite-copy-code-btn,
+.home-family-invite-share-code-btn {
+  background: #6f6048;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 5px;
+}
+
+.home-family-invite-copy-code-btn:hover,
+.home-family-invite-share-code-btn:hover {
+  background: #8B5A00;
+  transform: translateY(-1px);
+}
+
+.home-family-invite-modal-footer {
+  text-align: center;
+  padding-top: 20px;
+  border-top: 2px solid #f0f0f0;
+}
+
+.home-family-invite-modal-btn {
+  background: #6f6048;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.home-family-invite-modal-btn:hover {
+  background: #8B5A00;
+}
+
+/* 로그인 필요 안내 */
+.home-login-required-info {
+  margin-top: 20px;
+  text-align: center;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.home-login-required-text {
+  color: #6f6048;
+  font-size: 16px;
+  margin: 0;
+  font-weight: 500;
+  opacity: 0.8;
+}

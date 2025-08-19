@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FiEye, FiEyeOff, FiArrowRight, FiInstagram, FiTwitter, FiFacebook } from 'react-icons/fi';
+import { FiEye, FiEyeOff, FiArrowRight, FiInstagram, FiTwitter, FiFacebook, FiX } from 'react-icons/fi';
 import { PiFlowerLotusLight } from 'react-icons/pi';
 import { loginUser, fetchUserInfo } from '../../services/api';
 import RegisterHeader from '../../components/RegisterHeader';
@@ -16,6 +16,7 @@ function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -46,48 +47,54 @@ function LoginPage() {
       }
 
       console.log('로그인 성공:', response);
-      console.log('전체 응답 데이터:', JSON.stringify(response, null, 2));
       
-      // 로그인 성공 후 사용자 정보 가져오기
-      let userData;
-      try {
-        userData = await fetchUserInfo();
-        console.log('사용자 정보 가져오기 성공:', userData);
-      } catch (userInfoError) {
-        console.warn('사용자 정보 가져오기 실패, 기본 정보 사용:', userInfoError);
-        // 사용자 정보를 가져올 수 없는 경우 기본 정보 사용
-        userData = { role: 'senior' }; // 기본값으로 어르신 역할 설정
-      }
+      // 백엔드에서 받은 사용자 역할 사용
+      const userRole = response.user_role || 'senior';
+      console.log('사용자 역할:', userRole);
 
-      // 사용자 역할 확인 (배열 형태 응답 처리)
-      let role = null;
-      if (Array.isArray(userData) && userData.length > 0) {
-        role = userData[0].role;
-      } else if (userData && userData.role) {
-        role = userData.role;
-      }
+      // 역할에 따른 안내 메시지
+      const roleMessage = userRole === 'senior' ? '어르신' : '보호자';
+      console.log(`${roleMessage}으로 로그인되었습니다.`);
+      
+      // 성공 메시지 표시
+      setSuccessMessage(`${roleMessage}으로 로그인되었습니다! 잠시 후 이동합니다...`);
 
-      console.log('확인된 사용자 역할:', role);
-
-      // 역할 → 페이지 매핑
+      // 역할 → 페이지 매핑 (백엔드와 일치)
       const ROLE_ROUTE = {
         senior: '/game-select',
-        family: '/game-select-dashboard',
-        guardian: '/game-select-dashboard', // 혼용 대응
+        guardian: '/game-select-dashboard',
       };
 
-      const nextPath = role && ROLE_ROUTE[role] ? ROLE_ROUTE[role] : '/game-select';
+      const nextPath = ROLE_ROUTE[userRole] || '/game-select';
+      console.log('이동할 페이지:', nextPath);
 
-      console.log('결정된 nextPath:', nextPath, '(role:', role, ')');
-      console.log('ROLE_ROUTE[role]:', role ? ROLE_ROUTE[role] : 'undefined');
-      navigate(nextPath);
+      // 잠시 성공 메시지 표시 후 페이지 이동
+      setError(''); // 에러 메시지 제거
+      setTimeout(() => {
+        navigate(nextPath);
+      }, 1500);
 
-   } catch (err) {
-     console.error('로그인 오류:', err);
-     setError(err.message || '로그인에 실패했습니다. 다시 시도해주세요.');
-   } finally {
-     setIsLoading(false);
-   }
+    } catch (err) {
+      console.error('로그인 오류:', err);
+      
+      // 백엔드에서 받은 구체적인 에러 메시지 사용
+      let errorMessage = '로그인에 실패했습니다. 다시 시도해주세요.';
+      
+      if (err.message) {
+        // 백엔드 에러 메시지가 있으면 사용
+        if (err.message.includes('이메일 또는 비밀번호')) {
+          errorMessage = '이메일 또는 비밀번호가 올바르지 않습니다.';
+        } else if (err.message.includes('시간이 초과')) {
+          errorMessage = '요청 시간이 초과되었습니다. 네트워크를 확인해주세요.';
+        } else {
+          errorMessage = err.message;
+        }
+      }
+      
+      setError(errorMessage);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleSignUp = () => {
@@ -184,6 +191,12 @@ function LoginPage() {
               {error && (
                 <div className="login-error-message">
                   {error}
+                </div>
+              )}
+
+              {successMessage && (
+                <div className="login-success-message">
+                  {successMessage}
                 </div>
               )}
 
