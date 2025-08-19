@@ -55,40 +55,15 @@ function SignupPage() {
     setError('');
 
     try {
-      // TODO: 실제 백엔드 API와 연결 시 signupUser 함수 호출
-      // const response = await signupUser(
-      //   formData.email,
-      //   formData.password,
-      //   formData.nickname,
-      //   formData.phone,
-      //   formData.role
-      // );
+      const response = await signupUser(
+        formData.email,
+        formData.password,
+        formData.nickname,
+        formData.phone,
+        formData.role
+      );
       
-      // 임시 회원가입 로직 (백엔드 API 연결 전까지 사용)
-      console.log('임시 회원가입 데이터:', {
-        email: formData.email,
-        password: formData.password,
-        nickname: formData.nickname,
-        phone: formData.phone,
-        role: formData.role
-      });
-      
-      // 임시 지연 (API 호출 시뮬레이션)
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // 임시 성공 응답 (실제로는 백엔드에서 받아올 데이터)
-      const response = {
-        success: true,
-        message: '회원가입이 완료되었습니다.',
-        user: {
-          id: 'temp_' + Date.now(),
-          email: formData.email,
-          nickname: formData.nickname,
-          role: formData.role
-        }
-      };
-      
-      console.log('임시 회원가입 성공:', response);
+      console.log('회원가입 성공:', response);
       alert('회원가입이 완료되었습니다! 로그인 페이지로 이동합니다.');
       navigate('/login');
     } catch (err) {

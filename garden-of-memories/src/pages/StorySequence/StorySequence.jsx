@@ -5,7 +5,7 @@ import ElderlyHeader from '../../components/ElderlyHeader';
 import './StorySequence.css';
 
 // API 기본 URL 변수
-const STORY_GAME_BASE_URL = 'http://13.251.163.144:8011';
+const STORY_GAME_BASE_URL = import.meta.env.VITE_STORY_SEQUENCER_API_BASE_URL;
 
 function StorySequence() {
   const navigate = useNavigate();
