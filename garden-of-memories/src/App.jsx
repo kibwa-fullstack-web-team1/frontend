@@ -11,6 +11,7 @@ import GameSelectDashboard from './pages/GameSelectDashboard/GameSelectDashboard
 import StoryGameDashboard from './pages/StoryGameDashboard/StoryGameDashboard';
 import GardenPage from './pages/GardenPage/GardenPage';
 import DailyQuestionPage from './pages/DailyQuestionPage/DailyQuestionPage';
+import DailyQuestionDashboard from './pages/DailyQuestionDashboard/DailyQuestionDashboard';
 import StorySequence from './pages/StorySequence/StorySequence';
 import HomePage from './pages/HomePage/HomePage';
 import NotificationPage from './pages/NotificationPage/NotificationPage';
@@ -34,6 +35,7 @@ function App() {
         <Route path="/game-select" element={<GameSelectPage />} />
         <Route path="/game-select-dashboard" element={<GameSelectDashboard />} />
         <Route path="/daily-question" element={<DailyQuestionPage />} />
+        <Route path="/daily-question-dashboard" element={<DailyQuestionDashboard />} />
         <Route path="/card-game-dashboard" element={<CardGameDashboard />} />
         <Route path="/story-game-dashboard" element={<StoryGameDashboard />} />
         <Route path="/garden" element={<GardenPage />} />
