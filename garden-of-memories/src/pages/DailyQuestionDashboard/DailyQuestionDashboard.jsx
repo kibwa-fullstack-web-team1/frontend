@@ -1,12 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import FamilyHeader from '../../components/FamilyHeader';
 import './DailyQuestionDashboard.css';
 
 const DailyQuestionDashboard = () => {
   const [selectedDate, setSelectedDate] = useState('2024-01-15');
   const [searchQuery, setSearchQuery] = useState('');
+  const [dailyQuestions, setDailyQuestions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-  // 샘플 데이터
-  const dailyQuestions = [
+  // 샘플 데이터 (fallback용)
+  const sampleDailyQuestions = [
     {
       id: 1,
       title: '오늘 하루 이야기',
@@ -45,6 +51,52 @@ const DailyQuestionDashboard = () => {
     }
   ];
 
+  // API 호출 함수
+  useEffect(() => {
+    const fetchDailyQuestions = async () => {
+      try {
+        setLoading(true);
+        // API 엔드포인트 - WeeklyReportPage와 유사한 구조
+        const response = await fetch('/notifications-api/notifications/daily-questions');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setDailyQuestions(data);
+      } catch (error) {
+        setError(error);
+        console.error("Failed to fetch daily questions:", error);
+        // 에러 발생 시 샘플 데이터 사용
+        setDailyQuestions(sampleDailyQuestions);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDailyQuestions();
+  }, []);
+
+  // 점수 분류 함수 (WeeklyReportPage에서 가져옴)
+  const getScoreCategory = (score) => {
+    if (score >= 80) {
+      return { category: '좋음', color: '#22C55E' };
+    } else if (score >= 50) {
+      return { category: '보통', color: '#F59E0B' };
+    } else {
+      return { category: '개선 필요', color: '#EF4444' };
+    }
+  };
+
+  // 질문 클릭 핸들러
+  const handleQuestionClick = (questionId) => {
+    navigate(`/daily-questions/${questionId}`);
+  };
+
+  // 뒤로 가기 핸들러
+  const handleBackToHome = () => {
+    navigate('/');
+  };
+
   const dates = [
     { date: '2024-01-15', label: '2024년 1월 15일', active: true },
     { date: '2024-01-14', label: '2024년 1월 14일', active: false },
@@ -64,30 +116,59 @@ const DailyQuestionDashboard = () => {
     return status === 'active' ? '#22C55E' : '#F59E0B';
   };
 
-  return (
-    <div className="dq-app">
-      {/* 헤더 */}
-      <header className="dq-header">
-        <div className="dq-logo">
-          <div className="dq-logo-icon">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M10 2L12.09 8.26L20 9L12.09 9.74L10 16L7.91 9.74L0 9L7.91 8.26L10 2Z" fill="#171412"/>
+  // 검색 필터링 함수
+  const filteredQuestions = dailyQuestions.filter(question => {
+    const searchLower = searchQuery.toLowerCase();
+    return (
+      question.title?.toLowerCase().includes(searchLower) ||
+      question.preview?.toLowerCase().includes(searchLower) ||
+      question.keywords?.some(keyword => keyword.toLowerCase().includes(searchLower))
+    );
+  });
+
+  // 로딩 상태
+  if (loading) {
+    return (
+      <div className="dq-app">
+        <div className="dq-loading-container">
+          <div className="dq-loading-spinner">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+              <path d="M20 2L22.09 8.26L30 9L22.09 9.74L20 16L17.91 9.74L10 9L17.91 8.26L20 2Z" fill="#171412"/>
             </svg>
           </div>
-          <div className="dq-brand">
-            <h1 className="dq-brand-title">기억의 정원</h1>
-            <p className="dq-brand-subtitle">보호자 대시보드</p>
-          </div>
+          <p className="dq-loading-text">일일 질문 데이터를 불러오는 중...</p>
         </div>
-        
-        <div className="dq-user-info">
-          <div className="dq-user-avatar">김</div>
-          <div className="dq-user-details">
-            <p className="dq-user-name">김보호자님</p>
-            <p className="dq-user-role">보호자</p>
-          </div>
+      </div>
+    );
+  }
+
+  // 에러 상태
+  if (error && dailyQuestions.length === 0) {
+    return (
+      <div className="dq-app">
+        <div className="dq-error-container">
+          <div className="dq-error-icon">⚠️</div>
+          <h2 className="dq-error-title">데이터 로딩 실패</h2>
+          <p className="dq-error-message">
+            일일 질문 데이터를 불러오는데 실패했습니다: {error.message}
+          </p>
+          <button 
+            className="dq-retry-button"
+            onClick={() => window.location.reload()}
+          >
+            다시 시도
+          </button>
         </div>
-      </header>
+      </div>
+    );
+  }
+
+  return (
+    <div className="dq-app">
+      {/* FamilyHeader 사용 */}
+      <FamilyHeader 
+        onBackClick={handleBackToHome}
+      />
 
       <div className="dq-main-container">
         {/* 왼쪽 사이드바 */}
@@ -135,50 +216,120 @@ const DailyQuestionDashboard = () => {
             </p>
           </div>
 
-          <div className="dq-questions-grid">
-            {dailyQuestions.map((question) => (
-              <div key={question.id} className="dq-question-card">
-                <div className="dq-question-header">
-                  <h3 className="dq-question-title">{question.title}</h3>
-                  <div className="dq-question-date">{question.date}</div>
-                </div>
+          {/* 에러 알림 (데이터는 있지만 API 에러가 있는 경우) */}
+          {error && dailyQuestions.length > 0 && (
+            <div className="dq-error-banner">
+              <div className="dq-error-banner-content">
+                <span className="dq-error-banner-icon">⚠️</span>
+                <span className="dq-error-banner-text">
+                  API 연결에 문제가 있어 샘플 데이터를 표시하고 있습니다.
+                </span>
+              </div>
+            </div>
+          )}
 
-                <div className="dq-question-status">
-                  <div 
-                    className="dq-status-dot" 
-                    style={{ backgroundColor: getStatusColor(question.status) }}
-                  ></div>
-                </div>
-
-                <div className="dq-question-details">
-                  <div className="dq-detail-item">
-                    <span className="dq-detail-label">재생 시간</span>
-                    <span className="dq-detail-value">{question.duration}</span>
+          {/* 검색 결과 없음 */}
+          {filteredQuestions.length === 0 ? (
+            <div className="dq-empty-state">
+              <div className="dq-empty-icon">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
+                  <circle cx="11" cy="11" r="8" stroke="#9CA3AF" strokeWidth="2"/>
+                  <path d="M21 21L16.65 16.65" stroke="#9CA3AF" strokeWidth="2" strokeLinecap="round"/>
+                </svg>
+              </div>
+              <h3 className="dq-empty-title">검색 결과가 없습니다</h3>
+              <p className="dq-empty-description">
+                다른 키워드로 검색해보세요.
+              </p>
+            </div>
+          ) : (
+            <div className="dq-questions-grid">
+              {filteredQuestions.map((question) => (
+                <div 
+                  key={question.id} 
+                  className="dq-question-card"
+                  onClick={() => handleQuestionClick(question.id)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <div className="dq-question-header">
+                    <h3 className="dq-question-title">{question.title}</h3>
+                    <div className="dq-question-date">{question.date}</div>
                   </div>
 
-                  <div className="dq-detail-item">
-                    <span className="dq-detail-label">키워드</span>
-                    <div className="dq-keywords">
-                      {question.keywords.map((keyword, index) => (
-                        <span key={index} className="dq-keyword-tag">
-                          {keyword}
+                  <div className="dq-question-status">
+                    <div 
+                      className="dq-status-dot" 
+                      style={{ backgroundColor: getStatusColor(question.status) }}
+                    ></div>
+                  </div>
+
+                  <div className="dq-question-details">
+                    <div className="dq-detail-item">
+                      <span className="dq-detail-label">재생 시간</span>
+                      <span className="dq-detail-value">{question.duration}</span>
+                    </div>
+
+                    {/* 점수 표시 (API에서 점수 데이터가 있는 경우) */}
+                    {question.cognitive_score && (
+                      <div className="dq-detail-item">
+                        <span className="dq-detail-label">인지 점수</span>
+                        <span className="dq-detail-value">
+                          {question.cognitive_score}
+                          <span 
+                            className="dq-score-category"
+                            style={{ color: getScoreCategory(parseFloat(question.cognitive_score)).color }}
+                          >
+                            ({getScoreCategory(parseFloat(question.cognitive_score)).category})
+                          </span>
                         </span>
-                      ))}
+                      </div>
+                    )}
+
+                    {question.semantic_score && (
+                      <div className="dq-detail-item">
+                        <span className="dq-detail-label">의미 점수</span>
+                        <span className="dq-detail-value">
+                          {question.semantic_score}
+                          <span 
+                            className="dq-score-category"
+                            style={{ color: getScoreCategory(parseFloat(question.semantic_score)).color }}
+                          >
+                            ({getScoreCategory(parseFloat(question.semantic_score)).category})
+                          </span>
+                        </span>
+                      </div>
+                    )}
+
+                    <div className="dq-detail-item">
+                      <span className="dq-detail-label">키워드</span>
+                      <div className="dq-keywords">
+                        {question.keywords?.map((keyword, index) => (
+                          <span key={index} className="dq-keyword-tag">
+                            {keyword}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="dq-detail-item">
+                      <span className="dq-detail-label">내용 미리보기</span>
+                      <p className="dq-content-preview">{question.preview}</p>
                     </div>
                   </div>
 
-                  <div className="dq-detail-item">
-                    <span className="dq-detail-label">내용 미리보기</span>
-                    <p className="dq-content-preview">{question.preview}</p>
-                  </div>
+                  <button 
+                    className="dq-view-full-btn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleQuestionClick(question.id);
+                    }}
+                  >
+                    전체 내용 보기
+                  </button>
                 </div>
-
-                <button className="dq-view-full-btn">
-                  전체 내용 보기
-                </button>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </main>
       </div>
     </div>
