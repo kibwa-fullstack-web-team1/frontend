@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
 
 .daily-question-page {
@@ -364,5 +365,250 @@
   100% {
     transform: scale(0.8);
     opacity: 0.7;
+=======
+.daily-question-page {
+  min-height: 100vh;
+  background-color: #F5F2F0;
+  font-family: 'Lexend', sans-serif;
+  color: #171412;
+}
+
+
+
+/* Main Content */
+.daily-main-content {
+  max-width: 1271px;
+  margin: 0 auto;
+  padding: 140px 60px 40px; /* ElderlyHeader 높이(90px) + 여백(50px) */
+  min-height: calc(100vh - 90px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+/* Question Card */
+.daily-question-card {
+  background: #FFFFFF;
+  border: 1px solid #E5E8EB;
+  border-radius: 16px;
+  padding: 80px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.08);
+  width: 900px;
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+  margin-top: 60px;
+}
+
+.daily-question-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #171412;
+  margin: 0;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.daily-divider {
+  width: 48px;
+  height: 4px;
+  background-color: #171412;
+  border-radius: 2px;
+}
+
+.daily-question-content {
+  background: #F8F6F4;
+  border-radius: 12px;
+  padding: 35px 105px;
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.daily-question-text {
+  font-size: 28px;
+  font-weight: 500;
+  color: #171412;
+  margin: 0;
+  line-height: 1.56;
+  text-align: center;
+}
+
+.daily-button-group {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.daily-record-button {
+  background: #171412;
+  border: none;
+  border-radius: 12px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 151px;
+  height: 56px;
+  justify-content: center;
+}
+
+.daily-record-button:hover {
+  background: #2a2a2a;
+  transform: translateY(-1px);
+}
+
+.daily-record-icon {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.daily-record-text {
+  font-size: 20px;
+  font-weight: 500;
+  color: #FFFFFF;
+  line-height: 1.5;
+}
+
+.daily-listen-button {
+  background: #171412;
+  border: none;
+  border-radius: 12px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 151px;
+  height: 56px;
+  justify-content: center;
+}
+
+.daily-listen-button:hover {
+  background: #2a2a2a;
+  transform: translateY(-1px);
+}
+
+.daily-listen-icon {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.daily-listen-text {
+  font-size: 20px;
+  font-weight: 500;
+  color: #FFFFFF;
+  line-height: 1.5;
+}
+
+/* Tips Card */
+.daily-tips-card {
+  background: #FFFFFF;
+  border: 1px solid #E5E8EB;
+  border-radius: 12px;
+  padding: 50px 80px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.08);
+  width: 900px;
+  height: 300px;
+}
+
+.daily-tips-title {
+  font-size: 22px;
+  font-weight: 500;
+  color: #171412;
+  margin: 0 0 33px 0;
+  line-height: 1.5;
+}
+
+.daily-tips-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.daily-tip-item {
+  font-size: 20px;
+  font-weight: 400;
+  color: #171412;
+  line-height: 1.5;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .daily-main-content {
+    padding: 40px 20px;
+  }
+  
+  .daily-question-card {
+    width: 100%;
+    height: auto;
+    padding: 30px 20px;
+  }
+  
+  .daily-question-content {
+    padding: 25px 20px;
+  }
+  
+  .daily-question-text {
+    font-size: 16px;
+  }
+  
+  .daily-tips-card {
+    width: 100%;
+    height: auto;
+    padding: 20px;
+  }
+  
+  .daily-header {
+    padding: 20px;
+  }
+  
+  .daily-main-title {
+    font-size: 20px;
+  }
+  
+  .daily-user-name {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .daily-question-card {
+    padding: 20px 15px;
+  }
+  
+  .daily-question-content {
+    padding: 20px 15px;
+  }
+  
+  .daily-question-text {
+    font-size: 14px;
+  }
+  
+  .daily-record-button {
+    width: 120px;
+    height: 48px;
+    padding: 12px 20px;
+  }
+  
+  .daily-record-text {
+    font-size: 14px;
+>>>>>>> origin/main
   }
 }

@@ -1,10 +1,129 @@
+<<<<<<< HEAD
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+=======
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { getCurrentUser, isAuthenticated, getAuthToken } from '../../services/api';
+>>>>>>> origin/main
 import FamilyHeader from '../../components/FamilyHeader';
 import './GameSelectDashboard.css';
 
 function GameSelectDashboard() {
   const navigate = useNavigate();
+<<<<<<< HEAD
+=======
+  const [currentUser, setCurrentUser] = useState(null);
+  const [showFamilyConnect, setShowFamilyConnect] = useState(false);
+  const [connectCode, setConnectCode] = useState('');
+  const [connectionResult, setConnectionResult] = useState(null);
+  const [isConnecting, setIsConnecting] = useState(false);
+
+  // 현재 사용자 정보 확인
+  useEffect(() => {
+    if (isAuthenticated()) {
+      const user = getCurrentUser();
+      console.log('GameSelectDashboard - 현재 사용자 정보:', user);
+      console.log('GameSelectDashboard - 사용자 역할:', user?.role);
+      setCurrentUser(user);
+    } else {
+      console.log('GameSelectDashboard - 로그인되지 않음');
+    }
+  }, []);
+
+  const handleFamilyConnect = () => {
+    setShowFamilyConnect(true);
+  };
+
+  const handleCloseFamilyConnect = () => {
+    setShowFamilyConnect(false);
+    setConnectCode('');
+    setConnectionResult(null);
+  };
+
+  const handleConnectCodeChange = (e) => {
+    setConnectCode(e.target.value);
+  };
+
+  const connectWithFamily = async () => {
+    if (!connectCode.trim()) {
+      alert('초대코드를 입력해주세요.');
+      return;
+    }
+
+    setIsConnecting(true);
+    
+    try {
+      const authToken = getAuthToken();
+      if (!authToken) {
+        throw new Error('로그인이 필요합니다.');
+      }
+
+      const requestBody = { 
+        code: connectCode.trim()
+      };
+      
+      console.log('가족 연결 요청 데이터:', requestBody);
+      console.log('Authorization 헤더:', `Bearer ${authToken}`);
+
+      const response = await fetch('http://localhost:8000/family/connect', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`
+        },
+        body: JSON.stringify(requestBody)
+      });
+
+      const data = await response.json();
+      console.log('가족 연결 응답:', response.status, data);
+      
+      if (response.ok && data.success) {
+        setConnectionResult({
+          success: true,
+          message: '가족과 성공적으로 연결되었습니다!',
+          senior_name: data.senior_name || '시니어'
+        });
+      } else {
+        // 422 에러나 기타 에러 처리
+        let errorMessage = '가족 연결에 실패했습니다.';
+        
+        if (response.status === 422) {
+          // 검증 에러 처리
+          console.log('422 검증 에러 상세:', data.detail);
+          if (data.detail && Array.isArray(data.detail)) {
+            errorMessage = data.detail.map(err => err.msg).join(', ');
+          } else if (data.detail && typeof data.detail === 'string') {
+            errorMessage = data.detail;
+          } else if (data.detail && typeof data.detail === 'object') {
+            errorMessage = '입력 데이터가 올바르지 않습니다.';
+          }
+        } else if (data.detail && typeof data.detail === 'string') {
+          errorMessage = data.detail;
+        }
+        
+        console.log('최종 에러 메시지:', errorMessage);
+        setConnectionResult({
+          success: false,
+          message: errorMessage
+        });
+      }
+    } catch (error) {
+      console.error('가족 연결 오류:', error);
+      setConnectionResult({
+        success: false,
+        message: '연결 중 오류가 발생했습니다.'
+      });
+    } finally {
+      setIsConnecting(false);
+    }
+  };
+
+  const resetConnection = () => {
+    setConnectCode('');
+    setConnectionResult(null);
+  };
+>>>>>>> origin/main
 
   const games = [
     {
@@ -104,6 +223,25 @@ function GameSelectDashboard() {
           </p>
         </div>
 
+<<<<<<< HEAD
+=======
+        {/* 가족 연결 안내 */}
+        {isAuthenticated() && currentUser?.role === 'guardian' && (
+          <div className="dashboard-select-family-connect-info">
+            <div className="dashboard-select-family-connect-content">
+              <h3>가족과 함께하는 게임</h3>
+              <p>가족과 함께 게임을 즐기고 결과를 공유해보세요!</p>
+              <p style={{fontSize: '12px', color: '#666', marginBottom: '10px'}}>
+                디버그: 현재 사용자 역할 = {currentUser?.role || 'undefined'}
+              </p>
+              <button className="dashboard-select-family-connect-btn" onClick={handleFamilyConnect}>
+                가족 연결하기 (보호자)
+              </button>
+            </div>
+          </div>
+        )}
+
+>>>>>>> origin/main
         {/* Games Grid */}
         <div className="dashboard-select-games-grid">
           {games.map((game) => (
@@ -183,6 +321,60 @@ function GameSelectDashboard() {
           </div>
         </div>
       </main>
+<<<<<<< HEAD
+=======
+
+      {/* 가족 연결 모달 */}
+      {showFamilyConnect && (
+        <div className="dashboard-select-family-connect-modal">
+          <div className="dashboard-select-family-connect-modal-content">
+            <div className="dashboard-select-family-connect-modal-header">
+              <h3>가족 연결하기</h3>
+              <button className="dashboard-select-family-connect-modal-close" onClick={handleCloseFamilyConnect}>
+                ✕
+              </button>
+            </div>
+            <div className="dashboard-select-family-connect-modal-body">
+              <div className="dashboard-select-family-connect-code-input-section">
+                <label htmlFor="connectCode">초대코드 입력:</label>
+                <input
+                  type="text"
+                  id="connectCode"
+                  value={connectCode}
+                  onChange={handleConnectCodeChange}
+                  placeholder="초대코드를 입력하세요"
+                />
+                <button 
+                  className="dashboard-select-family-connect-connect-btn" 
+                  onClick={connectWithFamily}
+                  disabled={isConnecting}
+                >
+                  {isConnecting ? '연결 중...' : '가족 연결하기'}
+                </button>
+              </div>
+              {connectionResult && (
+                <div className={`dashboard-select-family-connect-result ${connectionResult.success ? 'success' : 'error'}`}>
+                  {typeof connectionResult.message === 'string' ? connectionResult.message : '알 수 없는 오류가 발생했습니다.'}
+                  {connectionResult.success && connectionResult.senior_name && (
+                    <p>시니어: {connectionResult.senior_name}</p>
+                  )}
+                </div>
+              )}
+              {connectionResult && (
+                <button className="dashboard-select-family-connect-reset-btn" onClick={resetConnection}>
+                  다시 입력
+                </button>
+              )}
+            </div>
+            <div className="dashboard-select-family-connect-modal-footer">
+              <button className="dashboard-select-family-connect-modal-btn" onClick={handleCloseFamilyConnect}>
+                닫기
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+>>>>>>> origin/main
     </div>
   );
 }

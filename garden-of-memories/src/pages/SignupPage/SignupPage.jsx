@@ -45,17 +45,56 @@ function SignupPage() {
       return;
     }
 
+<<<<<<< HEAD
     if (formData.password.length < 6) {
       setError('비밀번호는 최소 6자 이상이어야 합니다.');
       return;
     }
 
 
+=======
+    // 백엔드 비밀번호 정책과 일치하도록 수정
+    if (formData.password.length < 8) {
+      setError('비밀번호는 최소 8자 이상이어야 합니다.');
+      return;
+    }
+    
+    if (!/(?=.*[a-z])/.test(formData.password)) {
+      setError('비밀번호는 소문자를 포함해야 합니다.');
+      return;
+    }
+    
+    if (!/(?=.*[A-Z])/.test(formData.password)) {
+      setError('비밀번호는 대문자를 포함해야 합니다.');
+      return;
+    }
+    
+    if (!/(?=.*\d)/.test(formData.password)) {
+      setError('비밀번호는 숫자를 포함해야 합니다.');
+      return;
+    }
+
+    // 전화번호 형식 검증 (한국 전화번호)
+    const phonePattern = /^01[0-9]-\d{3,4}-\d{4}$/;
+    if (!phonePattern.test(formData.phone)) {
+      setError('전화번호 형식이 올바르지 않습니다. (예: 010-1234-5678)');
+      return;
+    }
+
+    if (!formData.agreeToTerms) {
+      setError('이용약관에 동의해주세요.');
+      return;
+    }
+>>>>>>> origin/main
 
     setIsLoading(true);
     setError('');
 
     try {
+<<<<<<< HEAD
+=======
+      // 실제 백엔드 API 호출
+>>>>>>> origin/main
       const response = await signupUser(
         formData.email,
         formData.password,
@@ -65,11 +104,25 @@ function SignupPage() {
       );
       
       console.log('회원가입 성공:', response);
+<<<<<<< HEAD
       alert('회원가입이 완료되었습니다! 로그인 페이지로 이동합니다.');
       navigate('/login');
     } catch (err) {
       console.error('회원가입 오류:', err);
       setError('회원가입에 실패했습니다. 다시 시도해주세요.');
+=======
+      
+      if (response.access_token) {
+        // 회원가입 성공 시 자동 로그인 처리
+        alert('회원가입이 완료되었습니다! 메인 페이지로 이동합니다.');
+        navigate('/home'); // 또는 대시보드 페이지
+      } else {
+        throw new Error('토큰 정보를 받지 못했습니다.');
+      }
+    } catch (err) {
+      console.error('회원가입 오류:', err);
+      setError(err.message || '회원가입에 실패했습니다. 다시 시도해주세요.');
+>>>>>>> origin/main
     } finally {
       setIsLoading(false);
     }
@@ -141,7 +194,11 @@ function SignupPage() {
                   value={formData.phone} 
                   onChange={handleInputChange} 
                   className="signup-form-input" 
+<<<<<<< HEAD
                   placeholder="전화번호를 입력하세요" 
+=======
+                  placeholder="010-1234-5678" 
+>>>>>>> origin/main
                   required 
                 />
               </div>
@@ -210,12 +267,21 @@ function SignupPage() {
                     <input
                       type="radio"
                       name="role"
+<<<<<<< HEAD
                       value="family"
                       checked={formData.role === 'family'}
                       onChange={handleInputChange}
                       className="signup-role-radio"
                     />
                     <span className="signup-role-text">가족</span>
+=======
+                      value="guardian"
+                      checked={formData.role === 'guardian'}
+                      onChange={handleInputChange}
+                      className="signup-role-radio"
+                    />
+                    <span className="signup-role-text">보호자</span>
+>>>>>>> origin/main
                   </label>
                 </div>
               </div>

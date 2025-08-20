@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+<<<<<<< HEAD
 import { FiEye, FiEyeOff, FiArrowRight, FiInstagram, FiTwitter, FiFacebook } from 'react-icons/fi';
+=======
+import { FiEye, FiEyeOff, FiArrowRight, FiInstagram, FiTwitter, FiFacebook, FiX } from 'react-icons/fi';
+>>>>>>> origin/main
 import { PiFlowerLotusLight } from 'react-icons/pi';
 import { loginUser, fetchUserInfo } from '../../services/api';
 import RegisterHeader from '../../components/RegisterHeader';
@@ -16,6 +20,10 @@ function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+<<<<<<< HEAD
+=======
+  const [successMessage, setSuccessMessage] = useState('');
+>>>>>>> origin/main
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -46,6 +54,7 @@ function LoginPage() {
       }
 
       console.log('로그인 성공:', response);
+<<<<<<< HEAD
       console.log('전체 응답 데이터:', JSON.stringify(response, null, 2));
       
       // 로그인 성공 후 사용자 정보 가져오기
@@ -88,6 +97,56 @@ function LoginPage() {
    } finally {
      setIsLoading(false);
    }
+=======
+      
+      // 백엔드에서 받은 사용자 역할 사용
+      const userRole = response.user_role || 'senior';
+      console.log('사용자 역할:', userRole);
+
+      // 역할에 따른 안내 메시지
+      const roleMessage = userRole === 'senior' ? '어르신' : '보호자';
+      console.log(`${roleMessage}으로 로그인되었습니다.`);
+      
+      // 성공 메시지 표시
+      setSuccessMessage(`${roleMessage}으로 로그인되었습니다! 잠시 후 이동합니다...`);
+
+      // 역할 → 페이지 매핑 (백엔드와 일치)
+      const ROLE_ROUTE = {
+        senior: '/game-select',
+        guardian: '/game-select-dashboard',
+      };
+
+      const nextPath = ROLE_ROUTE[userRole] || '/game-select';
+      console.log('이동할 페이지:', nextPath);
+
+      // 잠시 성공 메시지 표시 후 페이지 이동
+      setError(''); // 에러 메시지 제거
+      setTimeout(() => {
+        navigate(nextPath);
+      }, 1500);
+
+    } catch (err) {
+      console.error('로그인 오류:', err);
+      
+      // 백엔드에서 받은 구체적인 에러 메시지 사용
+      let errorMessage = '로그인에 실패했습니다. 다시 시도해주세요.';
+      
+      if (err.message) {
+        // 백엔드 에러 메시지가 있으면 사용
+        if (err.message.includes('이메일 또는 비밀번호')) {
+          errorMessage = '이메일 또는 비밀번호가 올바르지 않습니다.';
+        } else if (err.message.includes('시간이 초과')) {
+          errorMessage = '요청 시간이 초과되었습니다. 네트워크를 확인해주세요.';
+        } else {
+          errorMessage = err.message;
+        }
+      }
+      
+      setError(errorMessage);
+    } finally {
+      setIsLoading(false);
+    }
+>>>>>>> origin/main
   };
 
   const handleSignUp = () => {
@@ -187,6 +246,15 @@ function LoginPage() {
                 </div>
               )}
 
+<<<<<<< HEAD
+=======
+              {successMessage && (
+                <div className="login-success-message">
+                  {successMessage}
+                </div>
+              )}
+
+>>>>>>> origin/main
               <button
                 type="submit"
                 className="login-button"

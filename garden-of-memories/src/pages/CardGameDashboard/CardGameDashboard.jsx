@@ -282,9 +282,22 @@ const CardGameDashboard = () => {
     navigate('/');
   };
 
+<<<<<<< HEAD
   const handleLogout = () => {
     logoutUser();
     navigate('/');
+=======
+  const handleLogout = async () => {
+    if (window.confirm('로그아웃하시겠습니까?')) {
+      try {
+        await logoutUser();
+        navigate('/login');
+      } catch (error) {
+        console.error('로그아웃 중 오류:', error);
+        navigate('/login');
+      }
+    }
+>>>>>>> origin/main
   };
 
   const handlePageChange = (newPage) => {

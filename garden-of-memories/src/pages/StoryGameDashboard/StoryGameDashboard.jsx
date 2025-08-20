@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiLogOut, FiEye, FiEdit, FiTrash2, FiPlay } from 'react-icons/fi';
+<<<<<<< HEAD
 import { logoutUser, getCurrentUser } from '../../services/api';
+=======
+import { logoutUser, createStory, getStories, updateStory, deleteStory, getCurrentUser } from '../../services/api';
+>>>>>>> origin/main
 import FamilyHeader from '../../components/FamilyHeader';
 import './StoryGameDashboard.css';
 
@@ -20,6 +24,7 @@ const StoryGameDashboard = () => {
   const [registeredStories, setRegisteredStories] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+<<<<<<< HEAD
   const [editingStoryId, setEditingStoryId] = useState(null);
   const [editFormData, setEditFormData] = useState({
     title: '',
@@ -27,6 +32,8 @@ const StoryGameDashboard = () => {
     image_url: '',
     category: '' // UI용으로만 유지
   });
+=======
+>>>>>>> origin/main
 
   // 카테고리 옵션
   const categories = [
@@ -37,6 +44,7 @@ const StoryGameDashboard = () => {
     { value: 'memory', label: '추억' }
   ];
 
+<<<<<<< HEAD
   // API 함수들
   
   // 이야기 목록 조회
@@ -134,6 +142,21 @@ const StoryGameDashboard = () => {
 
   // 컴포넌트 마운트 시 이야기 목록 로드
   useEffect(() => {
+=======
+  useEffect(() => {
+    const fetchStories = async () => {
+      setIsLoading(true);
+      try {
+        const stories = await getStories();
+        setRegisteredStories(stories);
+      } catch (err) {
+        setError(err);
+        console.error('Error fetching stories:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+>>>>>>> origin/main
     fetchStories();
   }, []);
 
@@ -145,6 +168,7 @@ const StoryGameDashboard = () => {
     }));
   };
 
+<<<<<<< HEAD
   // 인라인 편집을 위한 함수들
   const handleEditInputChange = (e) => {
     const { name, value } = e.target;
@@ -326,11 +350,34 @@ const StoryGameDashboard = () => {
     } catch (err) {
       console.error('이야기 수정 실패:', err);
       throw err;
+=======
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    setIsLoading(true);
+    try {
+      await createStory(formData);
+      alert('이야기가 등록되었습니다!');
+      // 등록 후 다시 데이터 로드
+      const stories = await getStories();
+      setRegisteredStories(stories);
+      // 폼 초기화
+      setFormData({
+        title: '',
+        category: '',
+        content: ''
+      });
+    } catch (err) {
+      setError(err);
+      alert('이야기 등록 중 오류가 발생했습니다.');
+      console.error('Error creating story:', err);
+>>>>>>> origin/main
     } finally {
       setIsLoading(false);
     }
   };
 
+<<<<<<< HEAD
   // 이야기 삭제
   const deleteStory = async (storyId) => {
     try {
@@ -387,12 +434,20 @@ const StoryGameDashboard = () => {
   const handleStoryAction = async (storyId, action) => {
     console.log(`이야기 ${action}:`, storyId);
     
+=======
+  const handleStoryAction = async (storyId, action) => {
+    console.log(`이야기 ${action}:`, storyId);
+    
+    setIsLoading(true);
+
+>>>>>>> origin/main
     try {
       switch (action) {
         case 'preview':
           setSelectedStory(registeredStories.find(story => story.id === storyId));
           break;
         case 'edit':
+<<<<<<< HEAD
           // 인라인 편집 모드로 전환
           const storyToEdit = registeredStories.find(story => story.id === storyId);
           if (storyToEdit) {
@@ -404,22 +459,48 @@ const StoryGameDashboard = () => {
           break;
         case 'private':
           await updateStoryStatus(storyId, 'private');
+=======
+          // TODO: 이야기 수정 모달 또는 페이지로 이동
+          alert('이야기 수정 기능은 준비 중입니다.');
+          break;
+        case 'publish':
+          await updateStory(storyId, { status: 'published' });
+          alert('이야기가 게시되었습니다.');
+          break;
+        case 'private':
+          await updateStory(storyId, { status: 'private' });
+          alert('이야기가 비공개로 설정되었습니다.');
+>>>>>>> origin/main
           break;
         case 'delete':
           if (window.confirm('정말로 이 이야기를 삭제하시겠습니까?')) {
             await deleteStory(storyId);
             alert('이야기가 삭제되었습니다.');
+<<<<<<< HEAD
             // 선택된 이야기가 삭제된 경우 선택 해제
             if (selectedStory && selectedStory.id === storyId) {
               setSelectedStory(null);
             }
+=======
+            // 삭제 후 다시 데이터 로드
+            const stories = await getStories();
+            setRegisteredStories(stories);
+>>>>>>> origin/main
           }
           break;
         default:
           break;
       }
     } catch (err) {
+<<<<<<< HEAD
       alert(`작업 실행에 실패했습니다: ${err.message}`);
+=======
+      setError(err);
+      alert('이야기 작업 중 오류가 발생했습니다.');
+      console.error('Error performing story action:', err);
+    } finally {
+      setIsLoading(false);
+>>>>>>> origin/main
     }
   };
 
@@ -453,11 +534,34 @@ const StoryGameDashboard = () => {
     navigate('/card-game-dashboard');
   };
 
+<<<<<<< HEAD
   const handleLogout = () => {
     logoutUser();
     navigate('/');
   };
 
+=======
+  const handleLogout = async () => {
+    if (window.confirm('로그아웃하시겠습니까?')) {
+      try {
+        await logoutUser();
+        navigate('/login');
+      } catch (error) {
+        console.error('로그아웃 중 오류:', error);
+        navigate('/login');
+      }
+    }
+  };
+
+  if (isLoading) {
+    return <div className="loading-spinner">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="error-message">Error: {error.message}</div>;
+  }
+
+>>>>>>> origin/main
   return (
     <div className="story-registration-page">
       <FamilyHeader 

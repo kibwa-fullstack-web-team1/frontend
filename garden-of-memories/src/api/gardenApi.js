@@ -32,7 +32,12 @@ export const fetchGardenItems = async (userId) => {
         inventoryItems.push(transformedItem);
       }
     });
+<<<<<<< HEAD
     return { placedItems, inventoryItems }; // 오류 발생 시 빈 배열 반환
+=======
+
+    return { placedItems, inventoryItems };
+>>>>>>> origin/main
   } catch (error) {
     console.error("정원 아이템 로딩 중 오류 발생:", error);
     return { placedItems: [], inventoryItems: [] }; // 오류 발생 시 빈 배열 반환

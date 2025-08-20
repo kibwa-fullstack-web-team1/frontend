@@ -8,7 +8,11 @@ import ConfirmationModal from '../../components/ConfirmationModal';
 import './GardenPage.css';
 import '../../components/SectionTitle.css';
 
+<<<<<<< HEAD
 const CLOUDFRONT_DOMAIN = import.meta.env.VITE_CLOUDFRONT_DOMAIN;
+=======
+const CLOUDFRONT_DOMAIN = 'd3dp1o6kjej6ik.cloudfront.net';
+>>>>>>> origin/main
 
 // Define service categories to control rendering order and names
 const SERVICE_CATEGORIES = {
@@ -189,7 +193,11 @@ const GardenPage = () => {
                             <model-viewer
                               key={`${item.type}-${item.id}`}
                               src={(() => {
+<<<<<<< HEAD
                                 const s3Domain = import.meta.env.VITE_S3_DOMAIN;
+=======
+                                const s3Domain = "https://kibwa-17.s3.ap-southeast-1.amazonaws.com/";
+>>>>>>> origin/main
                                 const path = item.imageUrl.startsWith(s3Domain) ? item.imageUrl.substring(s3Domain.length) : item.imageUrl;
                                 return `https://${CLOUDFRONT_DOMAIN}/${path}`;
                               })()}n                              alt={item.name}
@@ -217,7 +225,11 @@ const GardenPage = () => {
             cardsData={personalizationRewards.map(item => ({
               id: item.id,
               imageUrl: (() => {
+<<<<<<< HEAD
                 const s3Domain = import.meta.env.VITE_S3_DOMAIN;
+=======
+                const s3Domain = "https://kibwa-17.s3.ap-southeast-1.amazonaws.com/";
+>>>>>>> origin/main
                 const sourceUrl = item.imageUrl || item.generated_image_url;
                 const path = sourceUrl.startsWith(s3Domain) ? sourceUrl.substring(s3Domain.length) : sourceUrl;
                 return `https://${CLOUDFRONT_DOMAIN}/${path}`;
