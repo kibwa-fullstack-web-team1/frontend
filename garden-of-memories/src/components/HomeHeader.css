@@ -92,6 +92,8 @@
   transform: translateY(-1px);
 }
 
+<<<<<<< HEAD
+=======
 /* 사용자 정보 섹션 */
 .home-header-user-section {
   display: flex;
@@ -176,6 +178,7 @@
   transform: translateY(1px);
 }
 
+>>>>>>> origin/main
 /* 반응형 디자인 */
 @media (max-width: 768px) {
   .home-header-container {
@@ -202,6 +205,8 @@
     padding: 6px 12px;
     font-size: 13px;
   }
+<<<<<<< HEAD
+=======
   
   .home-header-user-details {
     display: none;
@@ -211,6 +216,7 @@
     padding: 6px 10px;
     font-size: 11px;
   }
+>>>>>>> origin/main
 }
 
 @media (max-width: 480px) {
@@ -221,6 +227,8 @@
   .home-header-nav {
     gap: 0;
   }
+<<<<<<< HEAD
+=======
   
   .home-header-user-info {
     padding: 6px 8px;
@@ -230,4 +238,5 @@
     padding: 5px 8px;
     font-size: 10px;
   }
+>>>>>>> origin/main
 }

@@ -237,6 +237,14 @@
 }
 
 .login-error-message {
+<<<<<<< HEAD
+  background: #FEE;
+  color: #C33;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  text-align: center;
+=======
   background: #FEF2F2;
   border: 1px solid #FECACA;
   color: #DC2626;
@@ -268,6 +276,7 @@
     opacity: 1;
     transform: translateY(0);
   }
+>>>>>>> origin/main
 }
 
 .login-button {

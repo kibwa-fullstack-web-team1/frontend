@@ -491,6 +491,8 @@
   line-height: 1.4;
 }
 
+<<<<<<< HEAD
+=======
 /* 가족 연결 안내 */
 .select-family-connect-info {
   margin-bottom: 30px;
@@ -949,6 +951,7 @@
   background: #8B5A00;
 }
 
+>>>>>>> origin/main
 /* 반응형 디자인 */
 @media (max-width: 1400px) {
   .select-carousel-container {
@@ -1076,6 +1079,8 @@
   .select-carousel-nav-next {
     right: -30px;
   }
+<<<<<<< HEAD
+=======
 
   .select-family-connect-content {
     flex-direction: column;
@@ -1094,6 +1099,7 @@
   .select-family-connect-text p {
     font-size: 14px;
   }
+>>>>>>> origin/main
 }
 
 @media (max-width: 480px) {

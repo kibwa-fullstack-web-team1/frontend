@@ -1,10 +1,17 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+<<<<<<< HEAD
+=======
 import { isAuthenticated, getCurrentUser, logoutUser } from '../services/api';
+>>>>>>> origin/main
 import './HomeHeader.css';
 
 const HomeHeader = () => {
   const navigate = useNavigate();
+<<<<<<< HEAD
+
+  const handleEnterGarden = () => navigate('/login');
+=======
   
   // 현재 사용자 정보 확인
   const currentUser = getCurrentUser();
@@ -12,11 +19,14 @@ const HomeHeader = () => {
 
   const handleEnterGarden = () => navigate('/login');
   
+>>>>>>> origin/main
   const handleLinkClick = (e, path) => { 
     e.preventDefault(); 
     if (path) navigate(path); 
   };
 
+<<<<<<< HEAD
+=======
   const handleLogout = async () => {
     if (window.confirm('로그아웃하시겠습니까?')) {
       try {
@@ -38,6 +48,7 @@ const HomeHeader = () => {
     }
   };
 
+>>>>>>> origin/main
   return (
     <header className="home-header-container home-header-frosted">
       <div className="home-header-logo">
@@ -50,6 +61,9 @@ const HomeHeader = () => {
         <a href="#" className="home-header-nav-link" onClick={(e)=>handleLinkClick(e)}>활동</a>
         <a href="#" className="home-header-nav-link" onClick={(e)=>handleLinkClick(e)}>소개</a>
         <a href="#" className="home-header-nav-link" onClick={(e)=>handleLinkClick(e)}>문의</a>
+<<<<<<< HEAD
+        <button className="home-header-login-btn" onClick={handleEnterGarden}>로그인</button>
+=======
         
         {isLoggedIn ? (
           // 로그인된 사용자: 사용자 정보와 메뉴
@@ -82,6 +96,7 @@ const HomeHeader = () => {
           // 로그인되지 않은 사용자: 로그인 버튼
           <button className="home-header-login-btn" onClick={handleEnterGarden}>로그인</button>
         )}
+>>>>>>> origin/main
       </nav>
     </header>
   );

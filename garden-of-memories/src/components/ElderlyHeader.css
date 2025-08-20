@@ -94,6 +94,8 @@
 .elderly-header-right {
   display: flex;
   align-items: center;
+<<<<<<< HEAD
+=======
   gap: 15px;
 }
 
@@ -110,6 +112,7 @@
 
 .elderly-logout-button:hover {
   background: #c82333;
+>>>>>>> origin/main
 }
 
 .elderly-user-info {
