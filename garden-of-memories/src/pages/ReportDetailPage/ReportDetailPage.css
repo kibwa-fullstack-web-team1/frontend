@@ -1,53 +1,87 @@
 /* /work/frontend/garden-of-memories/src/pages/ReportDetailPage/ReportDetailPage.css */
+
+:root {
+    --ink: #6f6048;          /* 본문 잉크 */
+    --border: #e8dcc7;
+    --card: #ffffffcc;       /* 유리카드 */
+}
+
 .report-detail-container {
-    padding: 20px;
+    padding: 40px; /* Increased padding for card effect */
     max-width: 900px;
-    margin: 0 auto;
-    font-family: Arial, sans-serif;
+    margin: 40px auto; /* Added top/bottom margin for spacing from edges */
+    background: var(--card); /* Card background with transparency */
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    color: var(--ink); /* Use thematic ink color */
 }
 
 .report-detail-container h1 {
-    color: #333;
+    color: var(--ink); /* Updated to match thematic ink color */
     text-align: center;
     margin-bottom: 30px;
+    font-size: 2.2em; /* Adjusted for prominence */
+    font-weight: 700; /* Bold for main title */
 }
 
 .report-detail-container h2 {
-    color: #0056b3;
-    margin-top: 20px;
+    color: var(--ink); /* Updated to match thematic ink color */
+    margin-top: 25px; /* Slightly increased margin */
     margin-bottom: 15px;
+    font-size: 1.8em; /* Adjusted for sub-heading */
+    font-weight: 600; /* Semi-bold */
 }
 
 .report-detail-container h3 {
-    color: #007bff;
+    color: var(--ink); /* Updated to match thematic ink color */
     margin-top: 20px;
     margin-bottom: 10px;
+    font-size: 1.4em; /* Adjusted for section titles */
+    font-weight: 600; /* Semi-bold */
 }
 
 .report-detail-container ul {
-    list-style: none;
-    padding: 0;
-    margin-bottom: 20px;
+    /* list-style: none; padding: 0; margin: 0; are handled globally */
+    margin-bottom: 20px; /* Ensure margin for summary list */
 }
 
 .report-detail-container li {
     margin-bottom: 8px;
-    line-height: 1.5;
+    line-height: 1.6; /* Consistent with global body line-height */
+    color: var(--ink); /* Ensure list items inherit thematic ink color */
 }
 
 .answers-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    border: 1px solid var(--border); /* Use thematic border color */
 }
 
 .answers-table th, .answers-table td {
-    border: 1px solid #ddd;
-    padding: 10px;
+    border: 1px solid var(--border); /* Use thematic border color */
+    padding: 12px; /* Slightly increased padding for readability */
     text-align: left;
+    color: var(--ink); /* Ensure table text inherits thematic ink color */
 }
 
 .answers-table th {
-    background-color: #f2f2f2;
+    background-color: #F8F6F4; /* Using a light background from global palette */
     font-weight: bold;
+}
+
+.answers-table tr:nth-child(even) {
+    background-color: rgba(248, 246, 244, 0.5); /* Lighter shade for even rows */
+}
+
+.answers-table tr:hover {
+    background-color: rgba(240, 240, 240, 0.7); /* Subtle hover effect */
+}
+
+.report-detail-container p {
+    color: var(--ink); /* Ensure paragraph text inherits thematic ink color */
+    line-height: 1.6;
 }

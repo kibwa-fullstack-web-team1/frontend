@@ -1,3 +1,4 @@
+/* /work/frontend/garden-of-memories/src/styles/index.css */
 /* 전역 스타일 - 피그마 디자인 기반 */
 
 * {
@@ -12,7 +13,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #FFFFFF;
+  background: #f7f2ec; /* Updated to a subtle off-white from homepage gradient */
   color: #171412;
   line-height: 1.6;
 }
