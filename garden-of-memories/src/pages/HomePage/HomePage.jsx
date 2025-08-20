@@ -1,15 +1,8 @@
-<<<<<<< HEAD
-import React, { useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-=======
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { isAuthenticated, getCurrentUser, getAuthToken } from '../../services/api';
->>>>>>> origin/main
 import HomeHeader from '../../components/HomeHeader';
 import './HomePage.css';
 
@@ -19,11 +12,6 @@ gsap.registerPlugin(ScrollTrigger);
 function HomePage() {
   const navigate = useNavigate();
   const journeyStepsRef = useRef([]);
-<<<<<<< HEAD
-
-  const handleEnterGarden = () => {
-    navigate('/login');
-=======
   const [currentUser, setCurrentUser] = useState(null);
   const [showFamilyConnect, setShowFamilyConnect] = useState(false);
   const [showFamilyInvite, setShowFamilyInvite] = useState(false);
@@ -136,7 +124,6 @@ function HomePage() {
     } else {
       copyToClipboard();
     }
->>>>>>> origin/main
   };
 
   // GSAP ScrollTrigger를 사용한 순차적 카드 강조 애니메이션
@@ -452,10 +439,6 @@ function HomePage() {
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 5L12.5 10L7.5 15" stroke="#6f6048" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
             </div>
           </button>
-<<<<<<< HEAD
-        </section>
-
-=======
           
           {/* 가족 연결 안내 - 보호자만 (로그인 후) */}
           {isAuthenticated() && currentUser?.role === 'guardian' && (
@@ -580,7 +563,6 @@ function HomePage() {
           </div>
         )}
 
->>>>>>> origin/main
 
 
 
