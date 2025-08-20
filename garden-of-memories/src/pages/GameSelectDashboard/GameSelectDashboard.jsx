@@ -1,18 +1,11 @@
-<<<<<<< HEAD
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-=======
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCurrentUser, isAuthenticated, getAuthToken } from '../../services/api';
->>>>>>> origin/main
 import FamilyHeader from '../../components/FamilyHeader';
 import './GameSelectDashboard.css';
 
 function GameSelectDashboard() {
   const navigate = useNavigate();
-<<<<<<< HEAD
-=======
   const [currentUser, setCurrentUser] = useState(null);
   const [showFamilyConnect, setShowFamilyConnect] = useState(false);
   const [connectCode, setConnectCode] = useState('');
@@ -123,7 +116,6 @@ function GameSelectDashboard() {
     setConnectCode('');
     setConnectionResult(null);
   };
->>>>>>> origin/main
 
   const games = [
     {
@@ -223,8 +215,6 @@ function GameSelectDashboard() {
           </p>
         </div>
 
-<<<<<<< HEAD
-=======
         {/* 가족 연결 안내 */}
         {isAuthenticated() && currentUser?.role === 'guardian' && (
           <div className="dashboard-select-family-connect-info">
@@ -241,7 +231,6 @@ function GameSelectDashboard() {
           </div>
         )}
 
->>>>>>> origin/main
         {/* Games Grid */}
         <div className="dashboard-select-games-grid">
           {games.map((game) => (
@@ -321,8 +310,6 @@ function GameSelectDashboard() {
           </div>
         </div>
       </main>
-<<<<<<< HEAD
-=======
 
       {/* 가족 연결 모달 */}
       {showFamilyConnect && (
@@ -374,7 +361,6 @@ function GameSelectDashboard() {
           </div>
         </div>
       )}
->>>>>>> origin/main
     </div>
   );
 }

@@ -1,10 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-<<<<<<< HEAD
-import { getCurrentUser, isAuthenticated } from '../services/api';
-=======
 import { getCurrentUser, isAuthenticated, logoutUser } from '../services/api';
->>>>>>> origin/main
 import './FamilyHeader.css';
 
 const FamilyHeader = ({ title = "기억의 정원", subtitle = "", onBackClick, showBackButton = true }) => {
@@ -26,8 +22,6 @@ const FamilyHeader = ({ title = "기억의 정원", subtitle = "", onBackClick, 
     }
   };
 
-<<<<<<< HEAD
-=======
   const handleLogout = async () => {
     if (window.confirm('로그아웃하시겠습니까?')) {
       try {
@@ -42,7 +36,6 @@ const FamilyHeader = ({ title = "기억의 정원", subtitle = "", onBackClick, 
     }
   };
 
->>>>>>> origin/main
   return (
     <header className="family-header">
       <div className="family-header-content">
@@ -89,8 +82,6 @@ const FamilyHeader = ({ title = "기억의 정원", subtitle = "", onBackClick, 
               <div className="family-user-role">{userRole}</div>
             </div>
           </div>
-<<<<<<< HEAD
-=======
           
           {/* 로그아웃 버튼 */}
           {isLoggedIn && (
@@ -98,7 +89,6 @@ const FamilyHeader = ({ title = "기억의 정원", subtitle = "", onBackClick, 
               로그아웃
             </button>
           )}
->>>>>>> origin/main
         </div>
       </div>
     </header>

@@ -97,10 +97,7 @@
   right: 24px;
   display: flex;
   align-items: center;
-<<<<<<< HEAD
-=======
   gap: 16px;
->>>>>>> origin/main
 }
 
 .family-user-info {
@@ -152,8 +149,6 @@
   line-height: 1.5;
 }
 
-<<<<<<< HEAD
-=======
 /* 로그아웃 버튼 */
 .family-logout-button {
   background: #FEF2F2;
@@ -178,7 +173,6 @@
   transform: translateY(1px);
 }
 
->>>>>>> origin/main
 /* 반응형 디자인 */
 @media (max-width: 768px) {
   .family-header-content {
@@ -212,14 +206,11 @@
   .family-user-details {
     display: none;
   }
-<<<<<<< HEAD
-=======
   
   .family-logout-button {
     padding: 6px 12px;
     font-size: 12px;
   }
->>>>>>> origin/main
 }
 
 @media (max-width: 480px) {
@@ -244,13 +235,10 @@
     height: 32px;
     font-size: 14px;
   }
-<<<<<<< HEAD
-=======
   
   .family-logout-button {
     padding: 6px 10px;
     font-size: 11px;
   }
->>>>>>> origin/main
 }
 

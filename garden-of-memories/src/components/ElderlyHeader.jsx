@@ -1,10 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-<<<<<<< HEAD
-import { getCurrentUser, isAuthenticated } from '../services/api';
-=======
 import { getCurrentUser, isAuthenticated, logoutUser } from '../services/api';
->>>>>>> origin/main
 import { FaChevronLeft, FaUser } from 'react-icons/fa';
 import './ElderlyHeader.css';
 
@@ -27,8 +23,6 @@ function ElderlyHeader({ title = "기억의 정원", subtitle = "", onBackClick,
     }
   };
 
-<<<<<<< HEAD
-=======
   const handleLogout = async () => {
     if (window.confirm('로그아웃하시겠습니까?')) {
       try {
@@ -43,7 +37,6 @@ function ElderlyHeader({ title = "기억의 정원", subtitle = "", onBackClick,
     }
   };
 
->>>>>>> origin/main
   return (
     <header className="elderly-header">
       <div className="elderly-header-content">
@@ -74,8 +67,6 @@ function ElderlyHeader({ title = "기억의 정원", subtitle = "", onBackClick,
               <div className="elderly-user-role">{userRole}</div>
             </div>
           </div>
-<<<<<<< HEAD
-=======
           
           {/* 로그아웃 버튼 */}
           {isLoggedIn && (
@@ -83,7 +74,6 @@ function ElderlyHeader({ title = "기억의 정원", subtitle = "", onBackClick,
               로그아웃
             </button>
           )}
->>>>>>> origin/main
         </div>
       </div>
     </header>

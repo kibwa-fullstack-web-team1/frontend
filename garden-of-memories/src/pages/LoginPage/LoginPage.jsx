@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-<<<<<<< HEAD
-import { FiEye, FiEyeOff, FiArrowRight, FiInstagram, FiTwitter, FiFacebook } from 'react-icons/fi';
-=======
 import { FiEye, FiEyeOff, FiArrowRight, FiInstagram, FiTwitter, FiFacebook, FiX } from 'react-icons/fi';
->>>>>>> origin/main
 import { PiFlowerLotusLight } from 'react-icons/pi';
 import { loginUser, fetchUserInfo } from '../../services/api';
 import RegisterHeader from '../../components/RegisterHeader';
@@ -20,10 +16,7 @@ function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-<<<<<<< HEAD
-=======
   const [successMessage, setSuccessMessage] = useState('');
->>>>>>> origin/main
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -54,50 +47,6 @@ function LoginPage() {
       }
 
       console.log('로그인 성공:', response);
-<<<<<<< HEAD
-      console.log('전체 응답 데이터:', JSON.stringify(response, null, 2));
-      
-      // 로그인 성공 후 사용자 정보 가져오기
-      let userData;
-      try {
-        userData = await fetchUserInfo();
-        console.log('사용자 정보 가져오기 성공:', userData);
-      } catch (userInfoError) {
-        console.warn('사용자 정보 가져오기 실패, 기본 정보 사용:', userInfoError);
-        // 사용자 정보를 가져올 수 없는 경우 기본 정보 사용
-        userData = { role: 'senior' }; // 기본값으로 어르신 역할 설정
-      }
-
-      // 사용자 역할 확인 (배열 형태 응답 처리)
-      let role = null;
-      if (Array.isArray(userData) && userData.length > 0) {
-        role = userData[0].role;
-      } else if (userData && userData.role) {
-        role = userData.role;
-      }
-
-      console.log('확인된 사용자 역할:', role);
-
-      // 역할 → 페이지 매핑
-      const ROLE_ROUTE = {
-        senior: '/game-select',
-        family: '/game-select-dashboard',
-        guardian: '/game-select-dashboard', // 혼용 대응
-      };
-
-      const nextPath = role && ROLE_ROUTE[role] ? ROLE_ROUTE[role] : '/game-select';
-
-      console.log('결정된 nextPath:', nextPath, '(role:', role, ')');
-      console.log('ROLE_ROUTE[role]:', role ? ROLE_ROUTE[role] : 'undefined');
-      navigate(nextPath);
-
-   } catch (err) {
-     console.error('로그인 오류:', err);
-     setError(err.message || '로그인에 실패했습니다. 다시 시도해주세요.');
-   } finally {
-     setIsLoading(false);
-   }
-=======
       
       // 백엔드에서 받은 사용자 역할 사용
       const userRole = response.user_role || 'senior';
@@ -146,7 +95,6 @@ function LoginPage() {
     } finally {
       setIsLoading(false);
     }
->>>>>>> origin/main
   };
 
   const handleSignUp = () => {
@@ -246,15 +194,12 @@ function LoginPage() {
                 </div>
               )}
 
-<<<<<<< HEAD
-=======
               {successMessage && (
                 <div className="login-success-message">
                   {successMessage}
                 </div>
               )}
 
->>>>>>> origin/main
               <button
                 type="submit"
                 className="login-button"
