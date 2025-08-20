@@ -13,8 +13,10 @@ function DailyQuestionPage() {
 
   useEffect(() => {
     const currentUser = getCurrentUser();
-    if (currentUser && currentUser.user_id) {
-      setUserId(currentUser.user_id);
+    console.log("getCurrentUser result:", currentUser);
+    if (currentUser && currentUser.id) {
+      setUserId(currentUser.id);
+      console.log("UserId set to:", currentUser.id);
     } else {
       console.warn("User ID not found. Please log in.");
       // Optionally, redirect to login page if not logged in
@@ -22,12 +24,14 @@ function DailyQuestionPage() {
   }, []);
 
   useEffect(() => {
+    console.log("UserId in second useEffect:", userId);
     if (userId) {
       handleGetDailyQuestion();
     }
   }, [userId]); // Fetch question when userId becomes available
 
   const handleGetDailyQuestion = async () => {
+    console.log("Calling getDailyQuestion with userId:", userId);
     setIsLoadingQuestion(true); // Start loading
     try {
       const dailyQuestion = await getDailyQuestion(userId);

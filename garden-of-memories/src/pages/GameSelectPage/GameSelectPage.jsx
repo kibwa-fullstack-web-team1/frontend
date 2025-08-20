@@ -258,10 +258,10 @@ function GameSelectPage() {
         navigate('/daily-question');
         break;
       case 'emotion-garden':
-        navigate('/game');
+        navigate('/garden');
         break;
       default:
-        navigate('/game');
+        navigate('/garden');
     }
   };
 

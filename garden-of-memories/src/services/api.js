@@ -1,16 +1,16 @@
 // src/services/api.js
 
 // 카드 게임 관련 API (기존 서버)
-const CARD_GAME_BASE_URL = import.meta.env.VITE_CARD_GAME_BASE_URL || "http://13.251.163.144:8020";
+const CARD_GAME_BASE_URL = "/memory-flip-card-api";
 
 // 로그인 관련 API (FastAPI 서버)
-const AUTH_API_BASE_URL = import.meta.env.VITE_AUTH_API_BASE_URL || "http://localhost:8000";
+const AUTH_API_BASE_URL = "/auth";
 
 // Story Sequencer API (새로 추가)
 const STORY_API_BASE_URL = import.meta.env.VITE_STORY_API_BASE_URL || "http://localhost:8011";
 
 // Daily Question API
-const DAILY_QUESTION_API_BASE_URL = import.meta.env.VITE_DAILY_QUESTION_API_BASE_URL || "http://localhost:8001";
+const DAILY_QUESTION_API_BASE_URL = "/questions";
 
 const API_TIMEOUT = import.meta.env.VITE_API_TIMEOUT || 10000;
 
@@ -32,7 +32,7 @@ export const loginUser = async (email, password) => {
     console.log('로그인 요청 시작:', { email });
     console.log('API URL:', `${AUTH_API_BASE_URL}/auth/login`);
 
-    const response = await fetch(`${AUTH_API_BASE_URL}/auth/login`, {
+    const response = await fetch(`${AUTH_API_BASE_URL}/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -109,9 +109,9 @@ export const signupUser = async (email, password, username, phone, role) => {
     };
 
     console.log('회원가입 요청 데이터:', requestData);
-    console.log('API URL:', `${AUTH_API_BASE_URL}/auth/register`);
+    console.log('API URL:', `${AUTH_API_BASE_URL}/register`);
 
-    const response = await fetch(`${AUTH_API_BASE_URL}/auth/register`, {
+    const response = await fetch(`${AUTH_API_BASE_URL}/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -209,7 +209,7 @@ export const fetchUserInfo = async () => {
     console.log('사용자 정보 요청 시작');
 
     // 백엔드의 /auth/verify 엔드포인트 사용
-    const response = await fetch(`${AUTH_API_BASE_URL}/auth/verify`, {
+    const response = await fetch(`${AUTH_API_BASE_URL}/verify`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${authToken}`,
@@ -292,7 +292,9 @@ export const getAuthToken = () => {
  */
 export const fetchCardImages = async (userId) => {
   try {
-    const response = await fetch(`/api/list/family-photos?user_id=${userId}`);
+    const url = `${CARD_GAME_BASE_URL}/list/family-photos?user_id=${userId}`;
+    console.log(`Fetching card images for user ${userId} from: ${url}`);
+    const response = await fetch(url);
     if (!response.ok) {
       throw new Error('카드 이미지 요청 실패');
     }
@@ -326,6 +328,7 @@ export const saveGameResult = async (resultData) => {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT);
 
+    console.log(`Saving game result to: ${CARD_GAME_BASE_URL}/games/records`);
     const response = await fetch(`${CARD_GAME_BASE_URL}/games/records`, {
       method: "POST",
       headers: {
@@ -372,6 +375,7 @@ export const fetchCaregiverGameResults = async (userId, limit = 10, offset = 0) 
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT);
 
+    console.log(`Fetching caregiver game results for user ${userId} from: ${CARD_GAME_BASE_URL}/games/list?user_id=${userId}&limit=${limit}&offset=${offset}`);
     const response = await fetch(`${CARD_GAME_BASE_URL}/games/list?user_id=${userId}&limit=${limit}&offset=${offset}`, {
       method: 'GET',
       headers: {
@@ -431,6 +435,7 @@ export const fetchFamilyPhotos = async (userId) => {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT);
 
+    console.log(`Fetching family photos for user ${userId} from: ${CARD_GAME_BASE_URL}/list/family-photos?user_id=${userId}`);
     const response = await fetch(`${CARD_GAME_BASE_URL}/list/family-photos?user_id=${userId}`, {
       method: 'GET',
       headers: {
@@ -508,6 +513,7 @@ export const uploadFamilyPhoto = async (file, userId) => {
     console.log('API URL:', `${CARD_GAME_BASE_URL}/upload/family-photos`);
     console.log('인증 토큰:', getAuthToken() ? '존재함' : '없음');
 
+    console.log(`Uploading family photo for user ${userId} to: ${CARD_GAME_BASE_URL}/upload/family-photos`);
     const formData = new FormData();
     formData.append('file', file);
     formData.append('user_id', userId);
@@ -573,7 +579,7 @@ export const getDailyQuestion = async (userId) => {
       throw new Error('인증 토큰이 없습니다.');
     }
 
-    const response = await fetch(`${DAILY_QUESTION_API_BASE_URL}/daily-question/${userId}`, {
+    const response = await fetch(`/questions/daily-questions`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${authToken}`,
@@ -610,8 +616,10 @@ export const submitVoiceAnswer = async (questionId, userId, audioBlob) => {
 
     const formData = new FormData();
     formData.append('audio_file', audioBlob, 'voice_answer.webm'); // Assuming webm format
+    formData.append('question_id', questionId);
+    formData.append('user_id', userId); // Assuming user_id is also needed by the backend
 
-    const response = await fetch(`${DAILY_QUESTION_API_BASE_URL}/daily-question/answer/${questionId}/${userId}`, {
+    const response = await fetch(`${DAILY_QUESTION_API_BASE_URL}/voice-answers`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${authToken}`,
