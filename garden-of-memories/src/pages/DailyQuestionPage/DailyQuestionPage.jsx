@@ -175,6 +175,7 @@ function DailyQuestionPage() {
           <p className="error-message">질문을 불러오지 못했습니다.</p>
         )}
       </div>
+<<<<<<< HEAD
 
       {isSubmitting && (
         <div className="submitting-overlay">
@@ -196,6 +197,8 @@ function DailyQuestionPage() {
           </div>
         </div>
       )}
+=======
+>>>>>>> 5b02e30da4285cf33ec9747eec20639df67bb1f2
     </div>
   );
 }

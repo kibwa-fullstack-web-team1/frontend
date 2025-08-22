@@ -1,16 +1,16 @@
 // src/services/api.js
 
 // 카드 게임 관련 API (기존 서버)
-const CARD_GAME_BASE_URL = "/memory-flip-card-api";
+const CARD_GAME_BASE_URL = import.meta.env.VITE_CARD_GAME_BASE_URL || "http://localhost:8020";
 
 // 로그인 관련 API (FastAPI 서버)
-const AUTH_API_BASE_URL = "/auth";
+const AUTH_API_BASE_URL = import.meta.env.VITE_AUTH_API_BASE_URL || "http://localhost:8000";
 
 // Story Sequencer API (새로 추가)
 const STORY_API_BASE_URL = "/story-sequencer";
 
 // Daily Question API
-const DAILY_QUESTION_API_BASE_URL = "/questions";
+const DAILY_QUESTION_API_BASE_URL = import.meta.env.VITE_DAILY_QUESTION_API_BASE_URL || "http://localhost:8001";
 
 const API_TIMEOUT = import.meta.env.VITE_API_TIMEOUT || 10000;
 
@@ -32,7 +32,7 @@ export const loginUser = async (email, password) => {
     console.log('로그인 요청 시작:', { email });
     console.log('API URL:', `${AUTH_API_BASE_URL}/auth/login`);
 
-    const response = await fetch(`${AUTH_API_BASE_URL}/login`, {
+    const response = await fetch(`${AUTH_API_BASE_URL}/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -109,7 +109,7 @@ export const signupUser = async (email, password, username, phone, role) => {
     };
 
     console.log('회원가입 요청 데이터:', requestData);
-    console.log('API URL:', `${AUTH_API_BASE_URL}/register`);
+    console.log('API URL:', `${AUTH_API_BASE_URL}/auth/register`);
 
     const response = await fetch(`${AUTH_API_BASE_URL}/register`, {
       method: 'POST',
@@ -579,7 +579,7 @@ export const getDailyQuestion = async (userId) => {
       throw new Error('인증 토큰이 없습니다.');
     }
 
-    const response = await fetch(`/questions/daily-questions`, {
+    const response = await fetch(`${DAILY_QUESTION_API_BASE_URL}/daily-question/${userId}`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${authToken}`,
@@ -616,10 +616,8 @@ export const submitVoiceAnswer = async (questionId, userId, audioBlob) => {
 
     const formData = new FormData();
     formData.append('audio_file', audioBlob, 'voice_answer.webm'); // Assuming webm format
-    formData.append('question_id', questionId);
-    formData.append('user_id', userId); // Assuming user_id is also needed by the backend
 
-    const response = await fetch(`${DAILY_QUESTION_API_BASE_URL}/voice-answers`, {
+    const response = await fetch(`${DAILY_QUESTION_API_BASE_URL}/daily-question/answer/${questionId}/${userId}`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${authToken}`,
