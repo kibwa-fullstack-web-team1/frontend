@@ -38,6 +38,12 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/auth/, '/auth'),
         },
+        // user-service (데이터)를 위한 프록시 설정 추가
+        '/users-api': {
+          target: env.VITE_AUTH_API_BASE_URL,
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/users-api/, ''),
+        },
         // memory-flip-card-service를 위한 프록시 설정 추가
         '/memory-flip-card-api': {
           target: env.VITE_CARD_GAME_BASE_URL,
@@ -55,8 +61,9 @@ export default defineConfig(({ mode }) => {
         },
         // daily-question-service를 위한 프록시 설정 추가
         '/questions': {
-          target: env.VITE_DAILY_QUESTION_API_BASE_URL,
+          target: 'http://localhost:8001', // Direct to localhost:8001 as frontend runs on host
           changeOrigin: true,
+          // rewrite: (path) => path.replace(/^\/questions/, ''), // Not needed if backend already has /questions prefix
         },
       },
     },

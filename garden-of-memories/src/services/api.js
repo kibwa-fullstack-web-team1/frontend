@@ -7,7 +7,7 @@ const CARD_GAME_BASE_URL = "/memory-flip-card-api";
 const AUTH_API_BASE_URL = "/auth";
 
 // Story Sequencer API (새로 추가)
-const STORY_API_BASE_URL = import.meta.env.VITE_STORY_API_BASE_URL || "http://localhost:8011";
+const STORY_API_BASE_URL = "/story-sequencer";
 
 // Daily Question API
 const DAILY_QUESTION_API_BASE_URL = "/questions";
@@ -62,7 +62,7 @@ export const loginUser = async (email, password) => {
         id: data.user?.id || data.user_id || 'temp_' + Date.now(), // 백엔드에서 받은 실제 ID 사용
         email: email,
         role: data.user_role || 'senior',
-        username: data.user?.username || email.split('@')[0], // 백엔드에서 받은 username 사용
+        username: data.username || email.split('@')[0], // 백엔드에서 받은 username 사용
         phone_number: data.user?.phone_number || null
       };
 
@@ -233,7 +233,7 @@ export const fetchUserInfo = async () => {
       role: userData.role,
       is_active: userData.is_active,
       // username과 phone_number는 백엔드에서 제공하지 않으므로 기본값 설정
-      username: userData.email.split('@')[0], // 이메일에서 추출
+      username: userData.username, // 백엔드에서 받은 username 사용
       phone_number: null
     };
 
@@ -655,7 +655,7 @@ export const createStory = async (storyData) => {
       throw new Error('인증 토큰이 없습니다.');
     }
 
-    const response = await fetch(`${STORY_API_BASE_URL}/api/v0/stories`, {
+    const response = await fetch(`${STORY_API_BASE_URL}/api/v0/stories/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -692,7 +692,7 @@ export const getStories = async () => {
       throw new Error('인증 토큰이 없습니다.');
     }
 
-    const response = await fetch(`${STORY_API_BASE_URL}/api/v0/stories`, {
+    const response = await fetch(`${STORY_API_BASE_URL}/api/v0/stories/`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${authToken}`
@@ -700,6 +700,10 @@ export const getStories = async () => {
     });
 
     if (!response.ok) {
+      if (response.status === 404) {
+        console.warn('이야기 목록을 찾을 수 없습니다 (404). 비어있는 목록을 반환합니다.');
+        return [];
+      }
       const errorData = await response.json().catch(() => ({}));
       throw new Error(errorData.detail || `이야기 목록 조회 실패: ${response.status}`);
     }

@@ -1,0 +1,22 @@
+.notification-history-container {
+  /* Styles for the notification history component */
+}
+
+.notification-list {
+  list-style: none;
+  padding: 0;
+}
+
+.notification-list-item {
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.notification-message {
+  font-weight: bold;
+}
+
+.notification-timestamp {
+  font-size: 0.8rem;
+  color: #666;
+}

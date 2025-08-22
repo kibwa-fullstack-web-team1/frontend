@@ -1,10 +1,12 @@
 import React, { useRef, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import { GardenItem } from '../../components/GardenItem';
 import { useGarden } from '../../hooks/useGarden';
 import ModelViewerModal from '../../components/ModelViewerModal';
 import PersonalizationStack from '../../components/PersonalizationStack'; // New import
 import ServiceLinksModal from '../../components/ServiceLinksModal';
 import ConfirmationModal from '../../components/ConfirmationModal';
+import ElderlyHeader from '../../components/ElderlyHeader'; // Import ElderlyHeader
 import './GardenPage.css';
 import '../../components/SectionTitle.css';
 
@@ -18,6 +20,7 @@ const SERVICE_CATEGORIES = {
 };
 
 const GardenPage = () => {
+  const navigate = useNavigate(); // Initialize useNavigate
   const gardenRef = useRef(null);
   const [gardenWidth, setGardenWidth] = useState(0);
   const [showModal, setShowModal] = useState(false);
@@ -144,15 +147,19 @@ const GardenPage = () => {
   const commonRewards = displayedRewards.filter(item => item.type === 'common');
   const personalizationRewards = displayedRewards.filter(item => item.type === 'personalization');
 
+  const handleGoBack = () => {
+    navigate('/game-select'); // Navigate to the game selection page
+  };
+
   return (
     <div className="garden-page-container">
-      <div className="garden-header">
-        <h1>기억의 정원</h1>
-        <button className={`generate-ai-reward-button ${hasGeneratedReward ? 'button-generated' : ''}`} onClick={handleGenerateAiReward} disabled={isGenerating}>
-          {isGenerating ? '생성 중...' : '새 추억 앨범 만들기'}
-        </button>
-        
-      </div>
+      <ElderlyHeader 
+        title="기억의 정원" 
+        subtitle="나만의 정원을 가꾸고 추억을 모아보세요."
+      />
+      <button className={`generate-ai-reward-button ${hasGeneratedReward ? 'button-generated' : ''}`} onClick={handleGenerateAiReward} disabled={isGenerating}>
+        {isGenerating ? '생성 중...' : '새 추억 앨범 만들기'}
+      </button>
       <div ref={gardenRef} className="garden-background">
         <div className="garden-left-panel">
           <div className="trophy-case-wrapper">
@@ -192,7 +199,8 @@ const GardenPage = () => {
                                 const s3Domain = import.meta.env.VITE_S3_DOMAIN;
                                 const path = item.imageUrl.startsWith(s3Domain) ? item.imageUrl.substring(s3Domain.length) : item.imageUrl;
                                 return `https://${CLOUDFRONT_DOMAIN}/${path}`;
-                              })()}n                              alt={item.name}
+                              })()}
+                              alt={item.name}
                               ar
                               ar-modes="webxr scene-viewer quick-look"
                               shadow-intensity="5"
@@ -218,8 +226,11 @@ const GardenPage = () => {
               id: item.id,
               imageUrl: (() => {
                 const s3Domain = import.meta.env.VITE_S3_DOMAIN;
-                const sourceUrl = item.imageUrl || item.generated_image_url;
-                const path = sourceUrl.startsWith(s3Domain) ? sourceUrl.substring(s3Domain.length) : sourceUrl;
+                const sourceUrl = item.imageUrl || item.generated_image_url || ''; // Ensure sourceUrl is a string
+                let path = sourceUrl;
+                if (sourceUrl && sourceUrl.startsWith(s3Domain)) {
+                  path = sourceUrl.substring(s3Domain.length);
+                }
                 return `https://${CLOUDFRONT_DOMAIN}/${path}`;
               })(), // Use generated_image_url for personalization
               description: item.description,

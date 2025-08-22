@@ -6,7 +6,7 @@ import FamilyHeader from '../../components/FamilyHeader';
 import './StoryGameDashboard.css';
 
 // STORY API 기본 URL
-const STORY_API_BASE_URL = 'http://13.251.163.144:8011';
+const STORY_API_BASE_URL = 'http://localhost:8011';
 
 const StoryGameDashboard = () => {
   const navigate = useNavigate();

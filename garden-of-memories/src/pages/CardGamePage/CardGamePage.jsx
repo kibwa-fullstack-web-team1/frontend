@@ -45,8 +45,8 @@ function CardGamePage() {
       // 게임 중이거나 카드가 있는 상태면 게임을 중단하고 난이도 선택으로
       resetGame();
     } else {
-      // 그 외의 경우 홈으로 이동
-      navigate('/');
+      // 그 외의 경우 이전 페이지로 이동
+      navigate(-1);
     }
   };
 

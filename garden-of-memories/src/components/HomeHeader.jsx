@@ -70,7 +70,7 @@ const HomeHeader = () => {
               <div className="home-header-user-details">
                 <div className="home-header-user-name">{currentUser?.username || '사용자'}</div>
                 <div className="home-header-user-role">
-                  {currentUser?.role === 'guardian' ? '보호자' : '어르신'}
+                  {currentUser?.role === 'guardian' ? '보호자' : '피보호자'}
                 </div>
               </div>
             </div>

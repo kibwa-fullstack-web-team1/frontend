@@ -14,7 +14,6 @@ import DailyQuestionPage from './pages/DailyQuestionPage/DailyQuestionPage';
 import DailyQuestionDashboard from './pages/DailyQuestionDashboard/DailyQuestionDashboard';
 import StorySequence from './pages/StorySequence/StorySequence';
 import HomePage from './pages/HomePage/HomePage';
-import NotificationPage from './pages/NotificationPage/NotificationPage';
 import WeeklyReportPage from './pages/WeeklyReportPage/WeeklyReportPage';
 import ReportDetailPage from './pages/ReportDetailPage/ReportDetailPage';
 import FamilyTestPage from './pages/FamilyTestPage';
@@ -41,7 +40,6 @@ function App() {
         <Route path="/story-game-dashboard" element={<StoryGameDashboard />} />
         <Route path="/garden" element={<GardenPage />} />
         <Route path="/story-sequence" element={<StorySequence />} />
-        <Route path="/notifications" element={<NotificationPage />} />
         <Route path="/reports" element={<WeeklyReportPage />} />
         <Route path="/reports/:reportId" element={<ReportDetailPage />} />
         

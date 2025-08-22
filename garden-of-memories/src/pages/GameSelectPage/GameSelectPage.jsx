@@ -361,7 +361,6 @@ function GameSelectPage() {
       <ElderlyHeader
         title="기억의 정원"
         subtitle="게임을 선택하세요"
-        onBackClick={handleBackToHome}
       />
 
       <main className="select-carousel-main-content">
@@ -372,7 +371,6 @@ function GameSelectPage() {
               <h3>가족과 함께하는 게임</h3>
               <p>가족과 함께 게임을 즐기고 결과를 공유해보세요!</p>
               <p style={{ fontSize: '12px', color: '#666', marginBottom: '10px' }}>
-                디버그: 현재 사용자 역할 = {currentUser?.role || 'undefined'}
               </p>
 
               {currentUser && currentUser.role === 'senior' ? (

@@ -19,7 +19,7 @@ function ElderlyHeader({ title = "기억의 정원", subtitle = "", onBackClick,
     if (onBackClick) {
       onBackClick();
     } else {
-      navigate('/');
+      navigate(-1);
     }
   };
 

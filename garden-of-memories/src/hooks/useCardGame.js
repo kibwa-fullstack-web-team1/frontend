@@ -129,7 +129,7 @@ export const useCardGame = (userId) => {
       timerRef.current = setInterval(() => {
         setElapsedTime(prev => prev + 1);
       }, 1000);
-    }, 3000);
+    }, 9000);
   };
 
   // 카드 선택 처리

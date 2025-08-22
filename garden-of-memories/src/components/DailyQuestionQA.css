@@ -1,0 +1,25 @@
+.qa-table {
+  width: 100%;
+  border-collapse: collapse; /* Collapse borders for a single line */
+  margin-top: 20px;
+}
+
+.qa-table th,
+.qa-table td {
+  border: 1px solid #ddd; /* Add border to cells */
+  padding: 8px;
+  text-align: left;
+}
+
+.qa-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.qa-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.qa-table tbody tr:hover {
+  background-color: #ddd;
+}

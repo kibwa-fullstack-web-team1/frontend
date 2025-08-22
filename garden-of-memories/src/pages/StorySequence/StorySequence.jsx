@@ -5,7 +5,7 @@ import ElderlyHeader from '../../components/ElderlyHeader';
 import './StorySequence.css';
 
 // API 기본 URL 변수 - 환경변수에서 가져오기
-const STORY_GAME_BASE_URL = import.meta.env.VITE_STORY_API_BASE_URL || 'http://localhost:8011';
+const STORY_GAME_BASE_URL = '/story-sequencer-api';
 
 function StorySequence() {
   const navigate = useNavigate();
@@ -67,7 +67,7 @@ function StorySequence() {
         const authToken = localStorage.getItem('authToken');
         if (!authToken) return;
 
-        const response = await fetch(`${import.meta.env.VITE_STORY_API_BASE_URL}/api/v0/difficulty/recommendation`, {
+        const response = await fetch(`${STORY_GAME_BASE_URL}/api/v0/difficulty/recommendation`, {
           headers: {
             'Authorization': `Bearer ${authToken}`
           }
@@ -481,7 +481,7 @@ function StorySequence() {
       console.log('게임 결과 저장 요청:', gameResult);
 
       // 게임 결과 저장 (난이도 조절 포함)
-      const response = await fetch(`${import.meta.env.VITE_STORY_API_BASE_URL}/api/v0/difficulty/submit-result-with-difficulty`, {
+      const response = await fetch(`${STORY_GAME_BASE_URL}/api/v0/difficulty/submit-result-with-difficulty`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -615,7 +615,6 @@ function StorySequence() {
       <ElderlyHeader 
         title="이야기 순서 맞추기" 
         subtitle={gameMode === 'word' ? "단어를 올바른 순서로 배치해보세요" : "문장을 올바른 순서로 배치해보세요"}
-        onBackClick={handleGoHome}
       />
       
       <div className="story-sequence-main-container">

@@ -152,6 +152,7 @@
 .garden-right-panel {
   width: 50%; /* Each panel takes half width */
   padding: 20px;
+  margin-top: 120px; /* Move down by 120px (70 + 50) */
   /* Removed overflow-y: auto; */
   background:  #F0EAD6; /* Dark shade of the page theme color */
   border-radius: 10px;
@@ -220,9 +221,9 @@ model-viewer:hover {
 }
 
 .generate-ai-reward-button {
-  position: absolute; /* Added */
-  top: 20px; /* Added */
-  right: 20px; /* Added */
+  position: fixed; /* Changed to fixed positioning */
+  top: 120px; /* Adjusted to be below the header and user info */
+  right: 305px; /* Moved further left from the right edge */
   background-color: #A58A66; /* A shade from the wood grain or complementary */
   color: white;
   padding: 10px 20px;
@@ -233,6 +234,7 @@ model-viewer:hover {
   font-family: 'Playfair Display', serif; /* Consistent with other text */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  z-index: 101; /* Ensure it's above the header (header z-index is 100) */
 }
 
 .generate-ai-reward-button:hover {

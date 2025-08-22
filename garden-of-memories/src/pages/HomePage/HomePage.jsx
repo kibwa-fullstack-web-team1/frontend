@@ -4,6 +4,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { isAuthenticated, getCurrentUser, getAuthToken } from '../../services/api';
 import HomeHeader from '../../components/HomeHeader';
+import { FaPuzzlePiece, FaClock, FaQuestionCircle, FaLeaf } from 'react-icons/fa';
 import './HomePage.css';
 
 // ScrollTrigger 플러그인 등록
@@ -326,6 +327,50 @@ function HomePage() {
               <p className="home-description-text">소중한 추억들이 꽃처럼 피어나는 특별한 공간입니다.</p>
               <p className="home-description-text">당신만의 기억을 심고 가꾸어 보세요.</p>
             </div>
+
+            {/* Moved elements start here */}
+            <div className="home-hero-cta-buttons">
+              <button className="home-cta-button home-pill" onClick={handleEnterGarden}>
+                <span>정원에 입장하기</span>
+                <div className="home-arrow-icon">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 5L12.5 10L7.5 15" stroke="#6f6048" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                </div>
+              </button>
+              
+              {/* 가족 연결 안내 - 보호자만 (로그인 후) */}
+              {isAuthenticated() && currentUser?.role === 'guardian' && (
+                <div className="home-family-connect-info">
+                  <p className="home-family-connect-text">
+                    💡 가족과 연결하여 시니어의 활동을 함께 지켜보세요
+                  </p>
+                  <button className="home-family-connect-btn" onClick={handleFamilyConnect}>
+                    가족 연결하기
+                  </button>
+                </div>
+              )}
+
+              {/* 시니어용 가족 초대 안내 - 시니어만 (로그인 후) */}
+              {isAuthenticated() && currentUser?.role === 'senior' && (
+                <div className="home-family-invite-info">
+                  <p className="home-family-invite-text">
+                    💡 가족을 초대하여 게임 결과와 추억을 함께 공유해보세요
+                  </p>
+                  <button className="home-family-invite-btn" onClick={handleFamilyInvite}>
+                    가족 초대하기
+                  </button>
+                </div>
+              )}
+
+              {/* 로그인하지 않은 경우 안내 메시지 */}
+              {!isAuthenticated() && (
+                <div className="home-login-required-info">
+                  <p className="home-login-required-text">
+                    💡 가족 기능을 사용하려면 먼저 로그인해주세요
+                  </p>
+                </div>
+              )}
+            </div>
+            {/* Moved elements end here */}
           </div>
         </section>
 
@@ -337,13 +382,7 @@ function HomePage() {
             {/* Memory Game */}
             <div className="home-game-category-card home-glass" onClick={() => navigate('/card-game')}>
               <div className="home-game-category-icon">
-                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                  <circle cx="24" cy="20" r="8" stroke="#6f6048" strokeWidth="2" fill="none"/>
-                  <path d="M16 20c0-4 3-8 8-8s8 4 8 8" stroke="#6f6048" strokeWidth="2" fill="none"/>
-                  <path d="M12 32c0-6 5-12 12-12s12 6 12 12" stroke="#6f6048" strokeWidth="2" fill="none"/>
-                  <circle cx="18" cy="26" r="2" fill="#6f6048"/>
-                  <circle cx="30" cy="26" r="2" fill="#6f6048"/>
-                </svg>
+                <FaPuzzlePiece />
               </div>
               <div className="home-game-category-content">
                 <h4 className="home-game-category-title">MEMORY</h4>
@@ -354,11 +393,7 @@ function HomePage() {
             {/* Story Sequence Game */}
             <div className="home-game-category-card home-glass" onClick={() => navigate('/story-sequence')}>
               <div className="home-game-category-icon">
-                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                  <path d="M12 16c0-2 2-4 4-4h16c2 0 4 2 4 4v16c0 2-2 4-4 4H16c-2 0-4-2-4-4V16z" stroke="#6f6048" strokeWidth="2" fill="none"/>
-                  <path d="M20 20h8M20 24h8M20 28h6" stroke="#6f6048" strokeWidth="2"/>
-                  <circle cx="16" cy="20" r="2" fill="#6f6048"/>
-                </svg>
+                <FaClock />
               </div>
               <div className="home-game-category-content">
                 <h4 className="home-game-category-title">STORY</h4>
@@ -366,28 +401,10 @@ function HomePage() {
               </div>
             </div>
 
-            {/* Puzzle Game */}
-            <div className="home-game-category-card home-glass" onClick={() => navigate('/puzzle-game')}>
-              <div className="home-game-category-icon">
-                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                  <path d="M12 12h10v10H12zM26 12h10v10H26zM12 26h10v10H12zM26 26h10v10H26z" stroke="#6f6048" strokeWidth="2" fill="none"/>
-                  <path d="M22 17h4v6h-4zM17 22h6v4h-6z" stroke="#6f6048" strokeWidth="2" fill="none"/>
-                </svg>
-              </div>
-              <div className="home-game-category-content">
-                <h4 className="home-game-category-title">PUZZLE</h4>
-                <p className="home-game-category-subtitle">조각을 맞추며 완성해가는<br/>성취감을 경험하세요</p>
-              </div>
-            </div>
-
             {/* Daily Questions */}
             <div className="home-game-category-card home-glass home-featured" onClick={() => navigate('/daily-question')}>
               <div className="home-game-category-icon">
-                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                  <circle cx="24" cy="24" r="16" stroke="#ffffff" strokeWidth="2" fill="none"/>
-                  <path d="M24 16v8l6 6" stroke="#ffffff" strokeWidth="2"/>
-                  <circle cx="24" cy="12" r="2" fill="#ffffff"/>
-                </svg>
+                <FaQuestionCircle />
               </div>
               <div className="home-game-category-content">
                 <h4 className="home-game-category-title">TODAY'S QUESTION</h4>
@@ -398,34 +415,14 @@ function HomePage() {
               </div>
             </div>
 
-            {/* Memory Training */}
-            <div className="home-game-category-card home-glass" onClick={() => navigate('/memory-training')}>
+            {/* Garden */}
+            <div className="home-game-category-card home-glass" onClick={() => navigate('/garden')}>
               <div className="home-game-category-icon">
-                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                  <path d="M24 8c8 0 16 6 16 16s-8 16-16 16S8 32 8 24 16 8 24 8z" stroke="#6f6048" strokeWidth="2" fill="none"/>
-                  <path d="M24 16v8l6 4" stroke="#6f6048" strokeWidth="2"/>
-                  <circle cx="24" cy="24" r="2" fill="#6f6048"/>
-                </svg>
+                <FaLeaf />
               </div>
               <div className="home-game-category-content">
-                <h4 className="home-game-category-title">TRAINING</h4>
-                <p className="home-game-category-subtitle">체계적인 기억력 훈련으로<br/>인지능력을 향상시키세요</p>
-              </div>
-            </div>
-
-            {/* Relaxation */}
-            <div className="home-game-category-card home-glass" onClick={() => navigate('/relaxation')}>
-              <div className="home-game-category-icon">
-                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                  <path d="M24 8c0 4-4 8-8 8s-8-4-8-8c0 4 4 8 8 8s8-4 8-8z" stroke="#6f6048" strokeWidth="2" fill="none"/>
-                  <path d="M40 8c0 4-4 8-8 8s-8-4-8-8c0 4 4 8 8 8s8-4 8-8z" stroke="#6f6048" strokeWidth="2" fill="none"/>
-                  <path d="M32 24c0 4-4 8-8 8s-8-4-8-8c0 4 4 8 8 8s8-4 8-8z" stroke="#6f6048" strokeWidth="2" fill="none"/>
-                  <path d="M16 32v8M24 32v8M32 32v8" stroke="#6f6048" strokeWidth="2"/>
-                </svg>
-              </div>
-              <div className="home-game-category-content">
-                <h4 className="home-game-category-title">RELAXATION</h4>
-                <p className="home-game-category-subtitle">마음의 평안을 찾는<br/>힐링 콘텐츠를 즐기세요</p>
+                <h4 className="home-game-category-title">GARDEN</h4>
+                <p className="home-game-category-subtitle">나만의 정원을 가꾸고<br/>추억을 모아보세요</p>
               </div>
             </div>
           </div>
@@ -433,45 +430,7 @@ function HomePage() {
 
         {/* CTA */}
         <section className="home-cta-section">
-          <button className="home-cta-button home-pill" onClick={handleEnterGarden}>
-            <span>정원에 입장하기</span>
-            <div className="home-arrow-icon">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7.5 5L12.5 10L7.5 15" stroke="#6f6048" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-            </div>
-          </button>
-          
-          {/* 가족 연결 안내 - 보호자만 (로그인 후) */}
-          {isAuthenticated() && currentUser?.role === 'guardian' && (
-            <div className="home-family-connect-info">
-              <p className="home-family-connect-text">
-                💡 가족과 연결하여 시니어의 활동을 함께 지켜보세요
-              </p>
-              <button className="home-family-connect-btn" onClick={handleFamilyConnect}>
-                가족 연결하기
-              </button>
-            </div>
-          )}
-
-          {/* 시니어용 가족 초대 안내 - 시니어만 (로그인 후) */}
-          {isAuthenticated() && currentUser?.role === 'senior' && (
-            <div className="home-family-invite-info">
-              <p className="home-family-invite-text">
-                💡 가족을 초대하여 게임 결과와 추억을 함께 공유해보세요
-              </p>
-              <button className="home-family-invite-btn" onClick={handleFamilyInvite}>
-                가족 초대하기
-              </button>
-            </div>
-          )}
-
-          {/* 로그인하지 않은 경우 안내 메시지 */}
-          {!isAuthenticated() && (
-            <div className="home-login-required-info">
-              <p className="home-login-required-text">
-                💡 가족 기능을 사용하려면 먼저 로그인해주세요
-              </p>
-            </div>
-          )}
+          {/* This section will become empty after moving elements */}
         </section>
 
         {/* 가족 연결 모달 */}

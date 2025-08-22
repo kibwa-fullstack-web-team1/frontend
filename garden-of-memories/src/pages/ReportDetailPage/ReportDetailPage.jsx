@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import FamilyHeader from '../../components/FamilyHeader';
 import './ReportDetailPage.css'; // Assuming a CSS file for styling
 
 const ReportDetailPage = () => {
@@ -7,6 +8,7 @@ const ReportDetailPage = () => {
   const [report, setReport] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchReport = async () => {
@@ -64,7 +66,10 @@ const ReportDetailPage = () => {
 
   return (
     <div className="report-detail-container">
-      <h1>{`${startDate.getMonth() + 1}.${startDate.getDate()} ~ ${endDate.getMonth() + 1}.${endDate.getDate()}`} 주간 리포트 상세</h1>
+      <FamilyHeader
+        title={`${startDate.getMonth() + 1}.${startDate.getDate()} ~ ${endDate.getMonth() + 1}.${endDate.getDate()} 주간 리포트 상세`}
+        onBackClick={() => navigate(-1)}
+      />
       <h2>{report.report_data.username}님</h2>
       <h3>요약</h3>
       <ul>

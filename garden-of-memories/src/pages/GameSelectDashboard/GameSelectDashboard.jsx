@@ -222,7 +222,6 @@ function GameSelectDashboard() {
               <h3>가족과 함께하는 게임</h3>
               <p>가족과 함께 게임을 즐기고 결과를 공유해보세요!</p>
               <p style={{fontSize: '12px', color: '#666', marginBottom: '10px'}}>
-                디버그: 현재 사용자 역할 = {currentUser?.role || 'undefined'}
               </p>
               <button className="dashboard-select-family-connect-btn" onClick={handleFamilyConnect}>
                 가족 연결하기 (보호자)
